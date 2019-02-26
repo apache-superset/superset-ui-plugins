@@ -1,13 +1,17 @@
 /* eslint-disable no-magic-numbers */
 
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { CSSProperties } from 'react';
 
 export default function createTickComponent({
   labellingStrategy,
   orientation = 'bottom',
   rotation = 40,
   tickTextAnchor = 'start',
+}: {
+  labellingStrategy: string;
+  orientation?: string;
+  rotation?: number;
+  tickTextAnchor?: string;
 }) {
   if (labellingStrategy === 'rotate' && rotation !== 0) {
     let xOffset = rotation > 0 ? -6 : 6;
@@ -16,27 +20,25 @@ export default function createTickComponent({
     }
     const yOffset = orientation === 'top' ? -3 : 0;
 
-    const propTypes = {
-      dy: PropTypes.number,
-      formattedValue: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-      x: PropTypes.number.isRequired,
-      y: PropTypes.number.isRequired,
-    };
-    const defaultProps = {
-      dy: null,
-      formattedValue: '',
-    };
-
-    const TickComponent = ({ x, y, dy, formattedValue, ...textStyle }) => (
+    const TickComponent = ({
+      x,
+      y,
+      dy,
+      formattedValue = '',
+      ...textStyle
+    }: {
+      x: number;
+      y: number;
+      dy?: number;
+      formattedValue: string;
+      textStyle: CSSProperties;
+    }) => (
       <g transform={`translate(${x + xOffset}, ${y + yOffset})`}>
         <text transform={`rotate(${rotation})`} {...textStyle} textAnchor={tickTextAnchor}>
           {formattedValue}
         </text>
       </g>
     );
-
-    TickComponent.propTypes = propTypes;
-    TickComponent.defaultProps = defaultProps;
 
     return TickComponent;
   }

@@ -1,34 +1,23 @@
-import { cloneDeep } from 'lodash';
 import { Axis } from 'vega-lite/build/src/axis';
-import { ChannelDef, isPositionFieldDef, Formatter } from '../types/FieldDef';
-import extractFormat from './extractFormat';
-import { PlainObject } from '../types/Data';
+import { Value } from 'vega-lite/build/src/fielddef';
+import { ChannelDef, isPositionFieldDef } from '../types/FieldDef';
+import AxisAgent from '../AxisAgent';
+import ChannelEncoder from '../ChannelEncoder';
+import isEnabled from '../utils/isEnabled';
 
-export function isXYChannel(channelName: string) {
-  return channelName === 'x' || channelName === 'y';
+function isAxisEnabled(axis: any): axis is Axis {
+  return isEnabled(axis);
 }
 
-function isAxis(axis: Axis | null | undefined | false): axis is Axis {
-  return axis !== false && axis !== null && axis !== undefined;
-}
-
-export default function extractAxis(
-  channelName: string,
-  definition: ChannelDef,
-  defaultFormatter: Formatter,
+export default function extractAxis<Def extends ChannelDef<Output>, Output extends Value = Value>(
+  channel: ChannelEncoder<Def, Output>,
 ) {
-  if (isXYChannel(channelName) && isPositionFieldDef(definition)) {
-    const { type, axis } = definition;
-    if (isAxis(axis)) {
-      const parsedAxis: PlainObject = cloneDeep(axis);
-      const { labels } = parsedAxis;
-      const { format } = labels;
-      parsedAxis.format = format
-        ? extractFormat({ field: definition.field, format: axis.format, type })
-        : defaultFormatter;
-
-      return parsedAxis;
-    }
+  if (
+    channel.isXY() &&
+    isPositionFieldDef(channel.definition) &&
+    isAxisEnabled(channel.definition.axis)
+  ) {
+    return new AxisAgent(channel, channel.definition);
   }
 
   return undefined;

@@ -9,7 +9,7 @@ type Props = {
   contentWidth?: number;
   contentHeight?: number;
   height: number;
-  renderContent: ({ height, width }: { height: number; width: number }) => React.ReactElement;
+  renderContent: ({ height, width }: { height: number; width: number }) => React.ReactNode;
   width: number;
 };
 

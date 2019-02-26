@@ -1,6 +1,7 @@
 /* eslint-disable no-magic-numbers */
 
 import { getTextDimension } from '@superset-ui/dimension';
+import { CSSProperties } from 'react';
 
 export default function computeYAxisLayout({
   axisLabelHeight = 20,
@@ -11,6 +12,15 @@ export default function computeYAxisLayout({
   tickLabels,
   tickLength,
   tickTextStyle,
+}: {
+  axisLabelHeight?: number;
+  gapBetweenAxisLabelAndBorder?: number;
+  gapBetweenTickAndTickLabel?: number;
+  gapBetweenTickLabelsAndAxisLabel?: number;
+  orientation?: string;
+  tickLabels: string[];
+  tickLength: number;
+  tickTextStyle: CSSProperties;
 }) {
   const labelDimensions = tickLabels.map(text =>
     getTextDimension({

@@ -14,6 +14,7 @@ export type Formatter = NumberFormatter | TimeFormatter | ((d: any) => string);
 export interface FieldDef {
   field: string;
   format?: string;
+  title?: string;
 }
 
 export interface TypedFieldDef extends FieldDef {
@@ -42,19 +43,26 @@ export type MarkPropChannelDef<Output extends Value = Value> =
   | MarkPropFieldDef<Output>
   | ValueDef<Output>;
 
-export type TextChannelDef = TextFieldDef | ValueDef<string>;
+export type TextChannelDef<Output extends Value = Value> = TextFieldDef | ValueDef<Output>;
 
-export type ChannelDef<Output extends Value = Value> =
+export type NonValueDef<Output extends Value = Value> =
   | XFieldDef<Output>
   | YFieldDef<Output>
   | MarkPropFieldDef<Output>
-  | TextFieldDef
-  | ValueDef<Output>;
+  | TextFieldDef;
+
+export type ChannelDef<Output extends Value = Value> = NonValueDef<Output> | ValueDef<Output>;
 
 export function isValueDef<Output extends Value>(
   channelDef: ChannelDef<Output>,
 ): channelDef is ValueDef<Output> {
-  return channelDef && 'value' in channelDef && !!channelDef.value;
+  return channelDef && 'value' in channelDef;
+}
+
+export function isNonValueDef<Output extends Value>(
+  channelDef: ChannelDef<Output>,
+): channelDef is NonValueDef<Output> {
+  return channelDef && !('value' in channelDef);
 }
 
 export function isFieldDef<Output extends Value>(
