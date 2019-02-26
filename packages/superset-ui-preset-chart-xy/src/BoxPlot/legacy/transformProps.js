@@ -20,8 +20,9 @@
 import { getNumberFormatter } from '@superset-ui/number-format';
 
 export default function transformProps(chartProps) {
-  const { width, height, formData, payload } = chartProps;
-  const { encoding } = formData;
+  const { width, height, datasource = {}, formData, payload } = chartProps;
+  const { verboseMap = {} } = datasource;
+  const { colorScheme, groupby, metrics } = formData;
 
   const data = payload.data.map(({ label, values }) => ({
     label,
@@ -33,6 +34,9 @@ export default function transformProps(chartProps) {
     outliers: values.outliers,
   }));
 
+  const xAxisLabel = groupby.join('/');
+  const yAxisLabel = metrics.length > 0 ? verboseMap[metrics[0]] || metrics[0] : '';
+
   const boxPlotValues = data.reduce((r, e) => r.push(e.min, e.max, ...e.outliers) && r, []);
   const minBoxPlotValue = Math.min(...boxPlotValues);
   const maxBoxPlotValue = Math.max(...boxPlotValues);
@@ -41,9 +45,7 @@ export default function transformProps(chartProps) {
     maxBoxPlotValue + 0.1 * Math.abs(maxBoxPlotValue),
   ];
 
-  // hack
-  encoding.y.axis.tickFormat = getNumberFormatter();
-  encoding.y.scale.domain = valueDomain;
+  const formatValue = getNumberFormatter();
 
   return {
     data,
@@ -51,6 +53,41 @@ export default function transformProps(chartProps) {
     height,
     // margin,
     // theme,
-    encoding,
+    encoding: {
+      x: {
+        field: 'label',
+        type: 'nominal',
+        scale: {
+          type: 'band',
+          paddingInner: 0.15,
+          paddingOuter: 0.3,
+        },
+        axis: {
+          label: xAxisLabel,
+          orientation: 'bottom',
+        },
+      },
+      y: {
+        type: 'quantitative',
+        scale: {
+          type: 'linear',
+          domain: valueDomain,
+        },
+        axis: {
+          label: yAxisLabel,
+          numTicks: 5,
+          orientation: 'left',
+          tickFormat: formatValue,
+        },
+      },
+      color: {
+        field: 'label',
+        type: 'nominal',
+        scale: {
+          scheme: colorScheme,
+        },
+        legend: false,
+      },
+    },
   };
 }

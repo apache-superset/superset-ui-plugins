@@ -1,6 +1,7 @@
 /* eslint-disable no-magic-numbers */
 
 import { getTextDimension } from '@superset-ui/dimension';
+import { CSSProperties } from 'react';
 
 export default function computeXAxisLayout({
   axisLabelHeight = 20,
@@ -8,14 +9,26 @@ export default function computeXAxisLayout({
   gapBetweenAxisLabelAndBorder = 8,
   gapBetweenTickAndTickLabel = 4,
   gapBetweenTickLabelsAndAxisLabel = 4,
-  labellingStrategy = 'auto',
+  labelAngle = -40,
+  labelOverlap = 'auto',
   orientation = 'bottom',
-  rotation = -40,
   tickLabels,
   tickLength,
   tickTextStyle,
+}: {
+  axisLabelHeight?: number;
+  axisWidth: number;
+  gapBetweenAxisLabelAndBorder?: number;
+  gapBetweenTickAndTickLabel?: number;
+  gapBetweenTickLabelsAndAxisLabel?: number;
+  labelOverlap?: string;
+  orientation?: string;
+  labelAngle?: number;
+  tickLabels: string[];
+  tickLength: number;
+  tickTextStyle: CSSProperties;
 }) {
-  const labelDimensions = tickLabels.map(text =>
+  const labelDimensions = tickLabels.map((text: string) =>
     getTextDimension({
       style: tickTextStyle,
       text,
@@ -27,8 +40,8 @@ export default function computeXAxisLayout({
   const widthPerTick = axisWidth / tickLabels.length;
 
   let finalStrategy;
-  if (labellingStrategy !== 'auto') {
-    finalStrategy = labellingStrategy;
+  if (labelOverlap !== 'auto') {
+    finalStrategy = labelOverlap;
   } else if (maxWidth <= widthPerTick) {
     finalStrategy = 'flat';
   } else {
@@ -36,21 +49,25 @@ export default function computeXAxisLayout({
   }
   // TODO: Add other strategies: stagger, chop, wrap.
 
-  let layout = { labelOffset: 0 };
+  let layout: {
+    labelOffset: number;
+    rotation?: number;
+    tickTextAnchor?: string;
+  } = { labelOffset: 0 };
   if (finalStrategy === 'flat') {
     const labelHeight = labelDimensions[0].height;
     const labelOffset = labelHeight + gapBetweenTickLabelsAndAxisLabel;
     layout = { labelOffset };
   } else if (finalStrategy === 'rotate') {
-    const labelHeight = Math.ceil(Math.abs(maxWidth * Math.sin((rotation * Math.PI) / 180)));
+    const labelHeight = Math.ceil(Math.abs(maxWidth * Math.sin((labelAngle * Math.PI) / 180)));
     const labelOffset = labelHeight + gapBetweenTickLabelsAndAxisLabel;
     const tickTextAnchor =
-      (orientation === 'top' && rotation > 0) || (orientation === 'bottom' && rotation < 0)
+      (orientation === 'top' && labelAngle > 0) || (orientation === 'bottom' && labelAngle < 0)
         ? 'end'
         : 'start';
     layout = {
       labelOffset,
-      rotation,
+      rotation: labelAngle,
       tickTextAnchor,
     };
   }

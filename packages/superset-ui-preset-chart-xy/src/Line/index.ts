@@ -20,10 +20,10 @@ import { ChartPlugin } from '@superset-ui/chart';
 import metadata from './metadata';
 import transformProps from './transformProps';
 
-export default class BoxPlotChartPlugin extends ChartPlugin {
+export default class LineChartPlugin extends ChartPlugin {
   constructor() {
     super({
-      loadChart: () => import('./BoxPlot'),
+      loadChart: () => import('./Line'),
       metadata,
       transformProps,
     });
