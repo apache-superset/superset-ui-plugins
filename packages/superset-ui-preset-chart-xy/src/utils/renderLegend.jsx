@@ -1,20 +1,16 @@
 import React from 'react';
-import { CategoricalColorNamespace } from '@superset-ui/color';
 import { LegendOrdinal, LegendItem, LegendLabel } from '@vx/legend';
 import { scaleOrdinal } from '@vx/scale';
 
-export default function renderLegend(data, colorEncoding) {
-  const { accessor, field, scale } = colorEncoding;
-  const { scheme, namespace } = scale;
-  const colorFn = CategoricalColorNamespace.getScale(scheme, namespace);
+export default function renderLegend(data, encoder) {
   const keySet = new Set();
   data.forEach(d => {
-    keySet.add(accessor ? accessor(d) : d[field]);
+    keySet.add(encoder.accessors.color(d.keys ? d.keys : d));
   });
   const keys = [...keySet.values()];
   const colorScale = scaleOrdinal({
     domain: keys,
-    range: keys.map(colorFn),
+    range: keys.map(encoder.scales.color),
   });
 
   return (
@@ -42,7 +38,7 @@ export default function renderLegend(data, colorEncoding) {
                   }}
                 >
                   <svg width={size} height={size} style={{ display: 'inline-block' }}>
-                    <rect fill={label.value} width={size} height={size} />
+                    <circle fill={label.value} r={size / 2} cx={size / 2} cy={size / 2} />
                   </svg>
                   <LegendLabel align="left" margin="0 0 0 4px">
                     {label.text}

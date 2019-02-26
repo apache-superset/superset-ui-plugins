@@ -16,17 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { t } from '@superset-ui/translation';
-import { ChartMetadata, ChartPlugin } from '@superset-ui/chart';
+import { ChartPlugin } from '@superset-ui/chart';
+import metadata from './metadata';
 import transformProps from './transformProps';
-import thumbnail from './images/thumbnail.png';
-
-const metadata = new ChartMetadata({
-  description: '',
-  name: t('Box Plot'),
-  thumbnail,
-  useLegacyApi: true,
-});
 
 export default class LineChartPlugin extends ChartPlugin {
   constructor() {

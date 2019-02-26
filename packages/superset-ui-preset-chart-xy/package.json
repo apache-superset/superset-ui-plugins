@@ -29,6 +29,7 @@
   "dependencies": {
     "@data-ui/theme": "^0.0.75",
     "@data-ui/xy-chart": "^0.0.76",
+    "@types/d3-scale": "^2.1.1",
     "@vx/axis": "^0.0.184",
     "@vx/group": "^0.0.183",
     "@vx/legend": "^0.0.183",
@@ -36,7 +37,11 @@
     "@vx/scale": "^0.0.182",
     "@vx/shape": "^0.0.184",
     "d3-array": "^2.0.3",
-    "prop-types": "^15.6.2"
+    "d3-scale": "^2.2.2",
+    "lodash": "^4.17.11",
+    "prop-types": "^15.6.2",
+    "reselect" : "^4.0.0",
+    "vega-lite": "^3.0.0-rc13"
   },
   "peerDependencies": {
     "@superset-ui/chart": "^0.10.0",

@@ -1,9 +1,4 @@
-interface Margin {
-  top: number;
-  left: number;
-  bottom: number;
-  right: number;
-}
+import { Margin } from '../types';
 
 export default function adjustMargin(
   baseMargin: Partial<Margin> = {},

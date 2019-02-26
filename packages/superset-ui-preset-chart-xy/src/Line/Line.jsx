@@ -19,14 +19,22 @@
 /* eslint-disable sort-keys, no-magic-numbers, complexity */
 import PropTypes from 'prop-types';
 import React from 'react';
-import { LineSeries, XYChart } from '@data-ui/xy-chart';
+import {
+  AreaSeries,
+  LinearGradient,
+  LineSeries,
+  XYChart,
+  CrossHair,
+  WithTooltip,
+} from '@data-ui/xy-chart';
 import { themeShape } from '@data-ui/xy-chart/esm/utils/propShapes';
 import { chartTheme } from '@data-ui/theme';
-import { CategoricalColorNamespace } from '@superset-ui/color';
+import { flatMap, uniqueId } from 'lodash';
 import createTooltip from './createTooltip';
 import renderLegend from '../utils/renderLegend';
 import XYChartLayout from '../utils/XYChartLayout';
 import WithLegend from '../components/WithLegend';
+import Encoder from '../utils/Encoder';
 
 chartTheme.gridStyles.stroke = '#f1f3f5';
 
@@ -35,7 +43,12 @@ const propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string,
-      values: PropTypes.arrayOf(PropTypes.number),
+      values: PropTypes.arrayOf(
+        PropTypes.shape({
+          x: PropTypes.number,
+          y: PropTypes.number,
+        }),
+      ),
     }),
   ).isRequired,
   width: PropTypes.number.isRequired,
@@ -56,7 +69,7 @@ const propTypes = {
 
 const defaultProps = {
   className: '',
-  margin: { top: 10, right: 10, left: 10, bottom: 10 },
+  margin: { top: 20, right: 20, left: 20, bottom: 20 },
   theme: chartTheme,
 };
 
@@ -64,7 +77,73 @@ class LineChart extends React.PureComponent {
   renderChart({ width, height }) {
     const { data, encoding, margin, theme } = this.props;
 
-    const config = {
+    const keySet = new Set();
+    if (data && data.length > 0) {
+      data.forEach(({ keys }) => {
+        Object.keys(keys).forEach(k => {
+          keySet.add(k);
+        });
+      });
+    }
+    const fieldNames = [...keySet.values()].sort((a, b) => a.localeCompare(b));
+
+    const encodedData = data.map(series => {
+      const color = this.encoder.encode(series.keys, 'color');
+
+      const encodedSeries = {
+        ...series,
+        key: fieldNames.map(f => series.keys[f]).join('/'),
+        color,
+        fill: this.encoder.encode(series.keys, 'fill', false),
+        strokeDasharray: this.encoder.encode(series.keys, 'strokeDasharray'),
+      };
+      encodedSeries.values = series.values.map(v => ({
+        ...v,
+        parent: encodedSeries,
+      }));
+
+      return encodedSeries;
+    });
+
+    const children = flatMap(
+      encodedData
+        .filter(series => series.fill)
+        .map(series => {
+          const gradientId = uniqueId(`gradient-${series.key}`);
+
+          return [
+            <LinearGradient
+              key={`${series.key}-gradient`}
+              id={gradientId}
+              from={series.color}
+              to="#fff"
+            />,
+            <AreaSeries
+              key={`${series.key}-fill`}
+              data={series.values}
+              interpolation="linear"
+              fill={`url(#${gradientId})`}
+              stroke={series.color}
+              strokeWidth={1.5}
+            />,
+          ];
+        }),
+    ).concat(
+      encodedData.map(series => (
+        <LineSeries
+          key={series.key}
+          seriesKey={series.key}
+          animated
+          interpolation="linear"
+          data={series.values}
+          stroke={series.color}
+          strokeDasharray={series.strokeDasharray}
+          strokeWidth={1.5}
+        />
+      )),
+    );
+
+    const spec = {
       width,
       height,
       minContentWidth: 0,
@@ -74,47 +153,52 @@ class LineChart extends React.PureComponent {
       encoding,
     };
 
-    const colorFn = CategoricalColorNamespace.getScale(
-      encoding.color.scale.scheme,
-      encoding.color.scale.namespace,
-    );
-
-    const colorAccessor = encoding.color.accessor;
-
-    const children = data.map(series => (
-      <LineSeries
-        key={series.key.join('/')}
-        animated
-        data={series.values}
-        stroke={colorFn(colorAccessor(series))}
-        strokeWidth={1.5}
-      />
-    ));
-
-    const layout = new XYChartLayout({ ...config, children });
+    const layout = new XYChartLayout({ ...spec, children });
 
     return layout.createChartWithFrame(dim => (
-      <XYChart
-        width={dim.width}
-        height={dim.height}
-        ariaLabel="BoxPlot"
-        margin={layout.margin}
-        renderTooltip={createTooltip(encoding.y.axis.tickFormat)}
-        showYGrid
-        // snapTooltipToDataX
-        theme={config.theme}
-        xScale={config.encoding.x.scale}
-        yScale={config.encoding.y.scale}
-      >
-        {children}
-        {layout.createXAxis()}
-        {layout.createYAxis()}
-      </XYChart>
+      <WithTooltip renderTooltip={createTooltip(spec, encodedData)}>
+        {({ onMouseLeave, onMouseMove, tooltipData }) => (
+          <XYChart
+            width={dim.width}
+            height={dim.height}
+            ariaLabel="BoxPlot"
+            margin={layout.margin}
+            eventTrigger="container"
+            onMouseMove={onMouseMove}
+            onMouseLeave={onMouseLeave}
+            renderTooltip={null}
+            showYGrid
+            snapTooltipToDataX
+            theme={spec.theme}
+            tooltipData={tooltipData}
+            xScale={spec.encoding.x.scale}
+            yScale={spec.encoding.y.scale}
+          >
+            {children}
+            {layout.createXAxis()}
+            {layout.createYAxis()}
+            <CrossHair
+              fullHeight
+              strokeDasharray=""
+              showHorizontalLine={false}
+              circleFill={d => (d.y === tooltipData.datum.y ? d.parent.color : '#fff')}
+              circleSize={d => (d.y === tooltipData.datum.y ? 6 : 4)}
+              circleStroke={d => (d.y === tooltipData.datum.y ? '#fff' : d.parent.color)}
+              circleStyles={{ strokeWidth: 1.5 }}
+              stroke="#ccc"
+              showCircle
+              showMultipleCircles
+            />
+          </XYChart>
+        )}
+      </WithTooltip>
     ));
   }
 
   render() {
     const { className, data, width, height, encoding } = this.props;
+
+    this.encoder = new Encoder(encoding);
 
     return (
       <WithLegend
@@ -122,9 +206,9 @@ class LineChart extends React.PureComponent {
         width={width}
         height={height}
         position="top"
-        renderLegend={() => renderLegend(data, encoding.color)}
+        renderLegend={() => renderLegend(data, this.encoder)}
         renderChart={parent => this.renderChart(parent)}
-        hideLegend={!encoding.color.legend}
+        hideLegend={!this.encoder.hasLegend()}
       />
     );
   }
