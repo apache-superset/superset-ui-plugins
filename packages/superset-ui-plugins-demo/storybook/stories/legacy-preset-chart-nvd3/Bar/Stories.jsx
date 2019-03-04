@@ -116,7 +116,7 @@ export default [
           payload: {
             data: data.map((group, i) => ({
               ...group,
-              values: group.values.map(pair => ({ ...pair, y: (i % 2 == 0 ? 1 : -1) * pair.y })),
+              values: group.values.map(pair => ({ ...pair, y: (i % 2 === 0 ? 1 : -1) * pair.y })),
             })),
           },
           width: 400,
