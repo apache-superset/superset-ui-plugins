@@ -65,7 +65,7 @@ export function drawBarValues(svg, data, stacked, axisFormat) {
     const groupLabels = svg
       .select('g.nv-barsWrap')
       .append('g')
-      .attr('class', '.bar-chart-label-group');
+      .attr('class', 'bar-chart-label-group');
     svg
       .selectAll('g.nv-group')
       .filter((d, i) => !stacked || i === countSeriesDisplayed - 1)
