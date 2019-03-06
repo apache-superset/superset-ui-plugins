@@ -3,13 +3,13 @@ import React from 'react';
 import { SuperChart } from '@superset-ui/chart';
 import data from '../data/data';
 
-const missingData = data.map(({ keys, values }) => ({
-  keys,
-  values: values.map(v => ({
-    x: v.x,
-    y: Math.random() < 0.05 ? null : v.y,
+const missingData = {
+  keys: data.keys,
+  values: data.values.map(({ y, ...rest }) => ({
+    ...rest,
+    y: Math.random() < 0.05 ? null : y,
   })),
-}));
+};
 
 export default [
   {

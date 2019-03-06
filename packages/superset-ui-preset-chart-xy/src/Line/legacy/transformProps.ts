@@ -1,5 +1,6 @@
 /* eslint-disable sort-keys */
 import { ChartProps } from '@superset-ui/chart';
+import { flatMap } from 'lodash';
 
 interface DataRow {
   key: string[];
@@ -15,10 +16,17 @@ export default function transformProps(chartProps: ChartProps) {
   const data: DataRow[] = payload.data as DataRow[];
 
   return {
-    data: data.map((row: DataRow) => ({
-      keys: { name: row.key[0] },
-      values: row.values,
-    })),
+    data: {
+      keys: ['name', 'x', 'y'],
+      values: flatMap(
+        data.map((row: DataRow) =>
+          row.values.map(v => ({
+            ...v,
+            name: row.key[0],
+          })),
+        ),
+      ),
+    },
     width,
     height,
     encoding: {

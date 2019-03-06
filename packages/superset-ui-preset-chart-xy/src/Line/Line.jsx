@@ -29,7 +29,7 @@ import {
 } from '@data-ui/xy-chart';
 import { themeShape } from '@data-ui/xy-chart/esm/utils/propShapes';
 import { chartTheme } from '@data-ui/theme';
-import { flatMap, uniqueId } from 'lodash';
+import { groupBy, flatMap, uniqueId, values } from 'lodash';
 import createTooltip from './createTooltip';
 import renderLegend from '../utils/renderLegend';
 import XYChartLayout from '../utils/XYChartLayout';
@@ -40,17 +40,17 @@ chartTheme.gridStyles.stroke = '#f1f3f5';
 
 const propTypes = {
   className: PropTypes.string,
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string,
-      values: PropTypes.arrayOf(
-        PropTypes.shape({
-          x: PropTypes.number,
-          y: PropTypes.number,
-        }),
-      ),
-    }),
-  ).isRequired,
+  // data: PropTypes.arrayOf(
+  //   PropTypes.shape({
+  //     key: PropTypes.string,
+  //     values: PropTypes.arrayOf(
+  //       PropTypes.shape({
+  //         x: PropTypes.number,
+  //         y: PropTypes.number,
+  //       }),
+  //     ),
+  //   }),
+  // ).isRequired,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   margin: PropTypes.shape({
@@ -77,36 +77,34 @@ class LineChart extends React.PureComponent {
   renderChart({ width, height }) {
     const { data, encoding, margin, theme } = this.props;
 
-    const keySet = new Set();
-    if (data && data.length > 0) {
-      data.forEach(({ keys }) => {
-        Object.keys(keys).forEach(k => {
-          keySet.add(k);
-        });
-      });
-    }
-    const fieldNames = [...keySet.values()].sort((a, b) => a.localeCompare(b));
+    const fieldNames = data.keys
+      .filter(k => k !== encoding.x.field && k !== encoding.y.field)
+      .sort((a, b) => a.localeCompare(b));
 
-    const encodedData = data.map(series => {
-      const color = this.encoder.encode(series.keys, 'color');
+    const groups = groupBy(data.values, row => fieldNames.map(f => `${f}=${row[f]}`).join(','));
 
-      const encodedSeries = {
-        ...series,
-        key: fieldNames.map(f => series.keys[f]).join('/'),
-        color,
-        fill: this.encoder.encode(series.keys, 'fill', false),
-        strokeDasharray: this.encoder.encode(series.keys, 'strokeDasharray'),
+    const allSeries = values(groups).map(seriesData => {
+      const firstDatum = seriesData[0];
+
+      const series = {
+        key: fieldNames.map(f => firstDatum[f]).join(','),
+        color: this.encoder.encode(firstDatum, 'color'),
+        fill: this.encoder.encode(firstDatum, 'fill', false),
+        strokeDasharray: this.encoder.encode(firstDatum, 'strokeDasharray'),
       };
-      encodedSeries.values = series.values.map(v => ({
-        ...v,
-        parent: encodedSeries,
+
+      series.values = seriesData.map(v => ({
+        x: this.encoder.accessors.x(v),
+        y: this.encoder.accessors.y(v),
+        data: v,
+        parent: series,
       }));
 
-      return encodedSeries;
+      return series;
     });
 
     const children = flatMap(
-      encodedData
+      allSeries
         .filter(series => series.fill)
         .map(series => {
           const gradientId = uniqueId(`gradient-${series.key}`);
@@ -129,7 +127,7 @@ class LineChart extends React.PureComponent {
           ];
         }),
     ).concat(
-      encodedData.map(series => (
+      allSeries.map(series => (
         <LineSeries
           key={series.key}
           seriesKey={series.key}
@@ -156,7 +154,7 @@ class LineChart extends React.PureComponent {
     const layout = new XYChartLayout({ ...spec, children });
 
     return layout.createChartWithFrame(dim => (
-      <WithTooltip renderTooltip={createTooltip(spec, encodedData)}>
+      <WithTooltip renderTooltip={createTooltip(spec, allSeries)}>
         {({ onMouseLeave, onMouseMove, tooltipData }) => (
           <XYChart
             width={dim.width}
