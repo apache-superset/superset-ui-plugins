@@ -5,16 +5,15 @@ function checkNumber(input: any): input is number {
   return isDefined(input) && typeof input === 'number';
 }
 
-export default class ChartFrame extends React.PureComponent<
-  {
-    contentWidth?: number;
-    contentHeight?: number;
-    height: number;
-    renderContent: ({ height, width }: { height: number; width: number }) => React.ReactElement;
-    width: number;
-  },
-  {}
-> {
+interface Props {
+  contentWidth?: number;
+  contentHeight?: number;
+  height: number;
+  renderContent: ({ height, width }: { height: number; width: number }) => React.ReactElement;
+  width: number;
+}
+
+export default class ChartFrame extends React.PureComponent<Props, {}> {
   static defaultProps = {
     renderContent() {},
   };

@@ -4,7 +4,7 @@ import React, { ReactChild } from 'react';
 import collectScalesFromProps from '@data-ui/xy-chart/esm/utils/collectScalesFromProps';
 import { XAxis, YAxis } from '@data-ui/xy-chart';
 import { ChartTheme } from '@data-ui/theme';
-import adjustMargin from './adjustMargin';
+import mergeMargin from './mergeMargin';
 import computeXAxisLayout from './computeXAxisLayout';
 import computeYAxisLayout from './computeYAxisLayout';
 import createTickComponent from './createTickComponent';
@@ -92,7 +92,7 @@ export default class XYChartLayout {
       });
     }
 
-    const secondMargin = this.yLayout ? adjustMargin(margin, this.yLayout.minMargin) : margin;
+    const secondMargin = this.yLayout ? mergeMargin(margin, this.yLayout.minMargin) : margin;
     const innerWidth = Math.max(width - secondMargin.left - secondMargin.right, minContentWidth);
 
     const { axis: xAxis } = x;
@@ -108,7 +108,7 @@ export default class XYChartLayout {
     }
 
     const finalMargin = this.xLayout
-      ? adjustMargin(secondMargin, this.xLayout.minMargin)
+      ? mergeMargin(secondMargin, this.xLayout.minMargin)
       : secondMargin;
     const innerHeight = Math.max(height - finalMargin.top - finalMargin.bottom, minContentHeight);
 

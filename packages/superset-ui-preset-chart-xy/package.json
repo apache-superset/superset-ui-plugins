@@ -36,6 +36,7 @@
     "@vx/responsive": "^0.0.184",
     "@vx/scale": "^0.0.182",
     "@vx/shape": "^0.0.184",
+    "csstype": "^2.6.3",
     "d3-array": "^2.0.3",
     "d3-scale": "^2.2.2",
     "lodash": "^4.17.11",

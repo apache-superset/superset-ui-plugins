@@ -1,5 +1,15 @@
 import React, { CSSProperties } from 'react';
 
+interface Props {
+  className?: string;
+  data: {
+    key: string;
+    keyStyle?: CSSProperties;
+    value: string | number;
+    valueStyle?: CSSProperties;
+  }[];
+}
+
 const defaultProps = {
   className: '',
   data: [],
@@ -7,18 +17,7 @@ const defaultProps = {
 
 const VALUE_CELL_STYLE: CSSProperties = { paddingLeft: 8, textAlign: 'right' };
 
-export default class TooltipTable extends React.PureComponent<
-  {
-    className?: string;
-    data: {
-      key: string;
-      keyStyle?: CSSProperties;
-      value: string | number;
-      valueStyle?: CSSProperties;
-    }[];
-  },
-  {}
-> {
+export default class TooltipTable extends React.PureComponent<Props, {}> {
   static defaultProps = defaultProps;
 
   render() {

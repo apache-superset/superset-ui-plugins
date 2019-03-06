@@ -3,9 +3,9 @@ const identity = (x: any) => x;
 
 export default function getTickLabels(
   scale: {
-    ticks: (num: number) => string[] | number[];
-    domain: () => any[];
-    tickFormat: () => () => string;
+    ticks(num?: number): string[] | number[];
+    domain(): any[];
+    tickFormat(count?: number, specifier?: string): (d: number | { valueOf(): number }) => string;
   },
   axisConfig: {
     tickCount?: number;

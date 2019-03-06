@@ -1,6 +1,6 @@
 import { Margin } from '../types';
 
-export default function adjustMargin(
+export default function mergeMargin(
   baseMargin: Partial<Margin> = {},
   minMargin: Partial<Margin> = {},
 ) {
