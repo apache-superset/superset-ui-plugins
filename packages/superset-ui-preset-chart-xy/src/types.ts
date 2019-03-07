@@ -7,6 +7,15 @@ export interface Margin {
   right: number;
 }
 
+export interface PlainObject {
+  [key: string]: any;
+}
+
+export interface PayloadData {
+  keys: string[];
+  values: PlainObject[];
+}
+
 interface AxisConfig {
   label: string;
   tickCount: number;
@@ -38,4 +47,5 @@ export interface XYEncoding {
     >;
     scale: ScaleConfig;
   };
+  [key: string]: any;
 }

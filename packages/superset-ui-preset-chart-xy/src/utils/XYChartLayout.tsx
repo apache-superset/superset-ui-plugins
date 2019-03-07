@@ -4,7 +4,7 @@ import React, { ReactChild } from 'react';
 import collectScalesFromProps from '@data-ui/xy-chart/esm/utils/collectScalesFromProps';
 import { XAxis, YAxis } from '@data-ui/xy-chart';
 import { ChartTheme } from '@data-ui/theme';
-import mergeMargin from './mergeMargin';
+import { mergeMargin } from '@superset-ui/dimension';
 import computeXAxisLayout from './computeXAxisLayout';
 import computeYAxisLayout from './computeYAxisLayout';
 import createTickComponent from './createTickComponent';
