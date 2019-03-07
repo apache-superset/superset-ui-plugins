@@ -1,12 +1,6 @@
-import { t } from '@superset-ui/translation';
-import { ChartMetadata } from '@superset-ui/chart';
-import thumbnail from '../images/thumbnail.png';
+import metadata from '../metadata';
 
-const metadata = new ChartMetadata({
-  description: '',
-  name: t('Line Chart'),
-  thumbnail,
-  useLegacyApi: true,
-});
+const legacyMetadata = metadata.clone();
+legacyMetadata.useLegacyApi = true;
 
-export default metadata;
+export default legacyMetadata;
