@@ -1,32 +1,41 @@
-import React from 'react';
-import { LegendOrdinal, LegendItem, LegendLabel } from '@vx/legend';
+import React, { CSSProperties } from 'react';
 import { scaleOrdinal } from '@vx/scale';
+import { LegendOrdinal, LegendItem, LegendLabel } from '@vx/legend';
+import Encoder from './Encoder';
+import { PlainObject, PayloadData } from '../types';
 
-export default function renderLegend(data, encoder) {
+const IDENTITY = (x: any) => x;
+
+interface Label {
+  text: string;
+  value: string;
+}
+
+const LEGEND_CONTAINER_STYLE: CSSProperties = {
+  maxHeight: 100,
+  overflowY: 'hidden',
+  paddingLeft: 14,
+  paddingTop: 6,
+  position: 'relative',
+};
+
+export default function renderLegend(data: PayloadData, encoder: Encoder) {
   const keySet = new Set();
-  data.values.forEach(d => {
+  data.values.forEach((d: PlainObject) => {
     keySet.add(encoder.accessors.color(d));
   });
-  const keys = [...keySet.values()];
+  const keys = Array.from(keySet);
   const colorScale = scaleOrdinal({
     domain: keys,
-    range: keys.map(encoder.scales.color),
+    range: keys.map((key: string) => encoder.scales.color(key)),
   });
 
   return (
-    <div
-      style={{
-        maxHeight: 100,
-        overflowY: 'hidden',
-        paddingLeft: 14,
-        paddingTop: 6,
-        position: 'relative',
-      }}
-    >
-      <LegendOrdinal scale={colorScale} labelFormat={label => label}>
-        {labels => (
+    <div style={LEGEND_CONTAINER_STYLE}>
+      <LegendOrdinal scale={colorScale} labelFormat={IDENTITY}>
+        {(labels: Label[]) => (
           <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-            {labels.map(label => {
+            {labels.map((label: Label) => {
               const size = 8;
 
               return (

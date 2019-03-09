@@ -1,14 +1,19 @@
 /* eslint-disable sort-keys */
 
-import { getNumberFormatter } from '@superset-ui/number-format';
-import { getTimeFormatter } from '@superset-ui/time-format';
-import { CategoricalColorNamespace } from '@superset-ui/color';
+import { getNumberFormatter, NumberFormatter } from '@superset-ui/number-format';
+import { getTimeFormatter, TimeFormatter } from '@superset-ui/time-format';
+import { CategoricalColorNamespace, CategoricalColorScale } from '@superset-ui/color';
 import { get, cloneDeep, isFunction } from 'lodash/fp';
 import { scaleOrdinal } from 'd3-scale';
+import { createSelector } from 'reselect';
+import { PlainObject, XYEncoding } from '../types';
+import isEnabled from './isEnabled';
 
-const IDENTITY = x => x;
+const IDENTITY = (x: any) => x;
 
-const FIELD_MAP = {
+const FIELD_MAP: {
+  [key: string]: string;
+} = {
   color: 'field',
   fill: 'field',
   strokeDasharray: 'field',
@@ -16,11 +21,11 @@ const FIELD_MAP = {
   y: 'xy',
 };
 
-function parseAccessor({ value, field }) {
+function parseAccessor({ value, field }: { value?: any; field: string }) {
   return value ? () => value : get(field);
 }
 
-function parseFormat({ type, format }) {
+function parseFormat({ type, format }: { type: string; format: string }) {
   if (isFunction(format)) {
     return format;
   }
@@ -35,10 +40,23 @@ function parseFormat({ type, format }) {
   }
 }
 
-function parseScale({ type, scale }) {
-  let scaleFn = IDENTITY;
-  if (type === 'nominal' && scale !== false) {
-    scaleFn = scaleOrdinal();
+function parseScale({
+  type,
+  scale,
+}: {
+  type: string;
+  scale:
+    | false
+    | null
+    | {
+        domain: any[];
+        range: any[];
+        scheme: string;
+        namespace?: string;
+      };
+}) {
+  if (type === 'nominal' && isEnabled(scale)) {
+    const scaleFn = scaleOrdinal();
     if (scale) {
       const { domain, range, scheme, namespace } = scale;
       if (domain) {
@@ -47,16 +65,43 @@ function parseScale({ type, scale }) {
       if (range) {
         scaleFn.range(range);
       } else {
-        scaleFn = CategoricalColorNamespace.getScale(scheme, namespace);
+        return CategoricalColorNamespace.getScale(scheme, namespace);
       }
+
+      return scaleFn;
     }
   }
 
-  return scaleFn;
+  return IDENTITY;
 }
 
 export default class Encoder {
-  constructor(encoding) {
+  static createSelector = function create() {
+    return createSelector(
+      (encoding: XYEncoding) => encoding,
+      (encoding: XYEncoding) => new Encoder(encoding),
+    );
+  };
+
+  encoding: XYEncoding;
+
+  accessors: {
+    [key: string]: (d: PlainObject) => any;
+  };
+
+  formats: {
+    [key: string]: NumberFormatter | TimeFormatter | ((d: any) => string);
+  };
+
+  scales: {
+    [key: string]: CategoricalColorScale | ((d: any) => any);
+  };
+
+  axes: PlainObject;
+
+  legends: PlainObject;
+
+  constructor(encoding: XYEncoding) {
     this.encoding = cloneDeep(encoding);
     this.accessors = {};
     this.formats = {};
@@ -64,7 +109,7 @@ export default class Encoder {
     this.axes = {};
     this.legends = {};
 
-    Object.keys(encoding).forEach(key => {
+    Object.keys(encoding).forEach((key: string) => {
       const fieldType = FIELD_MAP[key];
       const enc = encoding[key];
       this.accessors[key] = parseAccessor(enc);
@@ -97,7 +142,7 @@ export default class Encoder {
     });
   }
 
-  encode(datum, field, defaultValue = null) {
+  encode(datum: PlainObject, field: string, defaultValue: any = null) {
     const accessor = this.accessors[field];
     if (accessor) {
       const scale = this.scales[field];
