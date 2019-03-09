@@ -27,7 +27,7 @@ export default class ChannelEncoder<
   format: Formatter;
 
   get: (datum: PlainObject) => Value;
-  getAndEncode: (datum: PlainObject) => V;
+  encode: (datum: PlainObject) => V;
 
   constructor(name: string, definition: ChannelDef<V>, options?: Options) {
     this.definition = definition;
@@ -39,9 +39,9 @@ export default class ChannelEncoder<
     this.axis = parseAxis(name, definition, this.format);
 
     if (scale === undefined) {
-      this.getAndEncode = (datum: PlainObject) => this.get(datum) as V;
+      this.encode = (datum: PlainObject) => this.get(datum) as V;
     } else {
-      this.getAndEncode = (datum: PlainObject) => {
+      this.encode = (datum: PlainObject) => {
         const value = this.get(datum);
         if (scale instanceof CategoricalColorScale) {
           return scale(`${value}`);

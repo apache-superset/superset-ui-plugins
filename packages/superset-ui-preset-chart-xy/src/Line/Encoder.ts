@@ -27,11 +27,13 @@ export default class LineChartEncoder extends Encoder<Encoding> {
   };
 
   protected createFullSpec(spec: LooseSpec<Encoding>) {
+    const { encoding, ...rest } = spec;
+
     return {
-      ...spec,
+      ...rest,
       encoding: {
-        ...spec.encoding,
         ...LineChartEncoder.DEFAULT_ENCODINGS,
+        ...encoding,
       },
     };
   }
