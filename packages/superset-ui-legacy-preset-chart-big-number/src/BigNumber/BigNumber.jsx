@@ -76,7 +76,7 @@ const propTypes = {
   height: PropTypes.number.isRequired,
   bigNumber: PropTypes.number.isRequired,
   formatBigNumber: PropTypes.func,
-  bigNumFontSize: PropTypes.number,
+  headerFontSize: PropTypes.number,
   subheader: PropTypes.string,
   subheaderFontSize: PropTypes.number,
   showTrendLine: PropTypes.bool,
@@ -88,7 +88,7 @@ const propTypes = {
 const defaultProps = {
   className: '',
   formatBigNumber: identity,
-  bigNumFontSize: PROPORTION.HEADER,
+  headerFontSize: PROPORTION.HEADER,
   subheader: '',
   subheaderFontSize: PROPORTION.SUBHEADER,
   showTrendLine: false,
@@ -219,7 +219,7 @@ class BigNumberVis extends React.PureComponent {
   }
 
   render() {
-    const { showTrendLine, height, bigNumFontSize, subheaderFontSize } = this.props;
+    const { showTrendLine, height, headerFontSize, subheaderFontSize } = this.props;
     const className = this.getClassName();
 
     if (showTrendLine) {
@@ -229,7 +229,7 @@ class BigNumberVis extends React.PureComponent {
       return (
         <div className={className}>
           <div className="text-container" style={{ height: allTextHeight }}>
-            {this.renderHeader(Math.ceil(bigNumFontSize * height))}
+            {this.renderHeader(Math.ceil(headerFontSize * height))}
             {this.renderSubheader(Math.ceil(subheaderFontSize * height))}
           </div>
           {this.renderTrendline(chartHeight)}
@@ -239,7 +239,7 @@ class BigNumberVis extends React.PureComponent {
 
     return (
       <div className={className} style={{ height }}>
-        {this.renderHeader(Math.ceil(bigNumFontSize * height))}
+        {this.renderHeader(Math.ceil(headerFontSize * height))}
         {this.renderSubheader(Math.ceil(subheaderFontSize * height))}
       </div>
     );
