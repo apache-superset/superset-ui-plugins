@@ -1,6 +1,6 @@
 import { cloneDeep } from 'lodash';
 import { Axis } from 'vega-lite/src/axis';
-import { ChannelDef, isPositionFieldDef, Formatter } from '../types';
+import { ChannelDef, isPositionFieldDef, Formatter } from '../types/fielddef';
 import parseFormat from './parseFormat';
 import { PlainObject } from '../../types';
 
@@ -23,7 +23,9 @@ export default function parseAxis(
       const parsedAxis: PlainObject = cloneDeep(axis);
       const { labels } = parsedAxis;
       const { format } = labels;
-      parsedAxis.format = format ? parseFormat({ format: axis.format, type }) : defaultFormatter;
+      parsedAxis.format = format
+        ? parseFormat({ field: definition.field, format: axis.format, type })
+        : defaultFormatter;
 
       return parsedAxis;
     }

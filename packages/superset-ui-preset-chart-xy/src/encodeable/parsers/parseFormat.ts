@@ -1,6 +1,6 @@
 import { getNumberFormatter } from '@superset-ui/number-format';
 import { getTimeFormatter } from '@superset-ui/time-format';
-import { isTypedFieldDef, ChannelDef } from '../types';
+import { isTypedFieldDef, ChannelDef } from '../types/fielddef';
 import identity from '../utils/identity';
 
 export default function parseFormat(definition: ChannelDef) {

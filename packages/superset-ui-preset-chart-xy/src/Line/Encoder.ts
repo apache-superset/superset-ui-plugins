@@ -1,8 +1,4 @@
-import {
-  PositionChannelDef,
-  ScaleChannelDefWithLegend,
-  ScaleChannelDefWithoutLegend,
-} from '../encodeable/types';
+import { MarkPropChannelDef, XFieldDef, YFieldDef } from '../encodeable/types/fielddef';
 import Encoder, { LooseSpec } from '../encodeable/Encoder';
 
 export namespace Output {
@@ -14,11 +10,11 @@ export namespace Output {
 }
 
 export interface Encoding {
-  x: PositionChannelDef;
-  y: PositionChannelDef;
-  color: ScaleChannelDefWithLegend<Output.color>;
-  fill: ScaleChannelDefWithoutLegend<Output.fill>;
-  strokeDasharray: ScaleChannelDefWithLegend<Output.strokeDasharray>;
+  x: XFieldDef;
+  y: YFieldDef;
+  color: MarkPropChannelDef<Output.color>;
+  fill: MarkPropChannelDef<Output.fill>;
+  strokeDasharray: MarkPropChannelDef<Output.strokeDasharray>;
 }
 
 export default class LineChartEncoder extends Encoder<Encoding> {
@@ -30,7 +26,7 @@ export default class LineChartEncoder extends Encoder<Encoding> {
     y: { field: 'y', type: 'quantitative' },
   };
 
-  createFullSpec(spec: LooseSpec<Encoding>) {
+  protected createFullSpec(spec: LooseSpec<Encoding>) {
     return {
       ...spec,
       encoding: {
@@ -40,7 +36,7 @@ export default class LineChartEncoder extends Encoder<Encoding> {
     };
   }
 
-  createChannels() {
+  protected createChannels() {
     return {
       color: this.createChannel<Output.color>('color'),
       fill: this.createChannel<Output.fill>('fill'),
@@ -48,5 +44,9 @@ export default class LineChartEncoder extends Encoder<Encoding> {
       x: this.createChannel<Output.x>('x'),
       y: this.createChannel<Output.y>('y'),
     };
+  }
+
+  protected channelsWithoutLegend(): (keyof Encoding)[] {
+    return ['fill'];
   }
 }

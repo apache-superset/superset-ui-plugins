@@ -1,6 +1,6 @@
 import { Value } from 'vega-lite/src/fielddef';
 import ChannelEncoder from './ChannelEncoder';
-import { ChannelDef } from './types';
+import { ChannelDef, isFieldDef } from './types/fielddef';
 
 export interface BaseOptions {
   namespace?: string;
@@ -26,9 +26,24 @@ export default class Encoder<Encoding, Options extends BaseOptions = BaseOptions
   };
 
   constructor(spec: LooseSpec<Encoding, Options>) {
-    this.legends = {};
     this.spec = this.createFullSpec(spec);
     this.channels = this.createChannels();
+    this.legends = {};
+
+    const blacklist = new Set(this.channelsWithoutLegend());
+    (Object.keys(this.channels) as (keyof Encoding)[])
+      .map<ChannelEncoder>((key: keyof Encoding) => this.channels[key])
+      .filter((c: ChannelEncoder) => !blacklist.has(c.name as keyof Encoding) && c.hasLegend())
+      .forEach((c: ChannelEncoder) => {
+        if (isFieldDef(c.definition)) {
+          const key = c.name as keyof Encoding;
+          if (this.legends[c.definition.field]) {
+            this.legends[c.definition.field].push(key);
+          } else {
+            this.legends[c.definition.field] = [key];
+          }
+        }
+      });
   }
 
   /**
@@ -42,7 +57,7 @@ export default class Encoder<Encoding, Options extends BaseOptions = BaseOptions
     const { encoding, options } = this.spec;
     const def: unknown = encoding[name];
 
-    return new ChannelEncoder<OutputType>(`${name}`, def as ChannelDef<Value>, options);
+    return new ChannelEncoder<OutputType>(`${name}`, def as ChannelDef<OutputType>, options);
   }
 
   /**
@@ -50,6 +65,13 @@ export default class Encoder<Encoding, Options extends BaseOptions = BaseOptions
    */
   protected createChannels() {
     return {} as { [key in keyof Encoding]: ChannelEncoder };
+  }
+
+  /**
+   * subclass should override this
+   */
+  protected channelsWithoutLegend(): (keyof Encoding)[] {
+    return [];
   }
 
   hasLegend() {
