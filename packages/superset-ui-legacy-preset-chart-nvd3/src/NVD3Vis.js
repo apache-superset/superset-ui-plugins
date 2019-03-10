@@ -77,6 +77,7 @@ const BREAKPOINTS = {
 const TIMESERIES_VIZ_TYPES = [
   'line',
   'dual_line',
+  'line_bar',
   'line_multi',
   'area',
   'compare',
@@ -100,7 +101,7 @@ const propTypes = {
           key: PropTypes.arrayOf(PropTypes.string),
           values: PropTypes.arrayOf(numericXYType),
         }),
-        // dual-line
+        // dual-line. line-bar
         PropTypes.shape({
           classed: PropTypes.string,
           key: PropTypes.string,
@@ -146,6 +147,7 @@ const propTypes = {
     'column',
     'dist_bar',
     'line',
+    'line_bar',
     'line_multi',
     'time_pivot',
     'pie',
@@ -176,7 +178,7 @@ const propTypes = {
   onBrushEnd: PropTypes.func,
   // 'line-multi' or 'dual-line'
   yAxis2Format: PropTypes.string,
-  // 'line', 'time-pivot', 'dual-line' or 'line-multi'
+  // 'line', 'time-pivot', 'dual-line', 'line-multi', 'line-bar'
   lineInterpolation: PropTypes.string,
   // 'pie' only
   isDonut: PropTypes.bool,
@@ -318,6 +320,11 @@ function nvd3Vis(element, props) {
 
       case 'dual_line':
       case 'line_multi':
+        chart = nv.models.multiChart();
+        chart.interpolate(lineInterpolation);
+        break;
+
+      case 'line_bar':
         chart = nv.models.multiChart();
         chart.interpolate(lineInterpolation);
         break;
@@ -561,7 +568,7 @@ function nvd3Vis(element, props) {
       }
     }
 
-    if (isVizTypes(['dual_line', 'line_multi'])) {
+    if (isVizTypes(['dual_line', 'line_multi', 'line_bar'])) {
       const yAxisFormatter1 = getNumberFormatter(yAxisFormat);
       const yAxisFormatter2 = getNumberFormatter(yAxis2Format);
       chart.yAxis1.tickFormat(yAxisFormatter1);
@@ -573,7 +580,7 @@ function nvd3Vis(element, props) {
       chart.interactiveLayer.tooltip.contentGenerator(d =>
         generateMultiLineTooltipContent(d, xAxisFormatter, yAxisFormatters),
       );
-      if (vizType === 'dual_line') {
+      if (vizType === 'dual_line' || vizType == 'line_bar') {
         chart.showLegend(width > BREAKPOINTS.small);
       } else {
         chart.showLegend(showLegend);
@@ -622,7 +629,7 @@ function nvd3Vis(element, props) {
     }
 
     // align yAxis1 and yAxis2 ticks
-    if (isVizTypes(['dual_line', 'line_multi'])) {
+    if (isVizTypes(['dual_line', 'line_multi', 'line_bar'])) {
       const count = chart.yAxis1.ticks();
       const ticks1 = chart.yAxis1
         .scale()
@@ -708,7 +715,7 @@ function nvd3Vis(element, props) {
         margins.bottom = 40;
       }
 
-      if (isVizTypes(['dual_line', 'line_multi'])) {
+      if (isVizTypes(['dual_line', 'line_multi', 'line_bar'])) {
         const maxYAxis2LabelWidth = getMaxLabelSize(svg, 'nv-y2');
         margins.right = maxYAxis2LabelWidth + marginPad;
       }
