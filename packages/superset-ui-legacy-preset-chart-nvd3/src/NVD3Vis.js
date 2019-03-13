@@ -24,6 +24,7 @@ import nv from 'nvd3';
 import mathjs from 'mathjs';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+import { isDefined } from '@superset-ui/core';
 import { t } from '@superset-ui/translation';
 import { CategoricalColorNamespace } from '@superset-ui/color';
 import { getNumberFormatter, NumberFormats } from '@superset-ui/number-format';
@@ -59,7 +60,6 @@ import {
   stringOrObjectWithLabelType,
 } from './PropTypes';
 import './NVD3Vis.css';
-import { isDefined } from '@superset-ui/core';
 
 const { getColor, getScale } = CategoricalColorNamespace;
 
