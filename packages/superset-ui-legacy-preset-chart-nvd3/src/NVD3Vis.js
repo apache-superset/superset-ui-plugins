@@ -301,7 +301,7 @@ function nvd3Vis(element, props) {
         }
         chart.xScale(d3.time.scale.utc());
         chart.interpolate(lineInterpolation);
-        chart.clipEdge(true);
+        chart.clipEdge(false);
         break;
 
       case 'time_pivot':
@@ -586,6 +586,7 @@ function nvd3Vis(element, props) {
       const yMax = isDefined(max) ? max : trueMax;
       if (yMin !== trueMin || yMax !== trueMax) {
         chart.yDomain([yMin, yMax]);
+        chart.clipEdge(true);
       }
     }
 
