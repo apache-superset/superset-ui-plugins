@@ -1,18 +1,16 @@
 import React from 'react';
 
-interface Props {
+type Props = {
   className?: string;
-  children: React.ReactChild;
-}
-
-const defaultProps = {
-  className: '',
+  children: React.ReactNode;
 };
 
 const CONTAINER_STYLE = { padding: 8 };
 
 class TooltipFrame extends React.PureComponent<Props, {}> {
-  static defaultProps = defaultProps;
+  static defaultProps = {
+    className: '',
+  };
 
   render() {
     const { className, children } = this.props;

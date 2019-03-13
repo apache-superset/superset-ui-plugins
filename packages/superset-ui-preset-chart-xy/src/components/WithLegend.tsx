@@ -17,21 +17,21 @@
  * under the License.
  */
 /* eslint-disable sort-keys */
-import React, { CSSProperties, ReactElement } from 'react';
+import React, { CSSProperties, ReactNode } from 'react';
 import { ParentSize } from '@vx/responsive';
 // eslint-disable-next-line import/no-unresolved
 import * as CSS from 'csstype';
 
-interface Props {
+type Props = {
   className: string;
   width: number | string;
   height: number | string;
   legendJustifyContent: 'center' | 'flex-start' | 'flex-end';
   position: 'top' | 'left' | 'bottom' | 'right';
-  renderChart: (dim: { width: number; height: number }) => ReactElement;
-  renderLegend: (params: { direction: string }) => ReactElement;
+  renderChart: (dim: { width: number; height: number }) => ReactNode;
+  renderLegend: (params: { direction: string }) => ReactNode;
   hideLegend: boolean;
-}
+};
 
 const LEGEND_STYLE_BASE: CSSProperties = {
   display: 'flex',

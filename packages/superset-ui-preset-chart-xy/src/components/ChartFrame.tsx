@@ -5,13 +5,13 @@ function checkNumber(input: any): input is number {
   return isDefined(input) && typeof input === 'number';
 }
 
-interface Props {
+type Props = {
   contentWidth?: number;
   contentHeight?: number;
   height: number;
   renderContent: ({ height, width }: { height: number; width: number }) => React.ReactElement;
   width: number;
-}
+};
 
 export default class ChartFrame extends React.PureComponent<Props, {}> {
   static defaultProps = {
@@ -29,8 +29,8 @@ export default class ChartFrame extends React.PureComponent<Props, {}> {
         <div
           style={{
             height,
-            overflowX: overflowX ? 'scroll' : 'hidden',
-            overflowY: overflowY ? 'scroll' : 'hidden',
+            overflowX: overflowX ? 'auto' : 'hidden',
+            overflowY: overflowY ? 'auto' : 'hidden',
             width,
           }}
         >
