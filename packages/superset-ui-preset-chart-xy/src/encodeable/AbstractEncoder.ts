@@ -13,17 +13,17 @@ export type BaseEncoding<Output extends ObjectWithKeysFromAndValueType<Output, V
 };
 
 export type Channels<
-  Output extends ChannelOutputs<Encoding>,
-  Encoding extends BaseEncoding<Output>
-> = { readonly [k in keyof Output]: ChannelEncoder<Encoding[k], Output[k]> };
+  Outputs extends ChannelOutputs<Encoding>,
+  Encoding extends BaseEncoding<Outputs>
+> = { readonly [k in keyof Outputs]: ChannelEncoder<Encoding[k], Outputs[k]> };
 
 export default abstract class AbstractEncoder<
-  Output extends ChannelOutputs<Encoding>,
-  Encoding extends BaseEncoding<Output>,
+  Outputs extends ChannelOutputs<Encoding>,
+  Encoding extends BaseEncoding<Outputs>,
   Options extends BaseOptions = BaseOptions
 > {
   readonly spec: FullSpec<Encoding, Options>;
-  readonly channels: Channels<Output, Encoding>;
+  readonly channels: Channels<Outputs, Encoding>;
 
   readonly legends: {
     [key: string]: (keyof Encoding)[];
@@ -71,13 +71,13 @@ export default abstract class AbstractEncoder<
     };
   }
 
-  protected createChannel<ChannelName extends keyof Output>(
+  protected createChannel<ChannelName extends keyof Outputs>(
     name: ChannelName,
     options?: ChannelOptions,
   ) {
     const { encoding } = this.spec;
 
-    return new ChannelEncoder<Encoding[ChannelName], Output[ChannelName]>(
+    return new ChannelEncoder<Encoding[ChannelName], Outputs[ChannelName]>(
       `${name}`,
       encoding[name],
       {
@@ -90,7 +90,7 @@ export default abstract class AbstractEncoder<
   /**
    * subclass should override this
    */
-  protected abstract createChannels(): Channels<Output, Encoding>;
+  protected abstract createChannels(): Channels<Outputs, Encoding>;
 
   hasLegend() {
     return Object.keys(this.legends).length > 0;

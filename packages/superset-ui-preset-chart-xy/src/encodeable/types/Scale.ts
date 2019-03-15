@@ -3,13 +3,13 @@ import { Value } from 'vega-lite/build/src/fielddef';
 
 export { ScaleType, Value };
 
-export interface Scale<V extends Value = Value> {
+export interface Scale<Output extends Value = Value> {
   type?: ScaleType;
   domain?: any[];
-  range?: V[];
+  range?: Output[];
   scheme?: string;
 }
 
-export interface WithScale<V extends Value = Value> {
-  scale?: Scale<V>;
+export interface WithScale<Output extends Value = Value> {
+  scale?: Scale<Output>;
 }

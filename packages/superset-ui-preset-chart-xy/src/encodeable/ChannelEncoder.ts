@@ -20,17 +20,17 @@ import isDisabled from './utils/isDisabled';
 import { ChannelOptions } from './types/Channel';
 import identity from './utils/identity';
 
-export default class ChannelEncoder<Def extends ChannelDef<V>, V extends Value = Value> {
+export default class ChannelEncoder<Def extends ChannelDef<Output>, Output extends Value = Value> {
   readonly name: string;
   readonly definition: Def;
   readonly options: ChannelOptions;
 
   readonly axis?: PlainObject;
   protected readonly getValue: (datum: PlainObject) => Value;
-  readonly scale?: ScaleOrdinal<string, V> | CategoricalColorScale | ((x: any) => V);
+  readonly scale?: ScaleOrdinal<string, Output> | CategoricalColorScale | ((x: any) => Output);
   readonly formatter: Formatter;
 
-  readonly encodeValue: (value: any) => V;
+  readonly encodeValue: (value: any) => Output;
   readonly formatValue: (value: any) => string;
 
   constructor(name: string, definition: Def, options: ChannelOptions = {}) {
@@ -50,7 +50,7 @@ export default class ChannelEncoder<Def extends ChannelDef<V>, V extends Value =
       this.formatValue = formatter;
     }
 
-    const scale = extractScale<V>(definition, options.namespace);
+    const scale = extractScale<Output>(definition, options.namespace);
     this.scale = scale;
     if (typeof scale === 'undefined') {
       this.encodeValue = identity;
@@ -69,7 +69,7 @@ export default class ChannelEncoder<Def extends ChannelDef<V>, V extends Value =
     return otherwise !== undefined && (value === null || value === undefined) ? otherwise : value;
   }
 
-  encode(datum: PlainObject, otherwise?: V) {
+  encode(datum: PlainObject, otherwise?: Output) {
     const output = this.encodeValue(this.get(datum));
 
     return otherwise !== undefined && (output === null || output === undefined)

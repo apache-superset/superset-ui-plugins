@@ -26,59 +26,65 @@ export type TextFieldDef = FieldDef;
 
 // PropFieldDef is { field: 'fieldName', scale: xxx }
 
-type ScaleFieldDef<V extends Value = Value> = TypedFieldDef & WithScale<V>;
+type ScaleFieldDef<Output extends Value = Value> = TypedFieldDef & WithScale<Output>;
 
-export type MarkPropFieldDef<V extends Value = Value> = ScaleFieldDef<V> & WithLegend;
+export type MarkPropFieldDef<Output extends Value = Value> = ScaleFieldDef<Output> & WithLegend;
 
 // PositionFieldDef is { field: 'fieldName', scale: xxx, axis: xxx }
 
-type PositionFieldDefBase<V extends Value = Value> = ScaleFieldDef<V>;
+type PositionFieldDefBase<Output extends Value = Value> = ScaleFieldDef<Output>;
 
-export type XFieldDef<V extends Value = Value> = PositionFieldDefBase<V> & WithXAxis;
+export type XFieldDef<Output extends Value = Value> = PositionFieldDefBase<Output> & WithXAxis;
 
-export type YFieldDef<V extends Value = Value> = PositionFieldDefBase<V> & WithYAxis;
+export type YFieldDef<Output extends Value = Value> = PositionFieldDefBase<Output> & WithYAxis;
 
-export type PositionFieldDef<V extends Value = Value> = ScaleFieldDef<V> & WithAxis;
+export type PositionFieldDef<Output extends Value = Value> = ScaleFieldDef<Output> & WithAxis;
 
-export type MarkPropChannelDef<V extends Value = Value> = MarkPropFieldDef<V> | ValueDef<V>;
+export type MarkPropChannelDef<Output extends Value = Value> =
+  | MarkPropFieldDef<Output>
+  | ValueDef<Output>;
 
 export type TextChannelDef = TextFieldDef | ValueDef<string>;
 
-export type ChannelDef<V extends Value = Value> =
-  | XFieldDef<V>
-  | YFieldDef<V>
-  | MarkPropFieldDef<V>
+export type ChannelDef<Output extends Value = Value> =
+  | XFieldDef<Output>
+  | YFieldDef<Output>
+  | MarkPropFieldDef<Output>
   | TextFieldDef
-  | ValueDef<V>;
+  | ValueDef<Output>;
 
-export function isValueDef<V extends Value>(channelDef: ChannelDef<V>): channelDef is ValueDef<V> {
+export function isValueDef<Output extends Value>(
+  channelDef: ChannelDef<Output>,
+): channelDef is ValueDef<Output> {
   return channelDef && 'value' in channelDef && !!channelDef.value;
 }
 
-export function isFieldDef<V extends Value>(channelDef: ChannelDef<V>): channelDef is FieldDef {
+export function isFieldDef<Output extends Value>(
+  channelDef: ChannelDef<Output>,
+): channelDef is FieldDef {
   return channelDef && 'field' in channelDef && !!channelDef.field;
 }
 
-export function isTypedFieldDef<V extends Value>(
-  channelDef: ChannelDef<V>,
+export function isTypedFieldDef<Output extends Value>(
+  channelDef: ChannelDef<Output>,
 ): channelDef is TypedFieldDef {
   return isFieldDef(channelDef) && 'type' in channelDef && !!channelDef.type;
 }
 
-export function isScaleFieldDef<V extends Value>(
-  channelDef: ChannelDef<V>,
+export function isScaleFieldDef<Output extends Value>(
+  channelDef: ChannelDef<Output>,
 ): channelDef is ScaleFieldDef {
   return channelDef && ('scale' in channelDef || 'sort' in channelDef);
 }
 
-export function isMarkPropFieldDef<V extends Value>(
-  channelDef: ChannelDef<V>,
+export function isMarkPropFieldDef<Output extends Value>(
+  channelDef: ChannelDef<Output>,
 ): channelDef is MarkPropFieldDef {
   return channelDef && 'legend' in channelDef;
 }
 
-export function isPositionFieldDef<V extends Value>(
-  channelDef: ChannelDef<V>,
-): channelDef is PositionFieldDef<V> {
+export function isPositionFieldDef<Output extends Value>(
+  channelDef: ChannelDef<Output>,
+): channelDef is PositionFieldDef<Output> {
   return channelDef && ('axis' in channelDef || 'stack' in channelDef || 'impute' in channelDef);
 }

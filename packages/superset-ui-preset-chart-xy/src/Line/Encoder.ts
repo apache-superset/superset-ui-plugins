@@ -5,7 +5,7 @@ import { PartialSpec } from '../encodeable/types/Spec';
 /**
  * Define output type for each channel
  */
-export interface Output {
+export interface Outputs {
   x: number | null;
   y: number | null;
   color: string;
@@ -17,14 +17,14 @@ export interface Output {
  * Define encoding config for each channel
  */
 export interface Encoding {
-  x: XFieldDef;
-  y: YFieldDef;
-  color: MarkPropChannelDef<Output['color']>;
-  fill: MarkPropChannelDef<Output['fill']>;
-  strokeDasharray: MarkPropChannelDef<Output['strokeDasharray']>;
+  x: XFieldDef<Outputs['x']>;
+  y: YFieldDef<Outputs['y']>;
+  color: MarkPropChannelDef<Outputs['color']>;
+  fill: MarkPropChannelDef<Outputs['fill']>;
+  strokeDasharray: MarkPropChannelDef<Outputs['strokeDasharray']>;
 }
 
-export default class Encoder extends AbstractEncoder<Output, Encoding> {
+export default class Encoder extends AbstractEncoder<Outputs, Encoding> {
   static DEFAULT_ENCODINGS: Encoding = {
     color: { value: '#222' },
     fill: { value: false },
