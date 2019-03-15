@@ -4,7 +4,8 @@ import { SuperChart } from '@superset-ui/chart';
 // import data from './data';
 
 const data = [{ key: 'sth', values: [] }];
-const LONG_LABEL = 'some extremely ridiculously extremely extremely long category';
+const LONG_LABEL =
+  'some extremely ridiculously extremely extremely extremely ridiculously extremely extremely ridiculously extremely extremely ridiculously extremely long category';
 
 for (let i = 0; i < 50; i += 1) {
   data[0].values.push({
@@ -26,7 +27,7 @@ export default [
             vizType: 'dist_bar',
             xTicksLayout: 'auto',
           },
-          height: 400,
+          height: 800,
           payload: { data },
           width: 400,
         }}
