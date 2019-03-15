@@ -1,8 +1,6 @@
 import { ScaleType } from 'vega-lite/build/src/scale';
 import { Value } from 'vega-lite/build/src/fielddef';
 
-export { ScaleType, Value };
-
 export interface Scale<Output extends Value = Value> {
   type?: ScaleType;
   domain?: any[];

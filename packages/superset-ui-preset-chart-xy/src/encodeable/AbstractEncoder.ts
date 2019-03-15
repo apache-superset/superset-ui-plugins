@@ -4,7 +4,7 @@ import { ChannelOptions } from './types/Channel';
 import { ChannelDef, isFieldDef } from './types/FieldDef';
 import { FullSpec, BaseOptions, PartialSpec } from './types/Spec';
 
-type ObjectWithKeysFromAndValueType<T extends {}, V> = { [key in keyof T]: V };
+export type ObjectWithKeysFromAndValueType<T extends {}, V> = { [key in keyof T]: V };
 
 export type ChannelOutputs<T> = ObjectWithKeysFromAndValueType<T, Value>;
 

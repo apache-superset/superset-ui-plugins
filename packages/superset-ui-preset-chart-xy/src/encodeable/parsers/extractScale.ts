@@ -1,14 +1,14 @@
 import { CategoricalColorNamespace } from '@superset-ui/color';
 import { scaleOrdinal } from 'd3-scale';
+import { Value } from 'vega-lite/build/src/fielddef';
 import isEnabled from '../utils/isEnabled';
 import { isScaleFieldDef, ChannelDef, isPositionFieldDef } from '../types/FieldDef';
-import { Value } from '../types/Scale';
 
-export default function extractScale<V extends Value = Value>(
-  definition: ChannelDef<V>,
+export default function extractScale<Output extends Value = Value>(
+  definition: ChannelDef<Output>,
   namespace?: string,
 ) {
-  if (isScaleFieldDef<V>(definition)) {
+  if (isScaleFieldDef<Output>(definition)) {
     const { scale, type } = definition;
     if (isEnabled(scale) && !isPositionFieldDef(definition)) {
       if (scale) {
@@ -18,7 +18,7 @@ export default function extractScale<V extends Value = Value>(
             return CategoricalColorNamespace.getScale(scheme, namespace);
           }
 
-          const scaleFn = scaleOrdinal<any, V>();
+          const scaleFn = scaleOrdinal<any, Output>();
           if (domain) {
             scaleFn.domain(domain);
           }
