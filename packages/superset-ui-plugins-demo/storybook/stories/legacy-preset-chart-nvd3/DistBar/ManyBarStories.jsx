@@ -4,10 +4,11 @@ import { SuperChart } from '@superset-ui/chart';
 // import data from './data';
 
 const data = [{ key: 'sth', values: [] }];
+const LONG_LABEL = 'some extremely ridiculously extremely extremely long category';
 
 for (let i = 0; i < 50; i += 1) {
   data[0].values.push({
-    x: `some extremely extremely long category ${i + 1}`,
+    x: `${LONG_LABEL.substring(0, Math.round(Math.random() * LONG_LABEL.length))} ${i + 1}`,
     y: Math.round(Math.random() * 10000),
   });
 }
@@ -25,7 +26,7 @@ export default [
             vizType: 'dist_bar',
             xTicksLayout: 'auto',
           },
-          height: 800,
+          height: 400,
           payload: { data },
           width: 400,
         }}
