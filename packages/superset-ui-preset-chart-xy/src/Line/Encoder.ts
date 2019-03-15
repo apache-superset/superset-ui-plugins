@@ -39,11 +39,11 @@ export default class Encoder extends AbstractEncoder<Output, Encoding> {
 
   createChannels() {
     return {
-      color: this.createChannel<'color'>('color'),
-      fill: this.createChannel<'fill'>('fill', { legend: false }),
-      strokeDasharray: this.createChannel<'strokeDasharray'>('strokeDasharray'),
-      x: this.createChannel<'x'>('x'),
-      y: this.createChannel<'y'>('y'),
+      color: this.createChannel('color'),
+      fill: this.createChannel('fill', { legend: false }),
+      strokeDasharray: this.createChannel('strokeDasharray'),
+      x: this.createChannel('x'),
+      y: this.createChannel('y'),
     };
   }
 }

@@ -33,7 +33,7 @@ export default class ChannelEncoder<Def extends ChannelDef<V>, V extends Value =
   readonly encodeValue: (value: any) => V;
   readonly formatValue: (value: any) => string;
 
-  constructor(name: string, definition: Def, options: ChannelOptions = {} as ChannelOptions) {
+  constructor(name: string, definition: Def, options: ChannelOptions = {}) {
     this.name = name;
     this.definition = definition;
     this.options = options;
