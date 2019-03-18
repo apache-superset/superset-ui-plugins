@@ -1,6 +1,6 @@
 import { MarkPropChannelDef, XFieldDef, YFieldDef } from '../encodeable/types/FieldDef';
 import AbstractEncoder from '../encodeable/AbstractEncoder';
-import { PartialSpec } from '../encodeable/types/Spec';
+import { PartialSpec } from '../encodeable/types/Specification';
 
 /**
  * Define output type for each channel

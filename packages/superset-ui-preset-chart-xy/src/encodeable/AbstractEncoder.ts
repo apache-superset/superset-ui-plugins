@@ -2,7 +2,7 @@ import { Value } from 'vega-lite/build/src/fielddef';
 import ChannelEncoder from './ChannelEncoder';
 import { ChannelOptions } from './types/Channel';
 import { ChannelDef, isFieldDef } from './types/FieldDef';
-import { FullSpec, BaseOptions, PartialSpec } from './types/Spec';
+import { FullSpec, BaseOptions, PartialSpec } from './types/Specification';
 
 export type ObjectWithKeysFromAndValueType<T extends {}, V> = { [key in keyof T]: V };
 
