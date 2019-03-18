@@ -584,7 +584,7 @@ function nvd3Vis(element, props) {
 
     // For log scale, only show 1, 10, 100, 1000, ...
     if (yIsLogScale) {
-      chart.yAxis.tickFormat(d => (Math.log10(d) % 1 === 0 ? yAxisFormatter(d) : ''));
+      chart.yAxis.tickFormat(d => (d !== 0 && Math.log10(d) % 1 === 0 ? yAxisFormatter(d) : ''));
     }
 
     if (xLabelRotation > 0) {
