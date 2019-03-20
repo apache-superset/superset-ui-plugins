@@ -42,6 +42,7 @@
     "lodash": "^4.17.11",
     "prop-types": "^15.6.2",
     "reselect" : "^4.0.0",
+    "vega": "^5.2.0",
     "vega-lite": "^3.0.0-rc15"
   },
   "peerDependencies": {
