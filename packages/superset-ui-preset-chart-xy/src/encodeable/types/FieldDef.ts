@@ -11,8 +11,6 @@ export type Formatter = NumberFormatter | TimeFormatter | ((d: any) => string);
 
 // ValueDef is { value: xxx }
 
-// FieldDef is { field: 'fieldName', type: ... }
-
 export interface FieldDef {
   field: string;
   format?: string;
