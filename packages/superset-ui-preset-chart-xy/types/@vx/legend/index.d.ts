@@ -2,9 +2,9 @@
 declare module '@vx/legend' {
   import React from 'react';
 
-  export function LegendOrdinal(props: { [key: string]: any }): React.ReactNode;
+  export function LegendOrdinal(props: { [key: string]: any }): React.ReactElement;
 
-  export function LegendItem(props: { [key: string]: any }): React.ReactNode;
+  export function LegendItem(props: { [key: string]: any }): React.ReactElement;
 
   export function LegendLabel(props: {
     align: string;
@@ -12,5 +12,5 @@ declare module '@vx/legend' {
     flex?: string | number;
     margin?: string | number;
     children?: React.ReactNode;
-  }): React.ReactNode;
+  }): React.ReactElement;
 }

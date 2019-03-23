@@ -23,8 +23,6 @@ export interface TypedFieldDef extends FieldDef {
 
 export type TextFieldDef = FieldDef;
 
-// PropFieldDef is { field: 'fieldName', scale: xxx }
-
 type ScaleFieldDef<Output extends Value = Value> = TypedFieldDef & WithScale<Output>;
 
 export type MarkPropFieldDef<Output extends Value = Value> = ScaleFieldDef<Output> & WithLegend;

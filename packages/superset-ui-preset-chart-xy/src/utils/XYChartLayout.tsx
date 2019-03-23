@@ -8,7 +8,6 @@ import { Margin, mergeMargin } from '@superset-ui/dimension';
 import computeXAxisLayout from './computeXAxisLayout';
 import computeYAxisLayout from './computeYAxisLayout';
 import createTickComponent from './createTickComponent';
-import getTickLabels from './getTickLabels';
 import ChartFrame from '../components/ChartFrame';
 import ChannelEncoder from '../encodeable/ChannelEncoder';
 import { XFieldDef, YFieldDef } from '../encodeable/types/FieldDef';
@@ -139,7 +138,9 @@ export default class XYChartLayout {
       : -40;
   }
 
-  createChartWithFrame(renderChart: (input: { width: number; height: number }) => React.ReactNode) {
+  createChartWithFrame(
+    renderChart: (input: { width: number; height: number }) => React.ReactElement,
+  ) {
     return (
       <ChartFrame
         width={this.containerWidth}

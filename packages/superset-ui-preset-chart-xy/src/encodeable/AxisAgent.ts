@@ -10,10 +10,10 @@ export default class AxisAgent<Def extends ChannelDef<Output>, Output extends Va
   private readonly format?: (value: any) => string;
   readonly config: XAxis | YAxis;
 
-  constructor(channelEncoder: ChannelEncoder<Def, Output>, definition: PositionFieldDef) {
-    const { type, axis = {} } = definition;
-
+  constructor(channelEncoder: ChannelEncoder<Def, Output>) {
     this.channelEncoder = channelEncoder;
+    const definition = channelEncoder.definition as PositionFieldDef;
+    const { type, axis = {} } = definition;
     this.config = { ...axis };
 
     if (typeof axis.format !== 'undefined') {
@@ -41,6 +41,7 @@ export default class AxisAgent<Def extends ChannelDef<Output>, Output extends Va
       return (values as any[]).map(format);
     }
 
+    // TODO: switch to this
     // const { scale } = this.channelEncoder;
     if (typeof scale !== 'undefined') {
       return (typeof scale.ticks === 'undefined' ? scale.domain() : scale.ticks(tickCount)).map(

@@ -32,7 +32,7 @@ import { groupBy, flatMap, uniqueId, values } from 'lodash';
 import createTooltip from './createTooltip';
 import XYChartLayout from '../utils/XYChartLayout';
 import WithLegend from '../components/WithLegend';
-import Encoder, { Encoding, Outputs } from './Encoder';
+import Encoder, { ChannelTypes, Encoding, Outputs } from './Encoder';
 import { Dataset, PlainObject } from '../encodeable/types/Data';
 import ChartLegend from '../components/ChartLegend';
 
@@ -226,7 +226,7 @@ class LineChart extends React.PureComponent<Props, {}> {
         position="top"
         renderLegend={() => (
           // eslint-disable-next-line react/jsx-props-no-multi-spaces
-          <ChartLegend<Outputs, Encoding, Encoder> data={data} encoder={this.encoder} />
+          <ChartLegend<ChannelTypes, Outputs, Encoding> data={data} encoder={this.encoder} />
         )}
         renderChart={parent => this.renderChart(parent)}
         hideLegend={!this.encoder.hasLegend()}

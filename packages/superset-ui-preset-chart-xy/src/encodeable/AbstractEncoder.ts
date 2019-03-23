@@ -5,10 +5,6 @@ import { FullSpec, BaseOptions, PartialSpec } from './types/Specification';
 import { isFieldDef } from './types/FieldDef';
 import ChannelEncoder from './ChannelEncoder';
 
-// type BaseEncoding<Output extends ObjectWithKeysFromAndValueType<Output, Value>> = {
-//   [key in keyof Output]: ChannelDef<Output[key]>
-// };
-
 export default abstract class AbstractEncoder<
   // The first 3 generics depends on each other
   // to ensure all of them will have the exact same keys
@@ -102,27 +98,6 @@ export default abstract class AbstractEncoder<
       },
     };
   }
-
-  // protected createChannel<ChannelName extends keyof Outputs>(
-  //   name: ChannelName,
-  //   options?: ChannelOptions,
-  // ) {
-  //   const { encoding } = this.spec;
-
-  //   return new ChannelEncoder<Encoding[ChannelName], Outputs[ChannelName]>(
-  //     `${name}`,
-  //     encoding[name],
-  //     {
-  //       ...this.spec.options,
-  //       ...options,
-  //     },
-  //   );
-  // }
-
-  // /**
-  //  * subclass should override this
-  //  */
-  // protected abstract createChannels(): Channels<Outputs, Encoding>;
 
   hasLegend() {
     return Object.keys(this.legends).length > 0;

@@ -21,7 +21,7 @@ const channelTypes = new class Channels {
   readonly strokeDasharray = 'Category';
 }();
 
-type ChannelTypes = typeof channelTypes;
+export type ChannelTypes = typeof channelTypes;
 
 /**
  * Define output type for each channel

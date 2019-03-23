@@ -11,7 +11,6 @@ import {
   isValueDef,
   isFieldDef,
   isNonValueDef,
-  isPositionFieldDef,
 } from './types/FieldDef';
 import isEnabled from './utils/isEnabled';
 import isDisabled from './utils/isDisabled';
@@ -49,15 +48,18 @@ export default class ChannelEncoder<Def extends ChannelDef<Output>, Output exten
     this.getValue = extractGetter(definition);
     this.formatValue = extractFormatFromChannelDef(definition);
 
-    if (isNonValueDef(definition)) {
-      const scale = extractScale(this.type, definition, options.namespace);
-      this.encodeValue = scale ? scale.encodeValue : identity;
-      this.scale = scale;
-      this.axis = this.extractAxis();
-    } else {
-      this.encodeValue = identity;
+    this.scale = extractScale(this.type, definition, options.namespace);
+    // Has to extract axis after format and scale
+    if (
+      this.isXY() &&
+      isNonValueDef(this.definition) &&
+      (('axis' in this.definition && isEnabled(this.definition.axis)) ||
+        !('axis' in this.definition))
+    ) {
+      this.axis = new AxisAgent<Def, Output>(this);
     }
 
+    this.encodeValue = this.scale ? this.scale.encodeValue : identity;
     this.format = this.format.bind(this);
   }
 
@@ -67,12 +69,6 @@ export default class ChannelEncoder<Def extends ChannelDef<Output>, Output exten
     return otherwise !== undefined && (output === null || output === undefined)
       ? otherwise
       : output;
-  }
-
-  private extractAxis() {
-    return this.isXY() && isPositionFieldDef(this.definition) && isEnabled(this.definition.axis)
-      ? new AxisAgent<Def, Output>(this, this.definition)
-      : undefined;
   }
 
   format(datum: PlainObject): string {
@@ -105,6 +101,6 @@ export default class ChannelEncoder<Def extends ChannelDef<Output>, Output exten
   }
 
   isXY() {
-    return this.type === 'X' || this.type === 'Y';
+    return this.type === 'X' || this.type === 'Y' || this.type === 'XBand' || this.type === 'YBand';
   }
 }
