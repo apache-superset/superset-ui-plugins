@@ -1,9 +1,9 @@
 /* eslint-disable no-magic-numbers */
 import { Value } from 'vega-lite/build/src/fielddef';
-import { PositionFieldDef, ChannelDef } from './types/FieldDef';
 import { extractFormatFromTypeAndFormat } from './parsers/extractFormat';
-import ChannelEncoder from './ChannelEncoder';
 import { XAxis, YAxis } from './types/Axis';
+import { PositionFieldDef, ChannelDef } from './types/FieldDef';
+import ChannelEncoder from './ChannelEncoder';
 
 export default class AxisAgent<Def extends ChannelDef<Output>, Output extends Value = Value> {
   private readonly channelEncoder: ChannelEncoder<Def, Output>;

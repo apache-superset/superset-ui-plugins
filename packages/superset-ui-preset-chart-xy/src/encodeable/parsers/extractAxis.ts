@@ -1,9 +1,9 @@
 import { Axis } from 'vega-lite/build/src/axis';
 import { Value } from 'vega-lite/build/src/fielddef';
 import { ChannelDef, isPositionFieldDef } from '../types/FieldDef';
+import isEnabled from '../utils/isEnabled';
 import AxisAgent from '../AxisAgent';
 import ChannelEncoder from '../ChannelEncoder';
-import isEnabled from '../utils/isEnabled';
 
 function isAxisEnabled(axis: any): axis is Axis {
   return isEnabled(axis);

@@ -1,9 +1,9 @@
 import { Value } from 'vega-lite/build/src/fielddef';
-import ChannelEncoder from './ChannelEncoder';
-import { ChannelOptions, EncodingFromChannelsAndOutputs, ChannelType } from './types/Channel';
-import { isFieldDef } from './types/FieldDef';
-import { FullSpec, BaseOptions, PartialSpec } from './types/Specification';
 import { ObjectWithKeysFromAndValueType } from './types/Base';
+import { ChannelOptions, EncodingFromChannelsAndOutputs, ChannelType } from './types/Channel';
+import { FullSpec, BaseOptions, PartialSpec } from './types/Specification';
+import { isFieldDef } from './types/FieldDef';
+import ChannelEncoder from './ChannelEncoder';
 
 // type BaseEncoding<Output extends ObjectWithKeysFromAndValueType<Output, Value>> = {
 //   [key in keyof Output]: ChannelDef<Output[key]>

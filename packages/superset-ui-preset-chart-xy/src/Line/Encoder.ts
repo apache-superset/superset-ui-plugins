@@ -16,9 +16,9 @@ import { EncodingFromChannelsAndOutputs } from '../encodeable/types/Channel';
 const channelTypes = new class Channels {
   readonly x = 'X';
   readonly y = 'Y';
-  readonly color = 'MarkProp';
-  readonly fill = 'MarkProp';
-  readonly strokeDasharray = 'MarkProp';
+  readonly color = 'Color';
+  readonly fill = 'Category';
+  readonly strokeDasharray = 'Category';
 }();
 
 type ChannelTypes = typeof channelTypes;
