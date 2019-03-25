@@ -23,8 +23,8 @@ export default class ChannelEncoder<Def extends ChannelDef<Output>, Output exten
   readonly definition: Def;
   readonly options: ChannelOptions;
 
-  protected readonly getValue: (datum: PlainObject) => Value;
-  readonly encodeValue: (value: any) => Output;
+  protected readonly getValue: (datum: PlainObject) => Value | undefined;
+  readonly encodeValue: (value: any) => Output | null | undefined;
   readonly formatValue: (value: any) => string;
   readonly scale?: ScaleAgent<Output>;
   readonly axis?: AxisAgent<Def, Output>;
@@ -64,7 +64,12 @@ export default class ChannelEncoder<Def extends ChannelDef<Output>, Output exten
   }
 
   encode(datum: PlainObject, otherwise?: Output) {
-    const output = this.encodeValue(this.get(datum));
+    const value = this.get(datum);
+    if (value === null || value === undefined) {
+      return value;
+    }
+
+    const output = this.encodeValue(value);
 
     return otherwise !== undefined && (output === null || output === undefined)
       ? otherwise
