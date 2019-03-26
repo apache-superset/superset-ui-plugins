@@ -24,13 +24,13 @@ export default [
               x: {
                 field: 'x',
                 type: 'temporal',
+                format: '%Y',
                 scale: {
-                  type: 'time',
+                  type: 'linear',
                 },
                 axis: {
                   orientation: 'bottom',
                   label: 'Time',
-                  tickFormat: '%Y',
                 },
               },
               y: {

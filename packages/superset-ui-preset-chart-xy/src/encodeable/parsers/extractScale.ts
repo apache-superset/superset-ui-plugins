@@ -179,8 +179,10 @@ function createScale<Output extends Value>(
     if (scale.range && typeof config.range !== 'undefined') {
       scale.range(config.range as any[]);
     }
-    if ('nice' in scale && scale.nice && typeof config.nice === 'number') {
-      scale.nice(config.nice);
+    if ('nice' in scale && scale.nice) {
+      if (!(typeof config.nice === 'boolean' && config.nice === false)) {
+        scale.nice();
+      }
     }
     if (
       'clamp' in scale &&
