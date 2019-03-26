@@ -16,13 +16,13 @@ export default [
               x: {
                 field: 'x',
                 type: 'temporal',
+                format: '%Y',
                 scale: {
                   type: 'time',
                 },
                 axis: {
                   orientation: 'bottom',
                   label: 'Time',
-                  tickFormat: '%Y',
                 },
               },
               y: {

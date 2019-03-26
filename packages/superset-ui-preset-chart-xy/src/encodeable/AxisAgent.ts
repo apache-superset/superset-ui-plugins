@@ -15,6 +15,9 @@ export default class AxisAgent<Def extends ChannelDef<Output>, Output extends Va
     const definition = channelEncoder.definition as PositionFieldDef;
     const { type, axis = {} } = definition;
     this.config = { ...axis };
+    if (typeof this.config.tickCount === 'undefined') {
+      this.config.tickCount = 5;
+    }
 
     if (typeof axis.format !== 'undefined') {
       this.format = extractFormatFromTypeAndFormat(type, axis.format);
@@ -34,7 +37,7 @@ export default class AxisAgent<Def extends ChannelDef<Output>, Output extends Va
     domain(): any[];
     tickFormat(count?: number, specifier?: string): (d: number | { valueOf(): number }) => string;
   }) {
-    const { tickCount = 5, values } = this.config;
+    const { tickCount, values } = this.config;
 
     const format = this.getFormat();
     if (typeof values !== 'undefined') {

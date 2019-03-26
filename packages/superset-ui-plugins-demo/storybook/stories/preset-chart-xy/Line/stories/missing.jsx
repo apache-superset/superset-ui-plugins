@@ -26,7 +26,7 @@ export default [
                 type: 'temporal',
                 format: '%Y',
                 scale: {
-                  type: 'linear',
+                  type: 'time',
                 },
                 axis: {
                   orientation: 'bottom',

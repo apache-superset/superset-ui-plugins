@@ -111,8 +111,6 @@ class LineChart extends React.PureComponent<Props, {}> {
       return series;
     });
 
-    console.log('allSeries', allSeries);
-
     const children = flatMap(
       allSeries
         .filter(series => series.fill)

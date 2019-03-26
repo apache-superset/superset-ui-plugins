@@ -33,26 +33,25 @@ export default function transformProps(chartProps: ChartProps) {
       x: {
         field: 'x',
         type: 'temporal',
+        format: xAxisFormat,
         scale: {
           type: 'time',
         },
         axis: {
           orientation: 'bottom',
           label: xAxisLabel,
-          // numTicks: 5,
-          tickFormat: xAxisFormat,
         },
       },
       y: {
         field: 'y',
         type: 'quantitative',
+        format: yAxisFormat,
         scale: {
           type: 'linear',
         },
         axis: {
           orientation: 'left',
           label: yAxisLabel,
-          tickFormat: yAxisFormat,
         },
       },
       color: {

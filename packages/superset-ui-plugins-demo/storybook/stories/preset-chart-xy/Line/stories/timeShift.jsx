@@ -16,6 +16,7 @@ export default [
               x: {
                 field: 'x',
                 type: 'temporal',
+                format: '%Y',
                 scale: {
                   type: 'time',
                 },
@@ -23,7 +24,6 @@ export default [
                   orientation: 'bottom',
                   label: 'Time',
                   // numTicks: 5,
-                  tickFormat: '%Y',
                 },
               },
               y: {

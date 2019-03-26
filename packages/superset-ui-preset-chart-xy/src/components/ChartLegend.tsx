@@ -56,7 +56,7 @@ export default class ChartLegend<
 
       return (
         <div key={field} style={LEGEND_CONTAINER_STYLE}>
-          <LegendOrdinal scale={scale} labelFormat={channelEncoder.format}>
+          <LegendOrdinal scale={scale} labelFormat={channelEncoder.formatValue}>
             {(labels: Label[]) => (
               <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
                 {labels.map((label: Label) => {
