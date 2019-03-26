@@ -28,15 +28,12 @@ export default function computeXAxisLayout({
   tickLength: number;
   tickTextStyle: CSSProperties;
 }) {
-  console.log('tickLabels', tickLabels);
   const labelDimensions = tickLabels.map((text: string) =>
     getTextDimension({
       style: tickTextStyle,
       text,
     }),
   );
-
-  console.log('labelDimensions', labelDimensions);
 
   const maxWidth = Math.max(...labelDimensions.map(d => d.width));
   // cheap heuristic, can improve
