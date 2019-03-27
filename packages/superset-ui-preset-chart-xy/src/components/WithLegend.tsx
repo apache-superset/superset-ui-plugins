@@ -1,23 +1,5 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 /* eslint-disable sort-keys */
-import React, { CSSProperties, ReactNode } from 'react';
+import React, { CSSProperties, ReactNode, PureComponent } from 'react';
 import { ParentSize } from '@vx/responsive';
 // eslint-disable-next-line import/no-unresolved
 import * as CSS from 'csstype';
@@ -36,23 +18,23 @@ const LEGEND_STYLE_BASE: CSSProperties = {
   display: 'flex',
   flexGrow: 0,
   flexShrink: 0,
+  fontSize: '0.9em',
   order: -1,
   paddingTop: '5px',
-  fontSize: '0.9em',
 };
 
 const CHART_STYLE_BASE: CSSProperties = {
+  flexBasis: 'auto',
   flexGrow: 1,
   flexShrink: 1,
-  flexBasis: 'auto',
   position: 'relative',
 };
 
-class WithLegend extends React.PureComponent<Props, {}> {
+class WithLegend extends PureComponent<Props, {}> {
   static defaultProps = {
     className: '',
-    width: 'auto',
     height: 'auto',
+    width: 'auto',
     legendJustifyContent: undefined,
     position: 'top',
   };

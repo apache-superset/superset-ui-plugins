@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { isDefined } from '@superset-ui/core';
 
 function checkNumber(input: any): input is number {
@@ -13,7 +13,7 @@ type Props = {
   width: number;
 };
 
-export default class ChartFrame extends React.PureComponent<Props, {}> {
+export default class ChartFrame extends PureComponent<Props, {}> {
   static defaultProps = {
     renderContent() {},
   };

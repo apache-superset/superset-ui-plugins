@@ -1,9 +1,9 @@
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, PureComponent } from 'react';
 import { scaleOrdinal } from '@vx/scale';
 import { LegendOrdinal, LegendItem, LegendLabel } from '@vx/legend';
 import { Value } from 'vega-lite/build/src/fielddef';
 import AbstractEncoder from '../encodeable/AbstractEncoder';
-import { Dataset, PlainObject } from '../encodeable/types/Data';
+import { Dataset } from '../encodeable/types/Data';
 import { ObjectWithKeysFromAndValueType } from '../encodeable/types/Base';
 import { ChannelType, EncodingFromChannelsAndOutputs } from '../encodeable/types/Channel';
 import { BaseOptions } from '../encodeable/types/Specification';
@@ -40,10 +40,7 @@ export default class ChartLegend<
     Outputs
   > = EncodingFromChannelsAndOutputs<ChannelTypes, Outputs>,
   Options extends BaseOptions = BaseOptions
-> extends React.PureComponent<
-  Props<AbstractEncoder<ChannelTypes, Outputs, Encoding, Options>>,
-  {}
-> {
+> extends PureComponent<Props<AbstractEncoder<ChannelTypes, Outputs, Encoding, Options>>, {}> {
   render() {
     const { data, encoder } = this.props;
 

@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys, no-magic-numbers */
 
-import React from 'react';
+import React, { ReactNode } from 'react';
 import collectScalesFromProps from '@data-ui/xy-chart/esm/utils/collectScalesFromProps';
 import { XAxis, YAxis } from '@data-ui/xy-chart';
 import { ChartTheme } from '@data-ui/theme';
@@ -138,9 +138,7 @@ export default class XYChartLayout {
       : -40;
   }
 
-  renderChartWithFrame(
-    renderChart: (input: { width: number; height: number }) => React.ReactElement,
-  ) {
+  renderChartWithFrame(renderChart: (input: { width: number; height: number }) => ReactNode) {
     return (
       <ChartFrame
         width={this.containerWidth}

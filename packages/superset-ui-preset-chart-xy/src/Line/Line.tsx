@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys, no-magic-numbers, complexity */
 
-import React from 'react';
+import React, { PureComponent } from 'react';
 import {
   AreaSeries,
   LinearGradient,
@@ -54,7 +54,7 @@ export interface SeriesValue {
 
 const CIRCLE_STYLE = { strokeWidth: 1.5 };
 
-class LineChart extends React.PureComponent<Props> {
+class LineChart extends PureComponent<Props> {
   static defaultProps = defaultProps;
 
   constructor(props: Props) {
