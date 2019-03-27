@@ -13,6 +13,7 @@ import ChannelEncoder from '../encodeable/ChannelEncoder';
 import { XFieldDef, YFieldDef } from '../encodeable/types/FieldDef';
 import { XAxis as XAxisConfig } from '../encodeable/types/Axis';
 import { PlainObject } from '../encodeable/types/Data';
+import { DEFAULT_LABEL_ANGLE } from './constants';
 
 // Additional margin to avoid content hidden behind scroll bar
 const OVERFLOW_MARGIN = 8;
@@ -96,7 +97,8 @@ export default class XYChartLayout {
       const config = xAxis.config as XAxisConfig;
       this.xLayout = computeXAxisLayout({
         axisWidth: innerWidth,
-        orientation: config.orient || 'bottom',
+        orientation: config.orient,
+        labelOverlap: config.labelOverlap,
         labelAngle: config.labelAngle || this.recommendXLabelAngle(config.orient),
         tickLabels: xAxis.getTickLabels(xScale),
         tickLength: theme.xTickStyles.length,
@@ -128,14 +130,11 @@ export default class XYChartLayout {
   }
 
   recommendXLabelAngle(xOrientation: 'top' | 'bottom' = 'bottom') {
-    if (!this.yLayout) {
-      return 40;
-    }
-
-    return (this.yLayout.orientation === 'right' && xOrientation === 'bottom') ||
+    return !this.yLayout ||
+      (this.yLayout.orientation === 'right' && xOrientation === 'bottom') ||
       (this.yLayout.orientation === 'left' && xOrientation === 'top')
-      ? 40
-      : -40;
+      ? DEFAULT_LABEL_ANGLE
+      : -DEFAULT_LABEL_ANGLE;
   }
 
   renderChartWithFrame(renderChart: (input: { width: number; height: number }) => ReactNode) {

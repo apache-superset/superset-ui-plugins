@@ -1,11 +1,12 @@
 /* eslint-disable no-magic-numbers */
 
 import React, { CSSProperties } from 'react';
+import { DEFAULT_LABEL_ANGLE } from './constants';
 
 export default function createTickComponent({
   labellingStrategy,
   orientation = 'bottom',
-  rotation = 40,
+  rotation = DEFAULT_LABEL_ANGLE,
   tickTextAnchor = 'start',
 }: {
   labellingStrategy: string;

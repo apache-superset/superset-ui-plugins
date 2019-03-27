@@ -1,9 +1,11 @@
+import { DEFAULT_LABEL_ANGLE } from './constants';
+
 /* eslint-disable no-magic-numbers */
 
 export default function createTickLabelProps({
   labellingStrategy,
   orientation = 'bottom',
-  rotation = 40,
+  rotation = DEFAULT_LABEL_ANGLE,
   tickTextAnchor = 'start',
 }: {
   labellingStrategy: string;
