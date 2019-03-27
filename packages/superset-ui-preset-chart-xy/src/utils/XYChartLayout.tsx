@@ -25,7 +25,7 @@ interface Input {
   margin: Margin;
   xEncoder: ChannelEncoder<XFieldDef>;
   yEncoder: ChannelEncoder<YFieldDef>;
-  children: React.ReactElement[];
+  children: ReactNode[];
   theme: ChartTheme;
 }
 
