@@ -29,8 +29,7 @@ type Props = {
   legendJustifyContent: 'center' | 'flex-start' | 'flex-end';
   position: 'top' | 'left' | 'bottom' | 'right';
   renderChart: (dim: { width: number; height: number }) => ReactNode;
-  renderLegend: (params: { direction: string }) => ReactNode;
-  hideLegend: boolean;
+  renderLegend?: (params: { direction: string }) => ReactNode;
 };
 
 const LEGEND_STYLE_BASE: CSSProperties = {
@@ -56,7 +55,6 @@ class WithLegend extends React.PureComponent<Props, {}> {
     height: 'auto',
     legendJustifyContent: undefined,
     position: 'top',
-    hideLegend: false,
   };
 
   getContainerDirection(): CSS.FlexDirectionProperty {
@@ -93,15 +91,7 @@ class WithLegend extends React.PureComponent<Props, {}> {
   }
 
   render() {
-    const {
-      className,
-      width,
-      height,
-      position,
-      renderChart,
-      renderLegend,
-      hideLegend,
-    } = this.props;
+    const { className, width, height, position, renderChart, renderLegend } = this.props;
 
     const isHorizontal = position === 'left' || position === 'right';
 
@@ -132,7 +122,7 @@ class WithLegend extends React.PureComponent<Props, {}> {
 
     return (
       <div className={`with-legend ${className}`} style={style}>
-        {!hideLegend && (
+        {renderLegend && (
           <div className="legend-container" style={legendStyle}>
             {renderLegend({
               // Pass flexDirection for @vx/legend to arrange legend items

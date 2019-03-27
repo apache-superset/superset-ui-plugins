@@ -98,9 +98,9 @@ class LineChart extends React.PureComponent<Props> {
       return series;
     });
 
-    const children = flatMap(
+    const filledSeries = flatMap(
       allSeries
-        .filter(series => series.fill)
+        .filter(({ fill }) => fill)
         .map(series => {
           const gradientId = uniqueId(`gradient-${series.key}`);
 
@@ -121,8 +121,11 @@ class LineChart extends React.PureComponent<Props> {
             />,
           ];
         }),
-    ).concat(
-      allSeries.map(series => (
+    );
+
+    const unfilledSeries = allSeries
+      .filter(({ fill }) => !fill)
+      .map(series => (
         <LineSeries
           key={series.key}
           seriesKey={series.key}
@@ -132,8 +135,9 @@ class LineChart extends React.PureComponent<Props> {
           strokeDasharray={series.strokeDasharray}
           strokeWidth={1.5}
         />
-      )),
-    );
+      ));
+
+    const children = filledSeries.concat(unfilledSeries);
 
     const layout = new XYChartLayout({
       width,
@@ -201,6 +205,10 @@ class LineChart extends React.PureComponent<Props> {
     const { className, data, width, height, encoding } = this.props;
 
     this.encoder = new Encoder({ encoding });
+    const renderLegend = this.encoder.hasLegend()
+      ? // eslint-disable-next-line react/jsx-props-no-multi-spaces
+        () => <ChartLegend<ChannelTypes, Outputs, Encoding> data={data} encoder={this.encoder} />
+      : undefined;
 
     return (
       <WithLegend
@@ -208,12 +216,8 @@ class LineChart extends React.PureComponent<Props> {
         width={width}
         height={height}
         position="top"
-        renderLegend={() => (
-          // eslint-disable-next-line react/jsx-props-no-multi-spaces
-          <ChartLegend<ChannelTypes, Outputs, Encoding> data={data} encoder={this.encoder} />
-        )}
+        renderLegend={renderLegend}
         renderChart={this.renderChart}
-        hideLegend={!this.encoder.hasLegend()}
       />
     );
   }
