@@ -97,7 +97,7 @@ export default class XYChartLayout {
       this.xLayout = computeXAxisLayout({
         axisWidth: innerWidth,
         orientation: config.orient || 'bottom',
-        labelAngle: config.labelAngle || this.recommendLabelAngle(config.orient),
+        labelAngle: config.labelAngle || this.recommendXLabelAngle(config.orient),
         tickLabels: xAxis.getTickLabels(xScale),
         tickLength: theme.xTickStyles.length,
         tickTextStyle: theme.xTickStyles.label.bottom,
@@ -127,7 +127,7 @@ export default class XYChartLayout {
     this.margin = finalMargin;
   }
 
-  recommendLabelAngle(xOrientation: 'top' | 'bottom' = 'bottom') {
+  recommendXLabelAngle(xOrientation: 'top' | 'bottom' = 'bottom') {
     if (!this.yLayout) {
       return 40;
     }
@@ -138,7 +138,7 @@ export default class XYChartLayout {
       : -40;
   }
 
-  createChartWithFrame(
+  renderChartWithFrame(
     renderChart: (input: { width: number; height: number }) => React.ReactElement,
   ) {
     return (
@@ -152,7 +152,7 @@ export default class XYChartLayout {
     );
   }
 
-  createXAxis(props?: PlainObject) {
+  renderXAxis(props?: PlainObject) {
     const { axis } = this.spec.xEncoder;
 
     return axis && this.xLayout ? (
@@ -168,7 +168,7 @@ export default class XYChartLayout {
     ) : null;
   }
 
-  createYAxis(props?: PlainObject) {
+  renderYAxis(props?: PlainObject) {
     const { axis } = this.spec.yEncoder;
 
     return axis && this.yLayout ? (

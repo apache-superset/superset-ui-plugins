@@ -13,7 +13,7 @@ interface DataRow {
 export default function transformProps(chartProps: ChartProps) {
   const { width, height, formData, payload } = chartProps;
   const { colorScheme, xAxisLabel, xAxisFormat, yAxisLabel, yAxisFormat } = formData;
-  const data: DataRow[] = payload.data as DataRow[];
+  const data = payload.data as DataRow[];
 
   return {
     data: {

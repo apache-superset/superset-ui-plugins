@@ -60,7 +60,9 @@ export default class ChannelEncoder<Def extends ChannelDef<Output>, Output exten
     }
 
     this.encodeValue = this.scale ? this.scale.encodeValue : identity;
+    this.encode = this.encode.bind(this);
     this.format = this.format.bind(this);
+    this.get = this.get.bind(this);
   }
 
   encode(datum: PlainObject, otherwise?: Output) {

@@ -1,22 +1,5 @@
-/**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 /* eslint-disable sort-keys, no-magic-numbers, complexity */
+
 import React from 'react';
 import {
   AreaSeries,
@@ -69,13 +52,17 @@ export interface SeriesValue {
   parent: Series;
 }
 
-class LineChart extends React.PureComponent<Props, {}> {
+const CIRCLE_STYLE = { strokeWidth: 1.5 };
+
+class LineChart extends React.PureComponent<Props> {
   static defaultProps = defaultProps;
 
   constructor(props: Props) {
     super(props);
     const { encoding } = this.props;
+
     this.encoder = new Encoder({ encoding });
+    this.renderChart = this.renderChart.bind(this);
   }
 
   encoder: Encoder;
@@ -139,7 +126,6 @@ class LineChart extends React.PureComponent<Props, {}> {
         <LineSeries
           key={series.key}
           seriesKey={series.key}
-          animated
           interpolation="linear"
           data={series.values}
           stroke={series.color}
@@ -159,7 +145,7 @@ class LineChart extends React.PureComponent<Props, {}> {
       children,
     });
 
-    return layout.createChartWithFrame((chartDim: Dimension) => (
+    return layout.renderChartWithFrame((chartDim: Dimension) => (
       <WithTooltip renderTooltip={createTooltip(this.encoder, allSeries)}>
         {({
           onMouseLeave,
@@ -187,8 +173,8 @@ class LineChart extends React.PureComponent<Props, {}> {
             yScale={this.encoder.channels.y.definition.scale}
           >
             {children}
-            {layout.createXAxis()}
-            {layout.createYAxis()}
+            {layout.renderXAxis()}
+            {layout.renderYAxis()}
             <CrossHair
               fullHeight
               strokeDasharray=""
@@ -200,7 +186,7 @@ class LineChart extends React.PureComponent<Props, {}> {
               circleStroke={(d: SeriesValue) =>
                 d.y === tooltipData.datum.y ? '#fff' : d.parent.color
               }
-              circleStyles={{ strokeWidth: 1.5 }}
+              circleStyles={CIRCLE_STYLE}
               stroke="#ccc"
               showCircle
               showMultipleCircles
@@ -226,7 +212,7 @@ class LineChart extends React.PureComponent<Props, {}> {
           // eslint-disable-next-line react/jsx-props-no-multi-spaces
           <ChartLegend<ChannelTypes, Outputs, Encoding> data={data} encoder={this.encoder} />
         )}
-        renderChart={parent => this.renderChart(parent)}
+        renderChart={this.renderChart}
         hideLegend={!this.encoder.hasLegend()}
       />
     );

@@ -18,6 +18,12 @@ interface Label {
   value: string;
 }
 
+const MARK_SIZE = 8;
+
+const MARK_STYLE: CSSProperties = { display: 'inline-block' };
+
+const LABEL_STYLE: CSSProperties = { display: 'flex', flexDirection: 'row', flexWrap: 'wrap' };
+
 const LEGEND_CONTAINER_STYLE: CSSProperties = {
   maxHeight: 100,
   overflowY: 'hidden',
@@ -44,11 +50,7 @@ export default class ChartLegend<
     const legends = Object.keys(encoder.legends).map((field: string) => {
       const channelNames = encoder.legends[field];
       const channelEncoder = encoder.channels[channelNames[0]];
-      const keySet = new Set();
-      data.values.forEach((d: PlainObject) => {
-        keySet.add(channelEncoder.get(d));
-      });
-      const domain = Array.from(keySet);
+      const domain = Array.from(new Set(data.values.map(channelEncoder.get)));
       const scale = scaleOrdinal({
         domain,
         range: domain.map((key: string) => channelEncoder.encodeValue(key)),
@@ -58,27 +60,28 @@ export default class ChartLegend<
         <div key={field} style={LEGEND_CONTAINER_STYLE}>
           <LegendOrdinal scale={scale} labelFormat={channelEncoder.formatValue}>
             {(labels: Label[]) => (
-              <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap' }}>
-                {labels.map((label: Label) => {
-                  const size = 8;
-
-                  return (
-                    <LegendItem
-                      key={`legend-quantile-${label.text}`}
-                      margin="0 5px"
-                      onClick={() => {
-                        alert(`clicked: ${JSON.stringify(label)}`);
-                      }}
-                    >
-                      <svg width={size} height={size} style={{ display: 'inline-block' }}>
-                        <circle fill={label.value} r={size / 2} cx={size / 2} cy={size / 2} />
-                      </svg>
-                      <LegendLabel align="left" margin="0 0 0 4px">
-                        {label.text}
-                      </LegendLabel>
-                    </LegendItem>
-                  );
-                })}
+              <div style={LABEL_STYLE}>
+                {labels.map((label: Label) => (
+                  <LegendItem
+                    key={`legend-quantile-${label.text}`}
+                    margin="0 5px"
+                    onClick={() => {
+                      alert(`clicked: ${JSON.stringify(label)}`);
+                    }}
+                  >
+                    <svg width={MARK_SIZE} height={MARK_SIZE} style={MARK_STYLE}>
+                      <circle
+                        fill={label.value}
+                        r={MARK_SIZE / 2}
+                        cx={MARK_SIZE / 2}
+                        cy={MARK_SIZE / 2}
+                      />
+                    </svg>
+                    <LegendLabel align="left" margin="0 0 0 4px">
+                      {label.text}
+                    </LegendLabel>
+                  </LegendItem>
+                ))}
               </div>
             )}
           </LegendOrdinal>
