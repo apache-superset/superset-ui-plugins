@@ -1,6 +1,7 @@
 /* eslint-disable no-magic-numbers, sort-keys */
 import * as React from 'react';
 import { SuperChart, ChartProps } from '@superset-ui/chart';
+import { radios } from '@storybook/addon-knobs';
 import data from '../data/data';
 import { LINE_PLUGIN_TYPE } from '../constants';
 
@@ -23,8 +24,8 @@ export default [
                     type: 'time',
                   },
                   axis: {
-                    orientation: 'bottom',
-                    label: 'Time',
+                    orient: radios('x.axis.orient', ['top', 'bottom'], 'bottom'),
+                    title: 'Time',
                   },
                 },
                 y: {
@@ -34,14 +35,13 @@ export default [
                     type: 'linear',
                   },
                   axis: {
-                    orientation: 'left',
-                    label: 'Score',
+                    orient: radios('y.axis.orient', ['left', 'right'], 'left'),
+                    title: 'Score',
                   },
                 },
                 color: {
                   field: 'name',
                   type: 'nominal',
-                  scale: {},
                   legend: true,
                 },
               },

@@ -38,8 +38,8 @@ export default function transformProps(chartProps: ChartProps) {
           type: 'time',
         },
         axis: {
-          orientation: 'bottom',
-          label: xAxisLabel,
+          orient: 'bottom',
+          title: xAxisLabel,
         },
       },
       y: {
@@ -50,8 +50,8 @@ export default function transformProps(chartProps: ChartProps) {
           type: 'linear',
         },
         axis: {
-          orientation: 'left',
-          label: yAxisLabel,
+          orient: 'left',
+          title: yAxisLabel,
         },
       },
       color: {

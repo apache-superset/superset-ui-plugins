@@ -31,8 +31,8 @@ export default [
                     type: 'time',
                   },
                   axis: {
-                    orientation: 'bottom',
-                    label: 'Time',
+                    orient: 'bottom',
+                    title: 'Time',
                   },
                 },
                 y: {
@@ -42,8 +42,8 @@ export default [
                     type: 'linear',
                   },
                   axis: {
-                    orientation: 'left',
-                    label: 'Score',
+                    orient: 'left',
+                    title: 'Score',
                   },
                 },
                 color: {
