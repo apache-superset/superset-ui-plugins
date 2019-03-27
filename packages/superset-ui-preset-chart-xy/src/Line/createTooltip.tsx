@@ -1,6 +1,6 @@
 /* eslint-disable no-magic-numbers */
 
-import React from 'react';
+import * as React from 'react';
 import TooltipFrame from '../components/tooltip/TooltipFrame';
 import TooltipTable from '../components/tooltip/TooltipTable';
 import { Series, SeriesValue } from './Line';

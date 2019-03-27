@@ -4,22 +4,22 @@ import React, { CSSProperties } from 'react';
 import { DEFAULT_LABEL_ANGLE } from './constants';
 
 export default function createTickComponent({
-  labellingStrategy,
-  orientation = 'bottom',
-  rotation = DEFAULT_LABEL_ANGLE,
+  labelAngle = DEFAULT_LABEL_ANGLE,
+  labelOverlap,
+  orient = 'bottom',
   tickTextAnchor = 'start',
 }: {
-  labellingStrategy: string;
-  orientation?: string;
-  rotation?: number;
+  labelAngle?: number;
+  labelOverlap: string;
+  orient?: string;
   tickTextAnchor?: string;
 }) {
-  if (labellingStrategy === 'rotate' && rotation !== 0) {
-    let xOffset = rotation > 0 ? -6 : 6;
-    if (orientation === 'top') {
+  if (labelOverlap === 'rotate' && labelAngle !== 0) {
+    let xOffset = labelAngle > 0 ? -6 : 6;
+    if (orient === 'top') {
       xOffset = 0;
     }
-    const yOffset = orientation === 'top' ? -3 : 0;
+    const yOffset = orient === 'top' ? -3 : 0;
 
     const TickComponent = ({
       x,
@@ -35,7 +35,7 @@ export default function createTickComponent({
       textStyle: CSSProperties;
     }) => (
       <g transform={`translate(${x + xOffset}, ${y + yOffset})`}>
-        <text transform={`rotate(${rotation})`} {...textStyle} textAnchor={tickTextAnchor}>
+        <text transform={`rotate(${labelAngle})`} {...textStyle} textAnchor={tickTextAnchor}>
           {formattedValue}
         </text>
       </g>

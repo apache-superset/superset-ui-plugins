@@ -11,7 +11,7 @@ export default function computeXAxisLayout({
   gapBetweenTickLabelsAndAxisLabel = 4,
   labelAngle = -40,
   labelOverlap = 'auto',
-  orientation = 'bottom',
+  orient = 'bottom',
   tickLabels,
   tickLength,
   tickTextStyle,
@@ -22,7 +22,7 @@ export default function computeXAxisLayout({
   gapBetweenTickAndTickLabel?: number;
   gapBetweenTickLabelsAndAxisLabel?: number;
   labelOverlap?: string;
-  orientation?: string;
+  orient?: string;
   labelAngle?: number;
   tickLabels: string[];
   tickLength: number;
@@ -50,8 +50,8 @@ export default function computeXAxisLayout({
   // TODO: Add other strategies: stagger, chop, wrap.
 
   let layout: {
+    labelAngle?: number;
     labelOffset: number;
-    rotation?: number;
     tickTextAnchor?: string;
   } = { labelOffset: 0 };
   if (finalStrategy === 'flat') {
@@ -62,12 +62,12 @@ export default function computeXAxisLayout({
     const labelHeight = Math.ceil(Math.abs(maxWidth * Math.sin((labelAngle * Math.PI) / 180)));
     const labelOffset = labelHeight + gapBetweenTickLabelsAndAxisLabel;
     const tickTextAnchor =
-      (orientation === 'top' && labelAngle > 0) || (orientation === 'bottom' && labelAngle < 0)
+      (orient === 'top' && labelAngle > 0) || (orient === 'bottom' && labelAngle < 0)
         ? 'end'
         : 'start';
     layout = {
+      labelAngle,
       labelOffset,
-      rotation: labelAngle,
       tickTextAnchor,
     };
   }
@@ -76,9 +76,9 @@ export default function computeXAxisLayout({
 
   return {
     ...layout,
-    labellingStrategy: finalStrategy,
+    labelOverlap: finalStrategy,
     minMargin: {
-      [orientation]: Math.ceil(
+      [orient]: Math.ceil(
         tickLength +
           gapBetweenTickAndTickLabel +
           labelOffset +
@@ -87,6 +87,6 @@ export default function computeXAxisLayout({
           8,
       ),
     },
-    orientation,
+    orient,
   };
 }

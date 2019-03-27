@@ -40,17 +40,17 @@ export default class XYChartLayout {
 
   xLayout?: {
     labelOffset: number;
-    labellingStrategy: string;
-    rotation?: number;
+    labelOverlap: string;
+    labelAngle?: number;
     tickTextAnchor?: string;
     minMargin: Partial<Margin>;
-    orientation: string;
+    orient: string;
   };
 
   yLayout?: {
     labelOffset: number;
     minMargin: Partial<Margin>;
-    orientation: string;
+    orient: string;
   };
 
   // eslint-disable-next-line complexity
@@ -82,7 +82,7 @@ export default class XYChartLayout {
     if (typeof yEncoder.axis !== 'undefined') {
       const { axis: yAxis } = yEncoder;
       this.yLayout = computeYAxisLayout({
-        orientation: yAxis.config.orient,
+        orient: yAxis.config.orient,
         tickLabels: yAxis.getTickLabels(yScale),
         tickLength: theme.yTickStyles.length,
         tickTextStyle: theme.yTickStyles.label.right,
@@ -97,9 +97,9 @@ export default class XYChartLayout {
       const config = xAxis.config as XAxisConfig;
       this.xLayout = computeXAxisLayout({
         axisWidth: innerWidth,
-        orientation: config.orient,
-        labelOverlap: config.labelOverlap,
+        orient: config.orient,
         labelAngle: config.labelAngle || this.recommendXLabelAngle(config.orient),
+        labelOverlap: config.labelOverlap,
         tickLabels: xAxis.getTickLabels(xScale),
         tickLength: theme.xTickStyles.length,
         tickTextStyle: theme.xTickStyles.label.bottom,
@@ -129,10 +129,10 @@ export default class XYChartLayout {
     this.margin = finalMargin;
   }
 
-  recommendXLabelAngle(xOrientation: 'top' | 'bottom' = 'bottom') {
+  recommendXLabelAngle(xOrient: 'top' | 'bottom' = 'bottom') {
     return !this.yLayout ||
-      (this.yLayout.orientation === 'right' && xOrientation === 'bottom') ||
-      (this.yLayout.orientation === 'left' && xOrientation === 'top')
+      (this.yLayout.orient === 'right' && xOrient === 'bottom') ||
+      (this.yLayout.orient === 'left' && xOrient === 'top')
       ? DEFAULT_LABEL_ANGLE
       : -DEFAULT_LABEL_ANGLE;
   }
@@ -157,7 +157,7 @@ export default class XYChartLayout {
         label={axis.getTitle()}
         labelOffset={this.xLayout.labelOffset}
         numTicks={axis.config.tickCount}
-        orientation={this.xLayout.orientation}
+        orientation={this.xLayout.orient}
         tickComponent={createTickComponent(this.xLayout)}
         tickFormat={axis.getFormat()}
         {...props}
@@ -173,7 +173,7 @@ export default class XYChartLayout {
         label={axis.getTitle()}
         labelOffset={this.yLayout.labelOffset}
         numTicks={axis.config.tickCount}
-        orientation={this.yLayout.orientation}
+        orientation={this.yLayout.orient}
         tickFormat={axis.getFormat()}
         {...props}
       />

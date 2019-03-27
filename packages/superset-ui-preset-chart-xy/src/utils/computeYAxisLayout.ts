@@ -8,7 +8,7 @@ export default function computeYAxisLayout({
   gapBetweenAxisLabelAndBorder = 8,
   gapBetweenTickAndTickLabel = 4,
   gapBetweenTickLabelsAndAxisLabel = 4,
-  orientation = 'left',
+  orient = 'left',
   tickLabels,
   tickLength,
   tickTextStyle,
@@ -17,7 +17,7 @@ export default function computeYAxisLayout({
   gapBetweenAxisLabelAndBorder?: number;
   gapBetweenTickAndTickLabel?: number;
   gapBetweenTickLabelsAndAxisLabel?: number;
-  orientation?: string;
+  orient?: string;
   tickLabels: string[];
   tickLength: number;
   tickTextStyle: CSSProperties;
@@ -38,8 +38,8 @@ export default function computeYAxisLayout({
   return {
     labelOffset,
     minMargin: {
-      [orientation]: margin,
+      [orient]: margin,
     },
-    orientation,
+    orient,
   };
 }
