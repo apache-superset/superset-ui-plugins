@@ -2,6 +2,7 @@
 import { CSSProperties } from 'react';
 import { Value } from 'vega-lite/build/src/fielddef';
 import { getTextDimension } from '@superset-ui/dimension';
+import { CategoricalColorScale } from '@superset-ui/color';
 import { extractFormatFromTypeAndFormat } from './parsers/extractFormat';
 import { CoreAxis, LabelOverlapStrategy } from './types/Axis';
 import { PositionFieldDef, ChannelDef } from './types/FieldDef';
@@ -57,7 +58,7 @@ export default class AxisAgent<Def extends ChannelDef<Output>, Output extends Va
     return this.config.title || this.channelEncoder.getTitle();
   }
 
-  getTickLabels(scale: { ticks(num?: number): string[] | number[]; domain(): any[] }) {
+  getTickLabels() {
     const { tickCount, values } = this.config;
 
     const format = this.getFormat();
@@ -65,12 +66,14 @@ export default class AxisAgent<Def extends ChannelDef<Output>, Output extends Va
       return (values as any[]).map(format);
     }
 
-    // TODO: switch to this
-    // const { scale } = this.channelEncoder;
-    if (typeof scale !== 'undefined') {
-      return (typeof scale.ticks === 'undefined' ? scale.domain() : scale.ticks(tickCount)).map(
-        format,
-      );
+    if (typeof this.channelEncoder.scale !== 'undefined') {
+      const { scale } = this.channelEncoder.scale;
+      if (typeof scale !== 'undefined' && !(scale instanceof CategoricalColorScale)) {
+        return ('ticks' in scale && typeof scale.ticks !== 'undefined'
+          ? scale.ticks(tickCount)
+          : scale.domain()
+        ).map(format);
+      }
     }
 
     return [];
@@ -82,7 +85,6 @@ export default class AxisAgent<Def extends ChannelDef<Output>, Output extends Va
     gapBetweenAxisLabelAndBorder = 8,
     gapBetweenTickAndTickLabel = 4,
     labelAngle = this.config.labelAngle,
-    scale,
     tickLength,
     tickTextStyle,
   }: {
@@ -91,11 +93,10 @@ export default class AxisAgent<Def extends ChannelDef<Output>, Output extends Va
     gapBetweenAxisLabelAndBorder?: number;
     gapBetweenTickAndTickLabel?: number;
     labelAngle?: number;
-    scale: { ticks(num?: number): string[] | number[]; domain(): any[] };
     tickLength: number;
     tickTextStyle: CSSProperties;
   }) {
-    const tickLabels = this.getTickLabels(scale);
+    const tickLabels = this.getTickLabels();
 
     const labelDimensions = tickLabels.map((text: string) =>
       getTextDimension({

@@ -77,10 +77,12 @@ export default class XYChartLayout {
       children,
     });
 
+    if (typeof yEncoder.scale !== 'undefined') {
+      yEncoder.scale.setDomain(yScale.domain());
+    }
     if (typeof yEncoder.axis !== 'undefined') {
       this.yLayout = yEncoder.axis.computeLayout({
         axisWidth: Math.max(height - margin.top - margin.bottom),
-        scale: yScale,
         tickLength: theme.yTickStyles.length,
         tickTextStyle: theme.yTickStyles.label.right,
       });
@@ -89,11 +91,13 @@ export default class XYChartLayout {
     const secondMargin = this.yLayout ? mergeMargin(margin, this.yLayout.minMargin) : margin;
     const innerWidth = Math.max(width - secondMargin.left - secondMargin.right, minContentWidth);
 
+    if (typeof xEncoder.scale !== 'undefined') {
+      xEncoder.scale.setDomain(xScale.domain());
+    }
     if (typeof xEncoder.axis !== 'undefined') {
       this.xLayout = xEncoder.axis.computeLayout({
         axisWidth: innerWidth,
         labelAngle: this.recommendXLabelAngle(xEncoder.axis.config.orient as 'top' | 'bottom'),
-        scale: xScale,
         tickLength: theme.xTickStyles.length,
         tickTextStyle: theme.xTickStyles.label.bottom,
       });

@@ -33,6 +33,7 @@ import { Scale } from '../types/Scale';
 
 export interface ScaleAgent<Output extends Value> {
   config: Scale<Output>;
+  setDomain: (newDomain: number[] | string[] | boolean[] | Date[]) => void;
   encodeValue: (value: number | string | boolean | null | undefined | Date) => Output;
   scale:
     | CategoricalColorScale
@@ -223,15 +224,21 @@ export default function extractScale<Output extends Value>(
 
     const scale = createScale(channelType, scaleType, { namespace, ...scaleConfig });
 
-    return scale
-      ? {
-          config: { ...scaleConfig, type: scaleType },
-          encodeValue: (scale as unknown) as (
-            value: number | string | boolean | null | undefined | Date,
-          ) => Output,
-          scale,
-        }
-      : undefined;
+    if (scale) {
+      const setDomain =
+        scale instanceof CategoricalColorScale || typeof scale.domain === 'undefined'
+          ? () => {}
+          : scale.domain;
+
+      return {
+        config: { ...scaleConfig, type: scaleType },
+        encodeValue: (scale as unknown) as (
+          value: number | string | boolean | null | undefined | Date,
+        ) => Output,
+        scale,
+        setDomain,
+      };
+    }
   }
 
   // ValueDef does not have scale
