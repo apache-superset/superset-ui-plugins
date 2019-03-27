@@ -1,32 +1,38 @@
 import { DateTime } from 'vega-lite/build/src/datetime';
 import { AxisOrient } from 'vega';
 
-export interface Axis {
+export type LabelOverlapStrategy = 'auto' | 'flat' | 'rotate';
+
+export interface CoreAxis {
   format?: string;
+  labelAngle: number;
+  labelOverlap: LabelOverlapStrategy;
   /** The padding, in pixels, between axis and text labels. */
-  labelPadding?: number;
-  orient?: AxisOrient;
+  labelPadding: number;
+  orient: AxisOrient;
+  tickCount: number;
   title?: string;
-  tickCount?: number;
   /** Explicitly set the visible axis tick values. */
   values?: string[] | number[] | boolean[] | DateTime[];
 }
 
-export type XAxis = Axis & {
+export type Axis = Partial<CoreAxis>;
+
+export interface XAxis extends Axis {
   orient?: 'top' | 'bottom';
   labelAngle?: number;
-  labelOverlap?: 'auto' | 'flat' | 'rotate';
-};
+  labelOverlap?: LabelOverlapStrategy;
+}
 
 export interface WithXAxis {
   axis?: XAxis;
 }
 
-export type YAxis = Axis & {
+export interface YAxis extends Axis {
   orient?: 'left' | 'right';
   labelAngle?: 0;
-  labelOverlap?: 'flat';
-};
+  labelOverlap?: 'auto' | 'flat';
+}
 
 export interface WithYAxis {
   axis?: YAxis;

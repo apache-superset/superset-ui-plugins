@@ -5,13 +5,11 @@ import collectScalesFromProps from '@data-ui/xy-chart/esm/utils/collectScalesFro
 import { XAxis, YAxis } from '@data-ui/xy-chart';
 import { ChartTheme } from '@data-ui/theme';
 import { Margin, mergeMargin } from '@superset-ui/dimension';
-import computeXAxisLayout from './computeXAxisLayout';
-import computeYAxisLayout from './computeYAxisLayout';
+import { AxisOrient } from 'vega';
 import createTickComponent from './createTickComponent';
 import ChartFrame from '../components/ChartFrame';
 import ChannelEncoder from '../encodeable/ChannelEncoder';
 import { XFieldDef, YFieldDef } from '../encodeable/types/FieldDef';
-import { XAxis as XAxisConfig } from '../encodeable/types/Axis';
 import { PlainObject } from '../encodeable/types/Data';
 import { DEFAULT_LABEL_ANGLE } from './constants';
 
@@ -41,16 +39,16 @@ export default class XYChartLayout {
   xLayout?: {
     labelOffset: number;
     labelOverlap: string;
-    labelAngle?: number;
+    labelAngle: number;
     tickTextAnchor?: string;
     minMargin: Partial<Margin>;
-    orient: string;
+    orient: AxisOrient;
   };
 
   yLayout?: {
     labelOffset: number;
     minMargin: Partial<Margin>;
-    orient: string;
+    orient: AxisOrient;
   };
 
   // eslint-disable-next-line complexity
@@ -80,10 +78,9 @@ export default class XYChartLayout {
     });
 
     if (typeof yEncoder.axis !== 'undefined') {
-      const { axis: yAxis } = yEncoder;
-      this.yLayout = computeYAxisLayout({
-        orient: yAxis.config.orient,
-        tickLabels: yAxis.getTickLabels(yScale),
+      this.yLayout = yEncoder.axis.computeLayout({
+        axisWidth: Math.max(height - margin.top - margin.bottom),
+        scale: yScale,
         tickLength: theme.yTickStyles.length,
         tickTextStyle: theme.yTickStyles.label.right,
       });
@@ -93,14 +90,10 @@ export default class XYChartLayout {
     const innerWidth = Math.max(width - secondMargin.left - secondMargin.right, minContentWidth);
 
     if (typeof xEncoder.axis !== 'undefined') {
-      const { axis: xAxis } = xEncoder;
-      const config = xAxis.config as XAxisConfig;
-      this.xLayout = computeXAxisLayout({
+      this.xLayout = xEncoder.axis.computeLayout({
         axisWidth: innerWidth,
-        orient: config.orient,
-        labelAngle: config.labelAngle || this.recommendXLabelAngle(config.orient),
-        labelOverlap: config.labelOverlap,
-        tickLabels: xAxis.getTickLabels(xScale),
+        labelAngle: this.recommendXLabelAngle(xEncoder.axis.config.orient as 'top' | 'bottom'),
+        scale: xScale,
         tickLength: theme.xTickStyles.length,
         tickTextStyle: theme.xTickStyles.label.bottom,
       });
@@ -130,9 +123,12 @@ export default class XYChartLayout {
   }
 
   recommendXLabelAngle(xOrient: 'top' | 'bottom' = 'bottom') {
+    const { axis } = this.spec.yEncoder;
+
     return !this.yLayout ||
-      (this.yLayout.orient === 'right' && xOrient === 'bottom') ||
-      (this.yLayout.orient === 'left' && xOrient === 'top')
+      (typeof axis !== 'undefined' &&
+        ((axis.config.orient === 'right' && xOrient === 'bottom') ||
+          (axis.config.orient === 'left' && xOrient === 'top')))
       ? DEFAULT_LABEL_ANGLE
       : -DEFAULT_LABEL_ANGLE;
   }
@@ -157,7 +153,7 @@ export default class XYChartLayout {
         label={axis.getTitle()}
         labelOffset={this.xLayout.labelOffset}
         numTicks={axis.config.tickCount}
-        orientation={this.xLayout.orient}
+        orientation={axis.config.orient}
         tickComponent={createTickComponent(this.xLayout)}
         tickFormat={axis.getFormat()}
         {...props}
@@ -173,7 +169,7 @@ export default class XYChartLayout {
         label={axis.getTitle()}
         labelOffset={this.yLayout.labelOffset}
         numTicks={axis.config.tickCount}
-        orientation={this.yLayout.orient}
+        orientation={axis.config.orient}
         tickFormat={axis.getFormat()}
         {...props}
       />

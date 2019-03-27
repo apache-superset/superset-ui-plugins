@@ -1,17 +1,16 @@
 /* eslint-disable no-magic-numbers */
 
 import React, { CSSProperties } from 'react';
-import { DEFAULT_LABEL_ANGLE } from './constants';
 
 export default function createTickComponent({
-  labelAngle = DEFAULT_LABEL_ANGLE,
+  labelAngle,
   labelOverlap,
-  orient = 'bottom',
+  orient,
   tickTextAnchor = 'start',
 }: {
-  labelAngle?: number;
+  labelAngle: number;
   labelOverlap: string;
-  orient?: string;
+  orient: string;
   tickTextAnchor?: string;
 }) {
   if (labelOverlap === 'rotate' && labelAngle !== 0) {

@@ -1,16 +1,14 @@
-import { DEFAULT_LABEL_ANGLE } from './constants';
-
 /* eslint-disable no-magic-numbers */
 
 export default function createTickLabelProps({
+  labelAngle,
   labelOverlap,
-  labelAngle = DEFAULT_LABEL_ANGLE,
-  orient = 'bottom',
+  orient,
   tickTextAnchor = 'start',
 }: {
+  labelAngle: number;
   labelOverlap: string;
-  labelAngle?: number;
-  orient?: string;
+  orient: string;
   tickTextAnchor?: string;
 }) {
   let dx = 0;
