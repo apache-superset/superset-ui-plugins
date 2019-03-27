@@ -107,7 +107,15 @@ export default class ChannelEncoder<Def extends ChannelDef<Output>, Output exten
     return isScaleFieldDef(this.definition);
   }
 
+  isX() {
+    return this.type === 'X' || this.type === 'XBand';
+  }
+
   isXY() {
     return this.type === 'X' || this.type === 'Y' || this.type === 'XBand' || this.type === 'YBand';
+  }
+
+  isY() {
+    return this.type === 'Y' || this.type === 'YBand';
   }
 }

@@ -15,7 +15,7 @@ export interface Axis {
 export type XAxis = Axis & {
   orient?: 'top' | 'bottom';
   labelAngle?: number;
-  labelOverlap?: string;
+  labelOverlap?: 'auto' | 'flat' | 'rotate';
 };
 
 export interface WithXAxis {
@@ -24,6 +24,8 @@ export interface WithXAxis {
 
 export type YAxis = Axis & {
   orient?: 'left' | 'right';
+  labelAngle?: 0;
+  labelOverlap?: 'flat';
 };
 
 export interface WithYAxis {

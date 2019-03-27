@@ -15,10 +15,13 @@ export default class AxisAgent<Def extends ChannelDef<Output>, Output extends Va
     const definition = channelEncoder.definition as PositionFieldDef;
     const { type, axis = {} } = definition;
     this.config = { ...axis };
+
+    if (typeof this.config.orient === 'undefined') {
+      this.config.orient = this.channelEncoder.isX() ? 'bottom' : 'left';
+    }
     if (typeof this.config.tickCount === 'undefined') {
       this.config.tickCount = 5;
     }
-
     if (typeof axis.format !== 'undefined') {
       this.format = extractFormatFromTypeAndFormat(type, axis.format);
     }
