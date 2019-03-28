@@ -4,6 +4,14 @@ import { ParentSize } from '@vx/responsive';
 // eslint-disable-next-line import/no-unresolved
 import * as CSS from 'csstype';
 
+const defaultProps = {
+  className: '',
+  height: 'auto' as number | string,
+  width: 'auto' as number | string,
+  legendJustifyContent: undefined,
+  position: 'top',
+};
+
 type Props = {
   className: string;
   width: number | string;
@@ -12,7 +20,7 @@ type Props = {
   position: 'top' | 'left' | 'bottom' | 'right';
   renderChart: (dim: { width: number; height: number }) => ReactNode;
   renderLegend?: (params: { direction: string }) => ReactNode;
-};
+} & Readonly<typeof defaultProps>;
 
 const LEGEND_STYLE_BASE: CSSProperties = {
   display: 'flex',
@@ -31,13 +39,7 @@ const CHART_STYLE_BASE: CSSProperties = {
 };
 
 class WithLegend extends PureComponent<Props, {}> {
-  static defaultProps = {
-    className: '',
-    height: 'auto',
-    width: 'auto',
-    legendJustifyContent: undefined,
-    position: 'top',
-  };
+  static defaultProps = defaultProps;
 
   getContainerDirection(): CSS.FlexDirectionProperty {
     const { position } = this.props;

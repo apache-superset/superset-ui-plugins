@@ -29,13 +29,13 @@ const defaultProps = {
 
 type Props = {
   className?: string;
-  width: number;
-  height: number;
+  width: string | number;
+  height: string | number;
   margin?: Margin;
   encoding: Encoding;
   data: Dataset;
   theme?: ChartTheme;
-} & typeof defaultProps;
+} & Readonly<typeof defaultProps>;
 
 export interface Series {
   key: string;
