@@ -169,7 +169,7 @@ export function generateTimePivotTooltip(d, xFormatter, yFormatter) {
     `<strong class='x-value'>${tooltipTitle}</strong>` +
     '</td></tr></thead><tbody>';
 
-  d.series.forEach((series, i) => {
+  d.series.forEach(series => {
     if (series.highlight) {
       let label = '';
       if (series.key === 'current') {
@@ -186,6 +186,7 @@ export function generateTimePivotTooltip(d, xFormatter, yFormatter) {
   });
 
   tooltip += '</tbody></table>';
+
   return dompurify.sanitize(tooltip);
 }
 
