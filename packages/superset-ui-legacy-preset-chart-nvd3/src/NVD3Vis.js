@@ -498,7 +498,7 @@ function nvd3Vis(element, props) {
     const isXAxisString = isVizTypes(['dist_bar', 'box_plot']);
     if (!isXAxisString && chart.xAxis && chart.xAxis.tickFormat) {
       chart.xAxis.tickFormat(xAxisFormatter);
-    } else {
+    } else if (chart.xAxis && chart.xAxis.tickFormat) {
       chart.xAxis.tickFormat(d =>
         d.length > MAX_NO_CHARACTERS_IN_LABEL
           ? `${d.substring(0, MAX_NO_CHARACTERS_IN_LABEL)}…`
