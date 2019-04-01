@@ -1,20 +1,3 @@
-<a name="0.0.0-next"></a>
-# [0.0.0-next](https://github.com/apache-superset/superset-ui-plugins/compare/v0.10.3...v0.0.0-next) (2019-04-01)
-
-
-### Bug Fixes
-
-* fine tune time pivot chart tooltip ([#33](https://github.com/apache-superset/superset-ui-plugins/issues/33)) ([6924b98](https://github.com/apache-superset/superset-ui-plugins/commit/6924b98))
-* line chart tooltip should use full datetime format ([#24](https://github.com/apache-superset/superset-ui-plugins/issues/24)) ([836818b](https://github.com/apache-superset/superset-ui-plugins/commit/836818b))
-
-
-### Features
-
-* improve the tooltip for the time pivot chart ([#30](https://github.com/apache-superset/superset-ui-plugins/issues/30)) ([ad6ab28](https://github.com/apache-superset/superset-ui-plugins/commit/ad6ab28))
-* line chart with revised encodeable utilities ([#26](https://github.com/apache-superset/superset-ui-plugins/issues/26)) ([c9b8195](https://github.com/apache-superset/superset-ui-plugins/commit/c9b8195))
-
-
-
 <a name="0.10.3"></a>
 ## [0.10.3](https://github.com/apache-superset/superset-ui-plugins/compare/v0.10.2...v0.10.3) (2019-03-22)
 

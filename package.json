@@ -1,6 +1,6 @@
 {
   "name": "@superset-ui/plugins-monorepo",
-  "version": "0.0.0-next",
+  "version": "0.0.0-master",
   "description": "Superset UI Plugins",
   "private": true,
   "scripts": {
