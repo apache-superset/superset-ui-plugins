@@ -1,5 +1,5 @@
-<a name="0.0.0"></a>
-# [0.0.0](https://github.com/apache-superset/superset-ui-plugins/compare/v0.10.3...v0.0.0) (2019-04-01)
+<a name="0.0.0-next"></a>
+# [0.0.0-next](https://github.com/apache-superset/superset-ui-plugins/compare/v0.10.3...v0.0.0-next) (2019-04-01)
 
 
 ### Bug Fixes
