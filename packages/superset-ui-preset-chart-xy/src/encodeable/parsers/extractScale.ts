@@ -26,7 +26,7 @@ import {
 import { Value } from 'vega-lite/build/src/channeldef';
 import { Type } from 'vega-lite/build/src/type';
 import { ScaleType } from 'vega-lite/build/src/scale';
-import { isNonValueDef, ChannelDef } from '../types/FieldDef';
+import { isNonValueDef, ChannelDef } from '../types/ChannelDef';
 import isDisabled from '../utils/isDisabled';
 import { ChannelType } from '../types/Channel';
 import { Scale } from '../types/Scale';

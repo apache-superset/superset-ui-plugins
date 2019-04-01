@@ -11,7 +11,7 @@ import {
   isValueDef,
   isFieldDef,
   isNonValueDef,
-} from './types/FieldDef';
+} from './types/ChannelDef';
 import isEnabled from './utils/isEnabled';
 import isDisabled from './utils/isDisabled';
 import identity from './utils/identity';
