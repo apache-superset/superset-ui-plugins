@@ -23,7 +23,7 @@ import {
   scalePoint,
   scaleBand,
 } from 'd3-scale';
-import { Value } from 'vega-lite/build/src/fielddef';
+import { Value } from 'vega-lite/build/src/channeldef';
 import { Type } from 'vega-lite/build/src/type';
 import { ScaleType } from 'vega-lite/build/src/scale';
 import { isNonValueDef, ChannelDef } from '../types/FieldDef';

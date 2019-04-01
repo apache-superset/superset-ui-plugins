@@ -1,4 +1,4 @@
-import { Value } from 'vega-lite/build/src/fielddef';
+import { Value } from 'vega-lite/build/src/channeldef';
 import { extractFormatFromChannelDef } from './parsers/extractFormat';
 import extractScale, { ScaleAgent } from './parsers/extractScale';
 import extractGetter from './parsers/extractGetter';

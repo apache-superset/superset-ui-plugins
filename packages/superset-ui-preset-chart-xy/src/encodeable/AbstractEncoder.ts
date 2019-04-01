@@ -1,4 +1,4 @@
-import { Value } from 'vega-lite/build/src/fielddef';
+import { Value } from 'vega-lite/build/src/channeldef';
 import { ObjectWithKeysFromAndValueType } from './types/Base';
 import { ChannelOptions, EncodingFromChannelsAndOutputs, ChannelType } from './types/Channel';
 import { FullSpec, BaseOptions, PartialSpec } from './types/Specification';
