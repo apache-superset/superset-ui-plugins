@@ -580,7 +580,7 @@ function nvd3Vis(element, props) {
       chart.interactiveLayer.tooltip.contentGenerator(d =>
         generateMultiLineTooltipContent(d, xAxisFormatter, yAxisFormatters),
       );
-      if (vizType === 'dual_line' || vizType == 'line_bar') {
+      if (vizType === 'dual_line' || vizType === 'line_bar') {
         chart.showLegend(width > BREAKPOINTS.small);
       } else {
         chart.showLegend(showLegend);
