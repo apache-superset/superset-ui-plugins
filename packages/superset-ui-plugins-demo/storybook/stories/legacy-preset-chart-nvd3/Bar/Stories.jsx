@@ -135,6 +135,7 @@ export default [
             verboseMap: {},
           },
           formData: {
+            barStacked: true,
             bottomMargin: 'auto',
             colorCcheme: 'd3Category10',
             contribution: false,
@@ -147,7 +148,6 @@ export default [
             showControls: false,
             showLegend: true,
             stackedStyle: 'stack',
-            barStacked: true,
             vizType: 'bar',
             xAxisFormat: '%Y',
             xAxisLabel: '',
