@@ -24,7 +24,6 @@ import MapGL from 'react-map-gl';
 import Immutable from 'immutable';
 import ViewportMercator from 'viewport-mercator-project';
 import ScatterPlotGlowOverlay from './ScatterPlotGlowOverlay';
-import './MapBox.css';
 
 const NOOP = () => {};
 export const DEFAULT_MAX_ZOOM = 16;

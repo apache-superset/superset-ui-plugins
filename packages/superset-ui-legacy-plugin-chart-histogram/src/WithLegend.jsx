@@ -27,6 +27,8 @@ const propTypes = {
   height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   renderChart: PropTypes.func.isRequired,
   renderLegend: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  style: PropTypes.object,
   position: PropTypes.oneOf(['top', 'left', 'bottom', 'right']),
   legendJustifyContent: PropTypes.oneOf(['center', 'flex-start', 'flex-end']),
 };
@@ -36,6 +38,7 @@ const defaultProps = {
   height: 'auto',
   position: 'top',
   legendJustifyContent: undefined,
+  style: {},
 };
 
 const LEGEND_STYLE_BASE = {
@@ -89,13 +92,22 @@ class WithLegend extends React.Component {
   }
 
   render() {
-    const { className, width, height, position, renderChart, renderLegend } = this.props;
+    const {
+      className,
+      width,
+      height,
+      position,
+      renderChart,
+      renderLegend,
+      style: styleIn,
+    } = this.props;
 
     const isHorizontal = position === 'left' || position === 'right';
 
     const style = {
       display: 'flex',
       flexDirection: this.getContainerDirection(),
+      ...styleIn,
     };
     if (width) {
       style.width = width;

@@ -21,7 +21,6 @@ import d3 from 'd3';
 import PropTypes from 'prop-types';
 import Datamap from 'datamaps/dist/datamaps.world.min';
 import { getNumberFormatter } from '@superset-ui/number-format';
-import './WorldMap.css';
 
 const propTypes = {
   data: PropTypes.arrayOf(
@@ -45,7 +44,7 @@ function WorldMap(element, props) {
   const { data, height, maxBubbleSize, showBubbles } = props;
 
   const div = d3.select(element);
-  div.classed('superset-legacy-chart-world-map', true);
+  div.classed('superset-legacy-chart-world-map', true).style('position', 'relative');
 
   const container = element;
   container.style.height = `${height}px`;
@@ -121,6 +120,8 @@ function WorldMap(element, props) {
     map.bubbles(processedData);
     div.selectAll('circle.datamaps-bubble').style('fill', '#005a63');
   }
+
+  div.select('svg').style('background-color', '#feffff');
 }
 
 WorldMap.displayName = 'WorldMap';

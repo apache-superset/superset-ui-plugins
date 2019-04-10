@@ -49,23 +49,3 @@
   text-anchor: middle;
   fill: #333;
 }
-
-/* dashboard specific */
-/*
-.dashboard .superset-legacy-chart-sunburst text {
-  font-size: 1em;
-}
-.dashboard .superset-legacy-chart-sunburst .path-abs-percent {
-  font-size: 2em;
-  font-weight: 700;
-}
-.dashboard .superset-legacy-chart-sunburst .path-cond-percent {
-  font-size: 1.5em;
-}
-.dashboard .superset-legacy-chart-sunburst .path-metrics {
-  font-size: 1em;
-}
-.dashboard .superset-legacy-chart-sunburst .path-ratio {
-  font-size: 1em;
-}
-*/

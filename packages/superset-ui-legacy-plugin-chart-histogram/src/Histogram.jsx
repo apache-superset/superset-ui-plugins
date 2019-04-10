@@ -25,7 +25,6 @@ import { LegendOrdinal } from '@vx/legend';
 import { scaleOrdinal } from '@vx/scale';
 import { CategoricalColorNamespace } from '@superset-ui/color';
 import WithLegend from './WithLegend';
-import './Histogram.css';
 
 const propTypes = {
   className: PropTypes.string,
@@ -52,6 +51,10 @@ const defaultProps = {
   opacity: 1,
   xAxisLabel: '',
   yAxisLabel: '',
+};
+
+const CONTAINER_STYLE = {
+  overflow: 'hidden',
 };
 
 class CustomHistogram extends React.PureComponent {
@@ -82,6 +85,7 @@ class CustomHistogram extends React.PureComponent {
         width={width}
         height={height}
         position="top"
+        style={CONTAINER_STYLE}
         renderLegend={({ direction }) => (
           <LegendOrdinal
             scale={colorScale}

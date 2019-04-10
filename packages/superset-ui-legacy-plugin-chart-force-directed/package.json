@@ -4,7 +4,6 @@
   "description": "Superset Legacy Chart - Force-directed Graph",
   "sideEffects": false,
   "main": "lib/index.js",
-  "module": "esm/index.js",
   "files": [
     "esm",
     "lib"

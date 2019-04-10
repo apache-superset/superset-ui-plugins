@@ -4,7 +4,6 @@
   "description": "Superset Legacy Chart - Sunburst",
   "sideEffects": false,
   "main": "lib/index.js",
-  "module": "esm/index.js",
   "files": [
     "esm",
     "lib"

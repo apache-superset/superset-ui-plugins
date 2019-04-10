@@ -99,6 +99,7 @@ function ParallelCoordinates(element, props) {
       .datum(data)
       .call(grid)
       .classed('parcoords grid', true)
+      .style('overflow', 'auto')
       .selectAll('.row')
       .on({
         mouseover(d) {
