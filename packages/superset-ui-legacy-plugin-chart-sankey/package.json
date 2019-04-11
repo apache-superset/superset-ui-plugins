@@ -4,6 +4,7 @@
   "description": "Superset Legacy Chart - Sankey Diagram",
   "sideEffects": false,
   "main": "lib/index.js",
+  "module": "esm/index.js",
   "files": [
     "esm",
     "lib"

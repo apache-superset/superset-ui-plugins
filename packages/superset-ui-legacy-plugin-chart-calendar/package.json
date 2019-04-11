@@ -4,6 +4,7 @@
   "description": "Superset Legacy Chart - Calendar Heatmap",
   "sideEffects": false,
   "main": "lib/index.js",
+  "module": "esm/index.js",
   "files": [
     "esm",
     "lib"
