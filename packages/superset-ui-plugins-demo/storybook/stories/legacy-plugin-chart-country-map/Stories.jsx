@@ -14,7 +14,7 @@ export default [
           formData: {
             linearColorScheme: 'schemeRdYlBu',
             numberFormat: '.3s',
-            selectCountry: select('Country', Object.keys(countries), 'France', 'country'),
+            selectCountry: select('Country', Object.keys(countries), 'france', 'country'),
           },
           height: 400,
           payload: { data },
