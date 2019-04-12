@@ -29,7 +29,6 @@ import { t } from '@superset-ui/translation';
 import { CategoricalColorNamespace } from '@superset-ui/color';
 import { getNumberFormatter, NumberFormats } from '@superset-ui/number-format';
 import { getTimeFormatter, smartDateVerboseFormatter } from '@superset-ui/time-format';
-import 'nvd3/build/nv.d3.min.css';
 /* eslint-disable-next-line */
 import ANNOTATION_TYPES, { applyNativeColumns } from './vendor/superset/AnnotationTypes';
 import isTruthy from './utils/isTruthy';
@@ -62,7 +61,6 @@ import {
   numberOrAutoType,
   stringOrObjectWithLabelType,
 } from './PropTypes';
-import './NVD3Vis.css';
 
 const { getColor, getScale } = CategoricalColorNamespace;
 

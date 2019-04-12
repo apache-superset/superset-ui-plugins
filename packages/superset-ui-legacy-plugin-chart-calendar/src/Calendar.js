@@ -24,8 +24,6 @@ import { getSequentialSchemeRegistry } from '@superset-ui/color';
 import { getNumberFormatter } from '@superset-ui/number-format';
 import { getTimeFormatter } from '@superset-ui/time-format';
 import CalHeatMap from './vendor/cal-heatmap';
-import './vendor/cal-heatmap.css';
-import './Calendar.css';
 
 function convertUTC(dttm) {
   return new Date(

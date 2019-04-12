@@ -21,7 +21,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { extent as d3Extent } from 'd3-array';
 import HorizonRow, { DEFAULT_COLORS } from './HorizonRow';
-import './HorizonChart.css';
 
 const propTypes = {
   className: PropTypes.string,

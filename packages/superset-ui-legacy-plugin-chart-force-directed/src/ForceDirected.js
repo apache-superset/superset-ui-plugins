@@ -20,7 +20,6 @@
 /* eslint-disable no-param-reassign, babel/no-invalid-this */
 import d3 from 'd3';
 import PropTypes from 'prop-types';
-import './ForceDirected.css';
 
 const propTypes = {
   data: PropTypes.arrayOf(

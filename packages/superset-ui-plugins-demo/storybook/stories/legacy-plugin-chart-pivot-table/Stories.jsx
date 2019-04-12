@@ -1,7 +1,6 @@
 /* eslint-disable no-magic-numbers */
 import React from 'react';
 import { SuperChart } from '@superset-ui/chart';
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 export default [
   {

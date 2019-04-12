@@ -21,7 +21,6 @@ import dt from 'datatables.net-bs';
 import PropTypes from 'prop-types';
 import { formatNumber } from '@superset-ui/number-format';
 import fixTableHeight from './utils/fixTableHeight';
-import 'datatables.net-bs/css/dataTables.bootstrap.css';
 
 if (window.$) {
   dt(window, window.$);

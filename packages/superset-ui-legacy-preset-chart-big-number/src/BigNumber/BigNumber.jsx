@@ -25,8 +25,6 @@ import { BRAND_COLOR } from '@superset-ui/color';
 import { smartDateVerboseFormatter } from '@superset-ui/time-format';
 import { computeMaxFontSize } from '@superset-ui/dimension';
 
-import './BigNumber.css';
-
 const CHART_MARGIN = {
   top: 4,
   right: 4,

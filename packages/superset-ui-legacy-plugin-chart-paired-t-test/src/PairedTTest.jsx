@@ -20,7 +20,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import TTestTable, { dataPropType } from './TTestTable';
-import './PairedTTest.css';
 
 const propTypes = {
   alpha: PropTypes.number,

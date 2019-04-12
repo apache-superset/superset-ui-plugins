@@ -23,7 +23,6 @@ import PropTypes from 'prop-types';
 import { CategoricalColorNamespace } from '@superset-ui/color';
 import { getNumberFormatter, NumberFormats } from '@superset-ui/number-format';
 import wrapSvgText from './utils/wrapSvgText';
-import './Sunburst.css';
 
 const propTypes = {
   // Each row is an array of [hierarchy-lvl1, hierarchy-lvl2, metric1, metric2]

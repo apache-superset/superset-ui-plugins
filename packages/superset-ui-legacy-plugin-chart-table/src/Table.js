@@ -26,8 +26,6 @@ import dompurify from 'dompurify';
 import { getNumberFormatter, NumberFormats } from '@superset-ui/number-format';
 import { getTimeFormatter } from '@superset-ui/time-format';
 import fixTableHeight from './utils/fixTableHeight';
-import 'datatables.net-bs/css/dataTables.bootstrap.css';
-import './Table.css';
 
 if (window.$) {
   dt(window, window.$);

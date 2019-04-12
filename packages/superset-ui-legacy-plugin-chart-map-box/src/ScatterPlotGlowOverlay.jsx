@@ -26,7 +26,6 @@ import { CanvasOverlay } from 'react-map-gl';
 import { kmToPixels, MILES_PER_KM } from './utils/geo';
 import roundDecimal from './utils/roundDecimal';
 import luminanceFromRGB from './utils/luminanceFromRGB';
-import 'mapbox-gl/dist/mapbox-gl.css';
 
 const propTypes = {
   aggregation: PropTypes.string,

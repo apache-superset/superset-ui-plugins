@@ -1,4 +1,5 @@
 import ParallelCoordinatesChartPlugin from '../../../../superset-ui-legacy-plugin-chart-parallel-coordinates';
+import '../../../../superset-ui-legacy-plugin-chart-parallel-coordinates/lib/style.css';
 import Stories from './Stories';
 
 new ParallelCoordinatesChartPlugin().configure({ key: 'parallel-coordinates' }).register();

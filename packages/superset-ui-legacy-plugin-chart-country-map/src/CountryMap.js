@@ -23,7 +23,6 @@ import { extent as d3Extent } from 'd3-array';
 import { getSequentialSchemeRegistry } from '@superset-ui/color';
 import { getNumberFormatter } from '@superset-ui/number-format';
 import countries from './countries';
-import './CountryMap.css';
 
 const propTypes = {
   data: PropTypes.arrayOf(

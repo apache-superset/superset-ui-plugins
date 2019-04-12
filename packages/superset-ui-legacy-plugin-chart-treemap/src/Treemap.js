@@ -23,7 +23,6 @@ import { treemap as d3Treemap, hierarchy as d3Hierarchy, treemapSquarify } from 
 import PropTypes from 'prop-types';
 import { CategoricalColorNamespace } from '@superset-ui/color';
 import { getNumberFormatter } from '@superset-ui/number-format';
-import './Treemap.css';
 
 // Declare PropTypes for recursive data structures
 // https://github.com/facebook/react/issues/5676
