@@ -6,8 +6,8 @@ addParameters({
     addonPanelInRight: false,
     enableShortcuts: false,
     goFullScreen: false,
-    hierarchyRootSeparater: null,
-    hierarchySeparator: /\|/,
+    hierarchyRootSeparator: null,
+    hierarchySeparator: /\|/g,
     selectedAddonPanel: undefined, // The order of addons in the "Addon panel" is the same as you import them in 'addons.js'. The first panel will be opened by default as you run Storybook
     showAddonPanel: true,
     showSearchBox: false,
