@@ -4,6 +4,9 @@
   "description": "Storybook for Superset UI Plugins 🔌💡",
   "private": true,
   "main": "index.js",
+  "sideEffects": [
+    "*.css"
+  ],
   "scripts": {
     "demo:clean": "rm -rf _gh-pages",
     "demo:build": "build-storybook -o _gh-pages",
