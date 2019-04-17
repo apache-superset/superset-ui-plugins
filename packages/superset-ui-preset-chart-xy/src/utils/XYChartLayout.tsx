@@ -154,7 +154,7 @@ export default class XYChartLayout {
 
     return axis && this.xLayout ? (
       <XAxis
-        label={axis.getTitle()}
+        label={axis.getTitle() || ''}
         labelOffset={this.xLayout.labelOffset}
         numTicks={axis.config.tickCount}
         orientation={axis.config.orient}
@@ -170,7 +170,7 @@ export default class XYChartLayout {
 
     return axis && this.yLayout ? (
       <YAxis
-        label={axis.getTitle()}
+        label={axis.getTitle() || ''}
         labelOffset={this.yLayout.labelOffset}
         numTicks={axis.config.tickCount}
         orientation={axis.config.orient}

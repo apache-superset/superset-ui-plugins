@@ -54,8 +54,21 @@ export default class AxisAgent<Def extends ChannelDef<Output>, Output extends Va
     return this.format || this.channelEncoder.formatValue;
   }
 
+  hasTitle() {
+    return this.getTitle() !== undefined;
+  }
+
   getTitle() {
-    return this.config.title || this.channelEncoder.getTitle();
+    if (typeof this.config.title === 'undefined' || this.config.title === true) {
+      return this.channelEncoder.getTitle();
+    }
+
+    const { title } = this.config;
+    if (title === 'false' || title === false || title === '') {
+      return undefined;
+    }
+
+    return title;
   }
 
   getTickLabels() {
