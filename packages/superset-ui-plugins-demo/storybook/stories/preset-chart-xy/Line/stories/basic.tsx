@@ -27,7 +27,7 @@ export default [
                     orient: radios('x.axis.orient', { top: 'top', bottom: 'bottom' }, 'bottom'),
                     title: radios(
                       'x.axis.title',
-                      { enable: 'Time', disable: 'false', '': undefined },
+                      { enable: 'Time', disable: '', '': undefined },
                       'Time',
                     ),
                   },
@@ -46,7 +46,7 @@ export default [
                     ),
                     title: radios(
                       'y.axis.title',
-                      { enable: 'Score', disable: 'false', '': undefined },
+                      { enable: 'Score', disable: '', '': undefined },
                       'Score',
                     ),
                   },
