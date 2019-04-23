@@ -19,7 +19,7 @@ export default [
                 x: {
                   field: 'x',
                   type: 'temporal',
-                  format: '%Y',
+                  format: '%Y-%m',
                   scale: {
                     type: 'time',
                   },
@@ -59,7 +59,9 @@ export default [
               },
             },
             height: 400,
-            payload: { data },
+            payload: {
+              data,
+            },
             width: 400,
           })
         }
