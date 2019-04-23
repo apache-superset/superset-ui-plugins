@@ -86,10 +86,6 @@ class LineChart extends PureComponent<Props> {
     const { channels } = this.encoder;
     const fieldNames = this.encoder.getGroupBys();
 
-    // const fieldNames = data.keys
-    //   .filter(k => k !== encoding.x.field && k !== encoding.y.field)
-    //   .sort((a, b) => a.localeCompare(b));
-
     const groups = groupBy(data, row => fieldNames.map(f => `${f}=${row[f]}`).join(','));
 
     const allSeries = values(groups).map(seriesData => {
