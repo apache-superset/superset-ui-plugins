@@ -59,9 +59,7 @@ export default [
               },
             },
             height: 400,
-            payload: {
-              data,
-            },
+            payload: { data },
             width: 400,
           })
         }
