@@ -104,13 +104,14 @@ export default abstract class AbstractEncoder<
   }
 
   getChannelsAsArray() {
-    return this.getChannelNames().map((name: keyof ChannelTypes) => this.channels[name]);
+    return this.getChannelNames().map(name => this.channels[name]);
   }
 
   getGroupBys() {
     const fields = this.getChannelsAsArray()
       .filter(c => c.isGroupBy())
-      .map(c => (isFieldDef(c.definition) ? c.definition.field : ''));
+      .map(c => (isFieldDef(c.definition) ? c.definition.field : ''))
+      .filter(field => field !== '');
 
     return Array.from(new Set(fields));
   }
