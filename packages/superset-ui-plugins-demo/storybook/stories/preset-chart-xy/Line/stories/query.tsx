@@ -28,7 +28,6 @@ export default [
           datasource: '3__table',
           url_params: {},
           granularity_sqla: 'ds',
-          is_time_series: true,
           time_grain_sqla: 'P1D',
           time_range: '100 years ago : now',
           metrics: ['sum__num'],
