@@ -90,9 +90,9 @@ class LineChart extends PureComponent<Props> {
 
     const allSeries = values(groups).map(seriesData => {
       const firstDatum = seriesData[0];
-
+      const key = fieldNames.map(f => firstDatum[f]).join(',');
       const series: Series = {
-        key: fieldNames.map(f => firstDatum[f]).join(','),
+        key: key.length === 0 ? channels.y.getTitle() : key,
         color: channels.color.encode(firstDatum, '#222'),
         fill: channels.fill.encode(firstDatum, false),
         strokeDasharray: channels.strokeDasharray.encode(firstDatum, ''),

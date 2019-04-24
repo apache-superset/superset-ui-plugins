@@ -54,6 +54,11 @@ export default [
                 title: 'Number of Babies',
               },
             },
+            color: {
+              field: 'gender',
+              type: 'nominal',
+              legend: true,
+            },
           },
         },
       },
