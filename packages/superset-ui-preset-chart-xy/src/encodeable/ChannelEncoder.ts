@@ -88,7 +88,7 @@ export default class ChannelEncoder<Def extends ChannelDef<Output>, Output exten
   }
 
   get<T extends ChannelInput>(datum: PlainObject, otherwise?: T) {
-    const value = this.getValue(datum) as T;
+    const value = this.getValue(datum);
 
     return otherwise !== undefined && (value === null || value === undefined)
       ? otherwise
