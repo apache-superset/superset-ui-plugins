@@ -49,8 +49,8 @@ export interface Series {
 }
 
 export interface SeriesValue {
-  x: Outputs['x'];
-  y: Outputs['y'];
+  x: number | Date;
+  y: number;
   data: PlainObject;
   parent: Series;
 }
@@ -93,20 +93,25 @@ class LineChart extends PureComponent<Props> {
 
       const series: Series = {
         key: fieldNames.map(f => firstDatum[f]).join(','),
-        color: channels.color.encode(firstDatum),
+        color: channels.color.encode(firstDatum, '#222'),
         fill: channels.fill.encode(firstDatum, false),
-        strokeDasharray: channels.strokeDasharray.encode(firstDatum),
+        strokeDasharray: channels.strokeDasharray.encode(firstDatum, ''),
         values: [],
       };
 
       series.values = seriesData
         .map(v => ({
-          x: channels.x.get(v),
-          y: channels.y.get(v),
+          x: channels.x.get<number | Date>(v),
+          y: channels.y.get<number>(v),
           data: v,
           parent: series,
         }))
-        .sort((a, b) => a.x - b.x);
+        .sort((a: SeriesValue, b: SeriesValue) => {
+          const aTime = a.x instanceof Date ? a.x.getTime() : a.x;
+          const bTime = b.x instanceof Date ? b.x.getTime() : b.x;
+
+          return aTime - bTime;
+        });
 
       return series;
     });
