@@ -116,12 +116,13 @@ export default class ChannelEncoder<Def extends ChannelDef<Output>, Output exten
 
   isGroupBy() {
     if (isTypedFieldDef(this.definition)) {
+      const { type: dataType } = this.definition;
+
       return (
-        this.type === 'XBand' ||
-        this.type === 'YBand' ||
         this.type === 'Category' ||
         this.type === 'Text' ||
-        (this.type === 'Color' && this.definition.type === 'nominal')
+        (this.type === 'Color' && (dataType === 'nominal' || dataType === 'ordinal')) ||
+        (this.isXY() && (dataType === 'nominal' || dataType === 'ordinal'))
       );
     }
 

@@ -26,13 +26,10 @@ export default [
         formData: {
           viz_type: LINE_PLUGIN_TYPE,
           datasource: '3__table',
-          url_params: {},
           granularity_sqla: 'ds',
           time_grain_sqla: 'P1D',
           time_range: '100 years ago : now',
           metrics: ['sum__num'],
-          adhoc_filters: [],
-          groupby: ['gender'],
           limit: 25,
           row_limit: 50000,
           encoding: {
@@ -56,11 +53,6 @@ export default [
               axis: {
                 title: 'Number of Babies',
               },
-            },
-            color: {
-              field: 'gender',
-              type: 'nominal',
-              legend: true,
             },
           },
         },
