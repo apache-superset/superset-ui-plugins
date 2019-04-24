@@ -99,12 +99,14 @@ class LineChart extends PureComponent<Props> {
         values: [],
       };
 
-      series.values = seriesData.map(v => ({
-        x: channels.x.get(v),
-        y: channels.y.get(v),
-        data: v,
-        parent: series,
-      }));
+      series.values = seriesData
+        .map(v => ({
+          x: channels.x.get(v),
+          y: channels.y.get(v),
+          data: v,
+          parent: series,
+        }))
+        .sort((a, b) => a.x - b.x);
 
       return series;
     });
