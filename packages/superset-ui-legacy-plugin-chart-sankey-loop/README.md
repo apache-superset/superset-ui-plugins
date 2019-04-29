@@ -3,16 +3,16 @@
 [![Version](https://img.shields.io/npm/v/@superset-ui/legacy-plugin-chart-sankey.svg?style=flat-square)](https://img.shields.io/npm/v/@superset-ui/legacy-plugin-chart-sankey.svg?style=flat-square)
 [![David (path)](https://img.shields.io/david/apache-superset/superset-ui-plugins.svg?path=packages%2Fsuperset-ui-legacy-plugin-chart-sankey&style=flat-square)](https://david-dm.org/apache-superset/superset-ui-plugins?path=packages/superset-ui-legacy-plugin-chart-sankey)
 
-This plugin provides Sankey Diagram for Superset.
+This plugin provides Sankey Diagram with loops for Superset.
 
 ### Usage
 
 Configure `key`, which can be any `string`, and register the plugin. This `key` will be used to lookup this chart throughout the app.
 
 ```js
-import SankeyChartPlugin from '@superset-ui/legacy-plugin-chart-sankey';
+import SankeyLoopChartPlugin from '@superset-ui/legacy-plugin-chart-sankey-loop';
 
-new SankeyChartPlugin()
+new SankeyLoopChartPlugin()
   .configure({ key: 'sankey' })
   .register();
 ```
