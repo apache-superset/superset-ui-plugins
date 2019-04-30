@@ -11,6 +11,7 @@ import {
   ChannelInput,
 } from '../encodeable/types/Channel';
 import { BaseOptions } from '../encodeable/types/Specification';
+import { isTypedFieldDef } from '../encodeable/types/ChannelDef';
 
 type Props<Encoder> = {
   data: Dataset;
@@ -52,6 +53,39 @@ export default class ChartLegend<
 > extends PureComponent<Props<AbstractEncoder<ChannelTypes, Outputs, Encoding, Options>>, {}> {
   render() {
     const { data, encoder } = this.props;
+
+    const legendInfos = Object.keys(encoder.legends).map((field: string) => {
+      const channelNames = encoder.legends[field];
+      const channelEncoder = encoder.channels[channelNames[0]];
+
+      if (isTypedFieldDef(channelEncoder.definition)) {
+        if (channelEncoder.definition.type === 'nominal') {
+          const domain = Array.from(new Set(data.map(channelEncoder.get)));
+
+          return domain.map((value: ChannelInput) => ({
+            field,
+            value,
+            // eslint-disable-next-line sort-keys
+            encodedValues: channelNames.reduce(
+              (
+                prev: Partial<ObjectWithKeysFromAndValueType<ChannelTypes, Value | undefined>>,
+                curr,
+              ) => {
+                const map = prev;
+                map[curr] = encoder.channels[curr].encodeValue(value);
+
+                return map;
+              },
+              {},
+            ),
+          }));
+        }
+      }
+
+      return [];
+    });
+
+    console.log('legendInfos', legendInfos);
 
     const legends = Object.keys(encoder.legends).map((field: string) => {
       const channelNames = encoder.legends[field];
