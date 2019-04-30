@@ -37,7 +37,6 @@ import './SankeyLoop.css';
 const defaultMargin = {
   top: 0,
   right: 80,
-  right: 0,
   bottom: 0,
   left: 80,
 };
@@ -71,17 +70,6 @@ function SankeyLoop(element, props) {
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
-  const parent = d3.select(element);
-
-  // remove all children from element, otherise multiple svgs can appear in dom
-  parent.selectAll('*').remove();
-
-  const svg = parent
-    .append('svg')
-    .classed('superset-legacy-chart-sankey-loop', true)
-    .style('width', width)
-    .style('height', height);
-
   const layout = sankey()
     .nodeId(d => d.id)
     .extent([[margin.left, margin.top], [innerWidth, innerHeight]]);
@@ -94,7 +82,14 @@ function SankeyLoop(element, props) {
     )
     .linkColor(d => color(d.source.name));
 
-  svg.datum(layout(computeGraph(data))).call(diagram);
+  const svg = d3
+    .select(element)
+    .append('svg')
+    .classed('superset-legacy-chart-sankey-loop', true)
+    .style('width', width)
+    .style('height', height)
+    .datum(layout(computeGraph(data)))
+    .call(diagram);
 
   svg
     .selectAll('g.link')
