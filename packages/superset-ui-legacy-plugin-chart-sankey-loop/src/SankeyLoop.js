@@ -18,7 +18,7 @@
  */
 /* eslint-disable no-param-reassign, no-magic-numbers, sort-keys, babel/no-invalid-this */
 import PropTypes from 'prop-types';
-import { select, selectAll } from 'd3-selection';
+import { select } from 'd3-selection';
 import { sankeyDiagram, sankey } from 'd3-sankey-diagram';
 import { CategoricalColorNamespace } from '@superset-ui/color';
 import { getNumberFormatter, NumberFormats } from '@superset-ui/number-format';
