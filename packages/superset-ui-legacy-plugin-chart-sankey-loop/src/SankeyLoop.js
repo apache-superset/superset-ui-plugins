@@ -17,8 +17,8 @@
  * under the License.
  */
 /* eslint-disable no-param-reassign, no-magic-numbers, sort-keys, babel/no-invalid-this */
-import d3 from 'd3';
 import PropTypes from 'prop-types';
+import { select, selectAll } from 'd3-selection';
 import { sankeyDiagram, sankey } from 'd3-sankey-diagram';
 import { CategoricalColorNamespace } from '@superset-ui/color';
 import { getNumberFormatter, NumberFormats } from '@superset-ui/number-format';
@@ -60,18 +60,12 @@ const propTypes = {
 };
 
 const percentFormat = getNumberFormatter(NumberFormats.PERCENT_1_POINT);
-const countFormat = getNumberFormatter(NumberFormats.INTEGER);
+const countFormat = getNumberFormatter();
 
-function computeGraph(data) {
+function computeGraph(links) {
   // this assumes source and target are string values
-  const nodes = Object.keys(
-    data.reduce((map, { source, target }) => {
-      [source, target].forEach(id => {
-        map[id] = true;
-      });
-
-      return map;
-    }, {}),
+  const nodes = Array.from(
+    links.reduce((set, { source, target }) => set.add(source).add(target), new Set()),
   ).map(id => ({ id, name: id }));
 
   return {
@@ -79,7 +73,7 @@ function computeGraph(data) {
 
     // links are shallow copied as the chart layout modifies them, and it is best to
     // leave the passed data un-altered
-    links: data.map(d => ({ ...d })),
+    links: links.map(d => ({ ...d })),
   };
 }
 
@@ -102,8 +96,7 @@ function SankeyLoop(element, props) {
     )
     .linkColor(d => color(d.source.name));
 
-  const svg = d3
-    .select(element)
+  const svg = select(element)
     .append('svg')
     .classed('superset-legacy-chart-sankey-loop', true)
     .style('width', width)
