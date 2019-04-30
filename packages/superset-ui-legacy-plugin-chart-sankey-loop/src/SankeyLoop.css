@@ -52,23 +52,7 @@
   font-size: 10px
 }
 
-.superset-legacy-chart-sankey-loop .link:hover text
-{
+.superset-legacy-chart-sankey-loop .link:hover text {
   opacity: 1
 }
-
-
-.superset-legacy-chart-sankey-loop-tooltip {
-  position: absolute;
-  width: auto;
-  background: #ddd;
-  padding: 10px;
-  font-size: 12px;
-  font-weight: 200;
-  color: #333;
-  border: 1px solid #fff;
-  text-align: center;
-  pointer-events: none;
-}
-
 

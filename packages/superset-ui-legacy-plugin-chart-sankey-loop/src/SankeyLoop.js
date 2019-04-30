@@ -71,8 +71,12 @@ function SankeyLoop(element, props) {
   const innerWidth = width - margin.left - margin.right;
   const innerHeight = height - margin.top - margin.bottom;
 
-  const svg = d3
-    .select(element)
+  const parent = d3.select(element);
+
+  // remove all children from element, otherise multiple svgs can appear in dom
+  parent.selectAll('*').remove();
+
+  const svg = parent
     .append('svg')
     .classed('superset-legacy-chart-sankey-loop', true)
     .style('width', width)
@@ -88,9 +92,7 @@ function SankeyLoop(element, props) {
       ({ source: { name: sName, value: sValue }, target: { name: tName }, value }) =>
         `${sName} → ${tName}: ${countFormat(value)} (${percentFormat(value / sValue)})`,
     )
-    .linkColor(d => color(d.source.name))
-    .on('selectLink', d => svg.property('value', d).dispatch('input'))
-    .on('selectNode', d => svg.property('value', d).dispatch('input'));
+    .linkColor(d => color(d.source.name));
 
   svg.datum(layout(computeGraph(data))).call(diagram);
 
