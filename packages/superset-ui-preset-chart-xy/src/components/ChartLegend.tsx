@@ -26,7 +26,12 @@ const MARK_SIZE = 8;
 
 const MARK_STYLE: CSSProperties = { display: 'inline-block' };
 
-const LABEL_STYLE: CSSProperties = { display: 'flex', flexDirection: 'row', flexWrap: 'wrap' };
+const LABEL_STYLE: CSSProperties = {
+  display: 'flex',
+  flexDirection: 'row',
+  flexWrap: 'wrap',
+  fontSize: '0.8em',
+};
 
 const LEGEND_CONTAINER_STYLE: CSSProperties = {
   maxHeight: 100,
