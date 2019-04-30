@@ -19,7 +19,6 @@
 /* eslint-disable no-param-reassign, no-magic-numbers, sort-keys, babel/no-invalid-this */
 import d3 from 'd3';
 import PropTypes from 'prop-types';
-import { format } from 'd3-format';
 import { sankeyDiagram, sankey } from 'd3-sankey-diagram';
 import { CategoricalColorNamespace } from '@superset-ui/color';
 import { getNumberFormatter, NumberFormats } from '@superset-ui/number-format';
@@ -63,6 +62,27 @@ const propTypes = {
 const percentFormat = getNumberFormatter(NumberFormats.PERCENT_1_POINT);
 const countFormat = getNumberFormatter(NumberFormats.INTEGER);
 
+function computeGraph(data) {
+  // this assumes source and target are string values
+  const nodes = Object.keys(
+    data.reduce((map, { source, target }) => {
+      [source, target].forEach(id => {
+        map[id] = true;
+      });
+
+      return map;
+    }, {}),
+  ).map(id => ({ id, name: id }));
+
+  return {
+    nodes,
+
+    // links are shallow copied as the chart layout modifies them, and it is best to
+    // leave the passed data un-altered
+    links: data.map(d => ({ ...d })),
+  };
+}
+
 function SankeyLoop(element, props) {
   const { data, width, height, colorScheme } = props;
   const color = CategoricalColorNamespace.getScale(colorScheme);
@@ -100,24 +120,6 @@ function SankeyLoop(element, props) {
     .attr('dy', 3)
     .attr('dx', 2)
     .text(d => `${countFormat(d.value)} (${percentFormat(d.value / d.source.value)})`);
-}
-
-function computeGraph(data) {
-  // this assumes source and target are string values
-  const nodes = Object.keys(
-    data.reduce((map, { source, target }) => {
-      [source, target].forEach(id => (map[id] = true));
-      return map;
-    }, {}),
-  ).map(id => ({ id, name: id }));
-
-  return {
-    nodes,
-
-    // links are shallow copied as the chart layout modifies them, and it is best to
-    // leave the passed data un-altered
-    links: data.map(d => ({ ...d })),
-  };
 }
 
 SankeyLoop.displayName = 'SankeyLoop';
