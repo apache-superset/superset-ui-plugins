@@ -28,11 +28,11 @@
     "access": "public"
   },
   "dependencies": {
-    "@data-ui/histogram": "^0.0.77",
-    "@data-ui/theme": "^0.0.77",
-    "@vx/legend": "^0.0.170",
-    "@vx/responsive": "0.0.172",
-    "@vx/scale": "^0.0.165",
+    "@data-ui/histogram": "^0.0.78",
+    "@data-ui/theme": "^0.0.78",
+    "@vx/legend": "^0.0.183",
+    "@vx/responsive": "^0.0.188",
+    "@vx/scale": "^0.0.182",
     "prop-types": "^15.6.2"
   },
   "peerDependencies": {
