@@ -1,0 +1,36 @@
+{
+  "groups": {
+    "default": {
+      "packages": [
+        "package.json",
+        "packages/superset-ui-legacy-plugin-chart-calendar/package.json",
+        "packages/superset-ui-legacy-plugin-chart-chord/package.json",
+        "packages/superset-ui-legacy-plugin-chart-country-map/package.json",
+        "packages/superset-ui-legacy-plugin-chart-event-flow/package.json",
+        "packages/superset-ui-legacy-plugin-chart-force-directed/package.json",
+        "packages/superset-ui-legacy-plugin-chart-heatmap/package.json",
+        "packages/superset-ui-legacy-plugin-chart-histogram/package.json",
+        "packages/superset-ui-legacy-plugin-chart-horizon/package.json",
+        "packages/superset-ui-legacy-plugin-chart-iframe/package.json",
+        "packages/superset-ui-legacy-plugin-chart-map-box/package.json",
+        "packages/superset-ui-legacy-plugin-chart-markup/package.json",
+        "packages/superset-ui-legacy-plugin-chart-parallel-coordinates/package.json",
+        "packages/superset-ui-legacy-plugin-chart-partition/package.json",
+        "packages/superset-ui-legacy-plugin-chart-pivot-table/package.json",
+        "packages/superset-ui-legacy-plugin-chart-rose/package.json",
+        "packages/superset-ui-legacy-plugin-chart-sankey-loop/package.json",
+        "packages/superset-ui-legacy-plugin-chart-sankey/package.json",
+        "packages/superset-ui-legacy-plugin-chart-sunburst/package.json",
+        "packages/superset-ui-legacy-plugin-chart-table/package.json",
+        "packages/superset-ui-legacy-plugin-chart-treemap/package.json",
+        "packages/superset-ui-legacy-plugin-chart-word-cloud/package.json",
+        "packages/superset-ui-legacy-plugin-chart-world-map/package.json",
+        "packages/superset-ui-legacy-preset-chart-big-number/package.json",
+        "packages/superset-ui-legacy-preset-chart-nvd3/package.json",
+        "packages/superset-ui-plugin-chart-word-cloud/package.json",
+        "packages/superset-ui-plugins-demo/package.json",
+        "packages/superset-ui-preset-chart-xy/package.json"
+      ]
+    }
+  }
+}
