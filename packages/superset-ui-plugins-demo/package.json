@@ -30,14 +30,14 @@
   "homepage": "https://github.com/apache-superset/superset-ui-plugins#readme",
   "dependencies": {
     "@babel/polyfill": "^7.4.3",
-    "@data-ui/event-flow": "^0.0.54",
+    "@data-ui/event-flow": "^0.0.78",
     "@storybook/addon-actions": "^5.0.9",
     "@storybook/addon-knobs": "^5.0.9",
     "@storybook/addon-links": "^5.0.9",
     "@storybook/addons": "^5.0.9",
     "@storybook/react": "^5.0.9",
     "@types/react": "^16.8.8",
-    "@types/storybook__addon-knobs": "^4.0.5",
+    "@types/storybook__addon-knobs": "^5.0.0",
     "bootstrap": "^4.3.1",
     "react": "^16.6.0",
     "storybook-addon-jsx": "^7.1.0"
