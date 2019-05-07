@@ -25,7 +25,7 @@ import { createSelector } from 'reselect';
 import createTooltip from './createTooltip';
 import XYChartLayout from '../utils/XYChartLayout';
 import WithLegend from '../components/WithLegend';
-import ChartLegend from '../components/ChartLegend';
+import ChartLegend from '../components/legend/ChartLegend';
 import Encoder, { ChannelTypes, Encoding, Outputs } from './Encoder';
 import { Dataset, PlainObject } from '../encodeable/types/Data';
 
