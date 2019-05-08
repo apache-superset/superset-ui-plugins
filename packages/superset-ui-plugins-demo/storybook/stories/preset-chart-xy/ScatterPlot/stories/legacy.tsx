@@ -2,14 +2,14 @@
 import * as React from 'react';
 import { SuperChart, ChartProps } from '@superset-ui/chart';
 import data from '../data/legacyData';
-import { BUBBLE_PLUGIN_LEGACY_TYPE } from '../constants';
+import { SCATTER_PLOT_PLUGIN_LEGACY_TYPE } from '../constants';
 
 export default [
   {
     renderStory: () => [
       <SuperChart
-        key="line1"
-        chartType={BUBBLE_PLUGIN_LEGACY_TYPE}
+        key="scatter-plot1"
+        chartType={SCATTER_PLOT_PLUGIN_LEGACY_TYPE}
         chartProps={
           new ChartProps({
             datasource: { verboseMap: {} },
@@ -40,8 +40,8 @@ export default [
         }
       />,
       <SuperChart
-        key="line2"
-        chartType={BUBBLE_PLUGIN_LEGACY_TYPE}
+        key="scatter-plot2"
+        chartType={SCATTER_PLOT_PLUGIN_LEGACY_TYPE}
         chartProps={
           new ChartProps({
             datasource: { verboseMap: {} },
@@ -73,6 +73,6 @@ export default [
       />,
     ],
     storyName: 'Use Legacy API shim',
-    storyPath: 'preset-chart-xy|LineChartPlugin',
+    storyPath: 'preset-chart-xy|ScatterPlotPlugin',
   },
 ];

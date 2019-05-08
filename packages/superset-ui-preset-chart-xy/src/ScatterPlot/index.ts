@@ -1,12 +1,12 @@
 import { ChartPlugin } from '@superset-ui/chart';
-import metadata from './metadata';
+import createMetadata from './createMetadata';
 import transformProps from './transformProps';
 
 export default class LineChartPlugin extends ChartPlugin {
   constructor() {
     super({
-      loadChart: () => import('../Bubble'),
-      metadata,
+      loadChart: () => import('./ScatterPlot'),
+      metadata: createMetadata(),
       transformProps,
     });
   }

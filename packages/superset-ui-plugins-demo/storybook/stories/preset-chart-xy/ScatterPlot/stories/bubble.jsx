@@ -3,44 +3,49 @@ import * as React from 'react';
 import { SuperChart, ChartProps } from '@superset-ui/chart';
 import { radios } from '@storybook/addon-knobs';
 import data from '../data/data';
-import { BUBBLE_PLUGIN_TYPE } from '../constants';
+import { SCATTER_PLOT_PLUGIN_TYPE } from '../constants';
 
 export default [
   {
     renderStory: () => [
       <SuperChart
-        key="line1"
-        chartType={BUBBLE_PLUGIN_TYPE}
+        key="scatter-plot1"
+        chartType={SCATTER_PLOT_PLUGIN_TYPE}
         chartProps={
           new ChartProps({
             datasource: { verboseMap: {} },
             formData: {
               encoding: {
                 x: {
-                  field: 'x',
-                  type: 'temporal',
-                  format: '%Y',
+                  field: 'sum__SP_RUR_TOTL_ZS',
+                  type: 'quantitative',
                   scale: {
-                    type: 'time',
+                    type: 'linear',
                   },
                   axis: {
                     orient: radios('x.axis.orient', ['top', 'bottom'], 'bottom'),
-                    title: 'Time',
                   },
                 },
                 y: {
-                  field: 'y',
+                  field: 'sum__SP_DYN_LE00_IN',
                   type: 'quantitative',
                   scale: {
                     type: 'linear',
                   },
                   axis: {
                     orient: radios('y.axis.orient', ['left', 'right'], 'left'),
-                    title: 'Score',
                   },
                 },
-                color: {
-                  field: 'name',
+                size: {
+                  field: 'sum__SP_POP_TOTL',
+                  type: 'quantitative',
+                  scale: {
+                    type: 'linear',
+                    range: [0, 30],
+                  },
+                },
+                fill: {
+                  field: 'region',
                   type: 'nominal',
                   legend: true,
                 },
@@ -53,7 +58,7 @@ export default [
         }
       />,
     ],
-    storyName: 'Basic',
-    storyPath: 'preset-chart-xy|LineChartPlugin',
+    storyName: 'Bubble',
+    storyPath: 'preset-chart-xy|ScatterPlotPlugin',
   },
 ];

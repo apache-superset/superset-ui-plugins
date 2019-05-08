@@ -1,67 +1,56 @@
 /* eslint-disable no-magic-numbers, sort-keys */
 import * as React from 'react';
 import { SuperChart, ChartProps } from '@superset-ui/chart';
+import { radios } from '@storybook/addon-knobs';
 import data from '../data/data';
-import { LINE_PLUGIN_TYPE } from '../constants';
-
-const missingData = {
-  keys: data.keys,
-  values: data.values.map(({ y, ...rest }) => ({
-    ...rest,
-    y: Math.random() < 0.25 ? null : y,
-  })),
-};
+import { SCATTER_PLOT_PLUGIN_TYPE } from '../constants';
 
 export default [
   {
     renderStory: () => [
       <SuperChart
-        key="line1"
-        chartType={LINE_PLUGIN_TYPE}
+        key="scatter-plot1"
+        chartType={SCATTER_PLOT_PLUGIN_TYPE}
         chartProps={
           new ChartProps({
             datasource: { verboseMap: {} },
             formData: {
               encoding: {
                 x: {
-                  field: 'x',
-                  type: 'temporal',
-                  format: '%Y',
-                  scale: {
-                    type: 'time',
-                  },
-                  axis: {
-                    orient: 'bottom',
-                    title: 'Time',
-                  },
-                },
-                y: {
-                  field: 'y',
+                  field: 'sum__SP_RUR_TOTL_ZS',
                   type: 'quantitative',
                   scale: {
                     type: 'linear',
                   },
                   axis: {
-                    orient: 'left',
-                    title: 'Score',
+                    orient: radios('x.axis.orient', ['top', 'bottom'], 'bottom'),
                   },
                 },
-                color: {
-                  field: 'name',
+                y: {
+                  field: 'sum__SP_DYN_LE00_IN',
+                  type: 'quantitative',
+                  scale: {
+                    type: 'linear',
+                  },
+                  axis: {
+                    orient: radios('y.axis.orient', ['left', 'right'], 'left'),
+                  },
+                },
+                fill: {
+                  field: 'region',
                   type: 'nominal',
-                  scale: {},
                   legend: true,
                 },
               },
             },
             height: 400,
-            payload: { data: missingData },
+            payload: { data },
             width: 400,
           })
         }
       />,
     ],
-    storyName: 'with missing data',
-    storyPath: 'preset-chart-xy|LineChartPlugin',
+    storyName: 'Basic',
+    storyPath: 'preset-chart-xy|ScatterPlotPlugin',
   },
 ];
