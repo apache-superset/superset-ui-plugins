@@ -9,5 +9,5 @@ new LegacyScatterPlotPlugin().configure({ key: SCATTER_PLOT_PLUGIN_LEGACY_TYPE }
 new ScatterPlotPlugin().configure({ key: SCATTER_PLOT_PLUGIN_TYPE }).register();
 
 export default {
-  examples: [...BasicStories, ...BubbleStories],
+  examples: [...BasicStories, ...BubbleStories, ...LegacyStories],
 };

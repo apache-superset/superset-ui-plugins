@@ -14,21 +14,24 @@ export default [
           new ChartProps({
             datasource: { verboseMap: {} },
             formData: {
+              annotationData: {},
               bottomMargin: 'auto',
               colorScheme: 'd3Category10',
+              entity: 'country_name',
               leftMargin: 'auto',
-              lineInterpolation: 'linear',
-              richTooltip: true,
-              showBrush: 'auto',
+              maxBubbleSize: '50',
+              series: 'region',
               showLegend: true,
-              showMarkers: false,
-              vizType: 'line',
-              xAxisFormat: '%Y',
-              xAxisLabel: '',
+              size: 'sum__SP_POP_TOTL',
+              vizType: 'bubble',
+              x: 'sum__SP_RUR_TOTL_ZS',
+              xAxisFormat: '.3s',
+              xAxisLabel: 'x-axis label',
               xAxisShowminmax: false,
+              xLogScale: false,
               xTicksLayout: 'auto',
-              yAxisBounds: [null, null],
-              yAxisFormat: '',
+              y: 'sum__SP_DYN_LE00_IN',
+              yAxisFormat: '.3s',
               yAxisLabel: '',
               yAxisShowminmax: false,
               yLogScale: false,
@@ -36,38 +39,6 @@ export default [
             height: 400,
             payload: { data },
             width: 400,
-          })
-        }
-      />,
-      <SuperChart
-        key="scatter-plot2"
-        chartType={SCATTER_PLOT_PLUGIN_LEGACY_TYPE}
-        chartProps={
-          new ChartProps({
-            datasource: { verboseMap: {} },
-            formData: {
-              bottomMargin: 'auto',
-              colorScheme: 'd3Category10',
-              leftMargin: 'auto',
-              lineInterpolation: 'linear',
-              richTooltip: true,
-              showBrush: 'auto',
-              showLegend: true,
-              showMarkers: false,
-              vizType: 'line',
-              xAxisFormat: '%Y-%m',
-              xAxisLabel: '',
-              xAxisShowminmax: false,
-              xTicksLayout: 'auto',
-              yAxisBounds: [null, null],
-              yAxisFormat: '',
-              yAxisLabel: '',
-              yAxisShowminmax: false,
-              yLogScale: false,
-            },
-            height: 400,
-            payload: { data },
-            width: 800,
           })
         }
       />,

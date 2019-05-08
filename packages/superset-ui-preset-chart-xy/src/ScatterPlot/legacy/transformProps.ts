@@ -5,37 +5,52 @@ import { flatMap } from 'lodash';
 interface DataRow {
   key: string[];
   values: {
-    x: number;
-    y: number;
+    [key: string]: any;
   }[];
 }
 
 export default function transformProps(chartProps: ChartProps) {
   const { width, height, formData, payload } = chartProps;
-  const { colorScheme, xAxisLabel, xAxisFormat, yAxisLabel, yAxisFormat } = formData;
+  const {
+    colorScheme,
+    entity,
+    maxBubbleSize,
+    series,
+    showLegend,
+    size,
+    x,
+    xAxisFormat,
+    xAxisLabel,
+    // xAxisShowminmax,
+    // xLogScale,
+    y,
+    yAxisLabel,
+    yAxisFormat,
+    // yAxisShowminmax,
+    // yLogScale,
+  } = formData;
   const data = payload.data as DataRow[];
 
   return {
-    data: {
-      keys: ['name', 'x', 'y'],
-      values: flatMap(
-        data.map((row: DataRow) =>
-          row.values.map(v => ({
-            ...v,
-            name: row.key[0],
-          })),
-        ),
+    data: flatMap(
+      data.map((row: DataRow) =>
+        row.values.map(v => ({
+          [x]: v[x],
+          [y]: v[y],
+          [series]: v[series],
+          [size]: v[size],
+        })),
       ),
-    },
+    ),
     width,
     height,
     encoding: {
       x: {
-        field: 'x',
-        type: 'temporal',
+        field: x,
+        type: 'quantitive',
         format: xAxisFormat,
         scale: {
-          type: 'time',
+          type: 'linear',
         },
         axis: {
           orient: 'bottom',
@@ -43,7 +58,7 @@ export default function transformProps(chartProps: ChartProps) {
         },
       },
       y: {
-        field: 'y',
+        field: y,
         type: 'quantitative',
         format: yAxisFormat,
         scale: {
@@ -54,13 +69,21 @@ export default function transformProps(chartProps: ChartProps) {
           title: yAxisLabel,
         },
       },
-      color: {
-        field: 'name',
+      size: {
+        field: size,
+        type: 'quantitative',
+        scale: {
+          type: 'linear',
+          range: [0, maxBubbleSize],
+        },
+      },
+      fill: {
+        field: series,
         type: 'nominal',
         scale: {
           scheme: colorScheme,
         },
-        legend: true,
+        legend: showLegend,
       },
     },
   };
