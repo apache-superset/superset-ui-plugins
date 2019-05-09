@@ -58,7 +58,7 @@ export default class BoxPlot extends React.PureComponent<Props> {
 
   renderChart(dim: Dimension) {
     const { width, height } = dim;
-    const { data, encoding, margin, theme } = this.props;
+    const { data, margin, theme } = this.props;
     const { channels } = this.encoder;
 
     const isHorizontal = channels.y.definition.type === 'nominal';
