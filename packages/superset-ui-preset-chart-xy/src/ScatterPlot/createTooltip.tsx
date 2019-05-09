@@ -9,7 +9,7 @@ import { EncodedPoint } from './ScatterPlot';
 
 export default function createTooltip(encoder: Encoder) {
   function Tooltip({ datum }: { datum: EncodedPoint }) {
-    const { channels } = encoder;
+    const { channels, commonChannels } = encoder;
     const { x, y, size, fill, stroke } = channels;
 
     const tooltipRows = [
@@ -38,6 +38,13 @@ export default function createTooltip(encoder: Encoder) {
         valueColumn: size.format(datum.data),
       });
     }
+    commonChannels.group.forEach(g => {
+      tooltipRows.push({
+        key: `${g.name}`,
+        keyColumn: g.getTitle(),
+        valueColumn: g.format(datum.data),
+      });
+    });
 
     return (
       <TooltipFrame>

@@ -4,7 +4,7 @@ import { ChartProps } from '@superset-ui/chart';
 
 export default function transformProps(chartProps: ChartProps) {
   const { width, height, formData, payload } = chartProps;
-  const { encoding, margin } = formData;
+  const { encoding, commonEncoding, margin } = formData;
   const { data } = payload;
 
   return {
@@ -12,6 +12,7 @@ export default function transformProps(chartProps: ChartProps) {
     width,
     height,
     encoding,
+    commonEncoding,
     margin,
   };
 }

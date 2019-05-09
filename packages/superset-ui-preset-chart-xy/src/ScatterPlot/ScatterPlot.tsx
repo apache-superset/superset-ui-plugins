@@ -1,6 +1,6 @@
 /* eslint-disable sort-keys, no-magic-numbers, complexity */
 import React, { PureComponent } from 'react';
-import { XYChart, CrossHair, PointSeries } from '@data-ui/xy-chart';
+import { XYChart, PointSeries } from '@data-ui/xy-chart';
 import { chartTheme, ChartTheme } from '@data-ui/theme';
 import { Margin, Dimension } from '@superset-ui/dimension';
 import { extent as d3Extent } from 'd3-array';
@@ -11,6 +11,7 @@ import WithLegend from '../components/WithLegend';
 import Encoder, { ChannelTypes, Encoding, Outputs } from './Encoder';
 import { Dataset, PlainObject } from '../encodeable/types/Data';
 import ChartLegend from '../components/legend/ChartLegend';
+import { PartialSpec } from '../encodeable/types/Specification';
 
 chartTheme.gridStyles.stroke = '#f1f3f5';
 
@@ -27,10 +28,10 @@ type Props = {
   width: string | number;
   height: string | number;
   margin?: Margin;
-  encoding: Encoding;
   data: Dataset;
   theme?: ChartTheme;
-} & Readonly<typeof defaultProps>;
+} & PartialSpec<Encoding> &
+  Readonly<typeof defaultProps>;
 
 export interface EncodedPoint {
   x: Outputs['x'];
@@ -51,15 +52,17 @@ export default class ScatterPlot extends PureComponent<Props> {
     super(props);
 
     const createEncoder = createSelector(
-      (enc: Encoding) => enc,
-      (enc: Encoding) => new Encoder({ encoding: enc }),
+      (p: PartialSpec<Encoding>) => p.encoding,
+      p => p.commonEncoding,
+      p => p.options,
+      (encoding, commonEncoding, options) => new Encoder({ encoding, commonEncoding, options }),
     );
 
     this.createEncoder = () => {
-      this.encoder = createEncoder(this.props.encoding);
+      this.encoder = createEncoder(this.props);
     };
 
-    this.encoder = createEncoder(this.props.encoding);
+    this.encoder = createEncoder(this.props);
     this.renderChart = this.renderChart.bind(this);
   }
 
@@ -73,7 +76,6 @@ export default class ScatterPlot extends PureComponent<Props> {
       const [min, max] = domain;
       const adjustedDomain = [Math.min(min || 0, 0), Math.max(max || 1, 1)];
       channels.size.scale.setDomain(adjustedDomain);
-      // channels.x.definition.scale.domain = adjustedDomain;
     }
 
     const encodedData = data.map(d => ({

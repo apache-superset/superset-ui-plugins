@@ -42,6 +42,9 @@ export default [
                   legend: true,
                 },
               },
+              commonEncoding: {
+                group: [{ field: 'country_name', title: 'Country' }],
+              },
             },
             height: 400,
             payload: { data },

@@ -10,6 +10,7 @@ import WithLegend from '../components/WithLegend';
 import ChartLegend from '../components/legend/ChartLegend';
 import Encoder, { ChannelTypes, Encoding, Outputs } from './Encoder';
 import { Dataset, PlainObject } from '../encodeable/types/Data';
+import { PartialSpec } from '../encodeable/types/Specification';
 
 chartTheme.gridStyles.stroke = '#f1f3f5';
 
@@ -26,10 +27,10 @@ type Props = {
   width: string | number;
   height: string | number;
   margin?: Margin;
-  encoding: Encoding;
   data: Dataset;
   theme?: ChartTheme;
-} & Readonly<typeof defaultProps>;
+} & PartialSpec<Encoding> &
+  Readonly<typeof defaultProps>;
 
 export default class BoxPlot extends React.PureComponent<Props> {
   static defaultProps = defaultProps;
@@ -41,15 +42,17 @@ export default class BoxPlot extends React.PureComponent<Props> {
     super(props);
 
     const createEncoder = createSelector(
-      (enc: Encoding) => enc,
-      (enc: Encoding) => new Encoder({ encoding: enc }),
+      (p: PartialSpec<Encoding>) => p.encoding,
+      p => p.commonEncoding,
+      p => p.options,
+      (encoding, commonEncoding, options) => new Encoder({ encoding, commonEncoding, options }),
     );
 
     this.createEncoder = () => {
-      this.encoder = createEncoder(this.props.encoding);
+      this.encoder = createEncoder(this.props);
     };
 
-    this.encoder = createEncoder(this.props.encoding);
+    this.encoder = createEncoder(this.props);
     this.renderChart = this.renderChart.bind(this);
   }
 
@@ -58,7 +61,7 @@ export default class BoxPlot extends React.PureComponent<Props> {
     const { data, encoding, margin, theme } = this.props;
     const { channels } = this.encoder;
 
-    const isHorizontal = encoding.y.type === 'nominal';
+    const isHorizontal = channels.y.definition.type === 'nominal';
 
     const children = [
       <BoxPlotSeries
@@ -74,7 +77,7 @@ export default class BoxPlot extends React.PureComponent<Props> {
         stroke={(datum: PlainObject) => channels.color.encode(datum)}
         strokeWidth={1}
         widthRatio={0.6}
-        horizontal={encoding.y.type === 'nominal'}
+        horizontal={channels.y.definition.type === 'nominal'}
       />,
     ];
 

@@ -39,6 +39,7 @@ export default function transformProps(chartProps: ChartProps) {
           [y]: v[y],
           [series]: v[series],
           [size]: v[size],
+          [entity]: v[entity],
         })),
       ),
     ),
@@ -85,6 +86,9 @@ export default function transformProps(chartProps: ChartProps) {
         },
         legend: showLegend,
       },
+    },
+    commonEncoding: {
+      group: [{ field: entity }],
     },
   };
 }
