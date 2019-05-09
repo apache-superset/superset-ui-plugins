@@ -87,21 +87,6 @@ export default class ScatterPlot extends PureComponent<Props> {
       data: d,
     }));
 
-    // if (typeof channels.x.scale !== 'undefined') {
-    //   const xDomain = d3Extent(encodedData, d => d.x);
-    //   const [min, max] = xDomain;
-    //   const adjustedDomain = [Math.min(min || 0, 0), Math.max(max || 1, 1)];
-    //   // channels.x.scale.setDomain(adjustedDomain);
-    //   // channels.x.definition.scale.domain = adjustedDomain;
-    // }
-    // if (typeof channels.y.scale !== 'undefined') {
-    //   const yDomain = d3Extent(encodedData, d => d.y);
-    //   const [min, max] = yDomain;
-    //   const adjustedDomain = [Math.min(min || 0, 0), Math.max(max || 1, 1)];
-    //   // channels.y.scale.setDomain(adjustedDomain);
-    //   // channels.y.definition.scale.domain = adjustedDomain;
-    // }
-
     const children = [
       <PointSeries
         key={channels.x.definition.field}

@@ -21,11 +21,13 @@ export default function transformProps(chartProps: ChartProps) {
     x,
     xAxisFormat,
     xAxisLabel,
+    // TODO: These fields are not supported yet
     // xAxisShowminmax,
     // xLogScale,
     y,
     yAxisLabel,
     yAxisFormat,
+    // TODO: These fields are not supported yet
     // yAxisShowminmax,
     // yLogScale,
   } = formData;
