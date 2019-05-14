@@ -112,7 +112,7 @@ export default class AxisAgent<Def extends ChannelDef<Output>, Output extends Va
     labelAngle: number;
     labelOffset: number;
     labelOverlap: 'flat' | 'rotate';
-    minMargin: Partial<{ [key in AxisOrient]: Partial<Margin> }>;
+    minMargin: Partial<Margin>;
     orient: AxisOrient;
     tickTextAnchor?: string;
   } {
