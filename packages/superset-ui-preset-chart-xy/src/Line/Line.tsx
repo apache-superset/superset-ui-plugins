@@ -14,35 +14,33 @@ import { chartTheme, ChartTheme } from '@data-ui/theme';
 import { Margin, Dimension } from '@superset-ui/dimension';
 
 import { createSelector } from 'reselect';
-import defaultCreateTooltip from './createTooltip';
 import XYChartLayout from '../utils/XYChartLayout';
 import WithLegend from '../components/WithLegend';
 import Encoder, { ChannelTypes, Encoding, Outputs } from './Encoder';
 import { Dataset, PlainObject } from '../encodeable/types/Data';
 import ChartLegend from '../components/legend/ChartLegend';
 import { PartialSpec } from '../encodeable/types/Specification';
+import defaultTooltip from './renderTooltip';
 
 chartTheme.gridStyles.stroke = '#f1f3f5';
 
 const DEFAULT_MARGIN = { top: 20, right: 20, left: 20, bottom: 20 };
 
-export type RenderTooltipFunction = (params: {
+export interface TooltipInput {
+  encoder: Encoder;
+  allSeries: Series[];
   datum: SeriesValue;
   series: {
     [key: string]: {
       y: number;
     };
   };
-}) => React.ReactNode;
-
-export type CreateTooltipFunction = (params: {
-  encoder: Encoder;
-  allSeries: Series[];
-}) => RenderTooltipFunction;
+  theme: ChartTheme;
+}
 
 const defaultProps = {
   className: '',
-  createTooltip: defaultCreateTooltip,
+  renderTooltip: defaultTooltip,
   margin: DEFAULT_MARGIN,
   theme: chartTheme,
 };
@@ -54,7 +52,7 @@ type Props = {
   margin?: Margin;
   data: Dataset;
   theme?: ChartTheme;
-  createTooltip?: CreateTooltipFunction;
+  renderTooltip?: React.ComponentType<TooltipInput>;
 } & PartialSpec<Encoding> &
   Readonly<typeof defaultProps>;
 
@@ -101,7 +99,7 @@ class LineChart extends PureComponent<Props> {
 
   renderChart(dim: Dimension) {
     const { width, height } = dim;
-    const { data, margin, theme, createTooltip } = this.props;
+    const { data, margin, theme, renderTooltip } = this.props;
 
     const { channels } = this.encoder;
     const fieldNames = this.encoder.getGroupBys();
@@ -112,7 +110,7 @@ class LineChart extends PureComponent<Props> {
       const firstDatum = seriesData[0];
       const key = fieldNames.map(f => firstDatum[f]).join(',');
       const series: Series = {
-        key: kebabCase(key.length === 0 ? channels.y.definition.field : key),
+        key: key.length === 0 ? channels.y.definition.field : key,
         fill: channels.fill.encode(firstDatum, false),
         stroke: channels.stroke.encode(firstDatum, '#222'),
         strokeDasharray: channels.strokeDasharray.encode(firstDatum, ''),
@@ -140,7 +138,7 @@ class LineChart extends PureComponent<Props> {
       allSeries
         .filter(({ fill }) => fill)
         .map(series => {
-          const gradientId = uniqueId(`gradient-${series.key}`);
+          const gradientId = uniqueId(kebabCase(`gradient-${series.key}`));
 
           return [
             <LinearGradient
@@ -190,11 +188,25 @@ class LineChart extends PureComponent<Props> {
 
     return layout.renderChartWithFrame((chartDim: Dimension) => (
       <WithTooltip
-        renderTooltip={createTooltip({
-          encoder: this.encoder,
-          allSeries,
-          theme,
-        })}
+        renderTooltip={({
+          datum,
+          series,
+        }: {
+          datum: SeriesValue;
+          series: {
+            [key: string]: {
+              y: number;
+            };
+          };
+        }) =>
+          renderTooltip({
+            encoder: this.encoder,
+            allSeries,
+            theme,
+            datum,
+            series,
+          })
+        }
       >
         {({
           onMouseLeave,
