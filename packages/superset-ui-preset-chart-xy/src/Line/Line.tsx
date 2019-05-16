@@ -44,7 +44,7 @@ type Props = {
 
 export interface Series {
   key: string;
-  color: Outputs['color'];
+  stroke: Outputs['stroke'];
   fill: Outputs['fill'];
   strokeDasharray: Outputs['strokeDasharray'];
   values: SeriesValue[];
@@ -97,8 +97,8 @@ class LineChart extends PureComponent<Props> {
       const key = fieldNames.map(f => firstDatum[f]).join(',');
       const series: Series = {
         key: kebabCase(key.length === 0 ? channels.y.definition.field : key),
-        color: channels.color.encode(firstDatum, '#222'),
         fill: channels.fill.encode(firstDatum, false),
+        stroke: channels.stroke.encode(firstDatum, '#222'),
         strokeDasharray: channels.strokeDasharray.encode(firstDatum, ''),
         values: [],
       };
@@ -130,7 +130,7 @@ class LineChart extends PureComponent<Props> {
             <LinearGradient
               key={`${series.key}-gradient`}
               id={gradientId}
-              from={series.color}
+              from={series.stroke}
               to="#fff"
             />,
             <AreaSeries
@@ -139,7 +139,7 @@ class LineChart extends PureComponent<Props> {
               data={series.values}
               interpolation="linear"
               fill={`url(#${gradientId})`}
-              stroke={series.color}
+              stroke={series.stroke}
               strokeWidth={1.5}
             />,
           ];
@@ -154,7 +154,7 @@ class LineChart extends PureComponent<Props> {
           seriesKey={series.key}
           interpolation="linear"
           data={series.values}
-          stroke={series.color}
+          stroke={series.stroke}
           strokeDasharray={series.strokeDasharray}
           strokeWidth={1.5}
         />
@@ -207,11 +207,11 @@ class LineChart extends PureComponent<Props> {
               strokeDasharray=""
               showHorizontalLine={false}
               circleFill={(d: SeriesValue) =>
-                d.y === tooltipData.datum.y ? d.parent.color : '#fff'
+                d.y === tooltipData.datum.y ? d.parent.stroke : '#fff'
               }
               circleSize={(d: SeriesValue) => (d.y === tooltipData.datum.y ? 6 : 4)}
               circleStroke={(d: SeriesValue) =>
-                d.y === tooltipData.datum.y ? '#fff' : d.parent.color
+                d.y === tooltipData.datum.y ? '#fff' : d.parent.stroke
               }
               circleStyles={CIRCLE_STYLE}
               stroke="#ccc"

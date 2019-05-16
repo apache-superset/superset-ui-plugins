@@ -33,7 +33,7 @@ export default function createTooltip(encoder: Encoder, allSeries: Series[]) {
                 .filter(({ key }) => series[key])
                 .concat()
                 .sort((a, b) => series[b.key].y - series[a.key].y)
-                .map(({ key, color, strokeDasharray }) => ({
+                .map(({ key, stroke, strokeDasharray }) => ({
                   key,
                   keyColumn: (
                     <>
@@ -42,7 +42,7 @@ export default function createTooltip(encoder: Encoder, allSeries: Series[]) {
                           x2="12"
                           y1="3"
                           y2="3"
-                          stroke={color}
+                          stroke={stroke}
                           strokeWidth="2"
                           strokeDasharray={strokeDasharray}
                         />
