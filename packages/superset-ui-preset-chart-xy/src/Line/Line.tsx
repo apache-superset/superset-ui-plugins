@@ -14,7 +14,7 @@ import { chartTheme, ChartTheme } from '@data-ui/theme';
 import { Margin, Dimension } from '@superset-ui/dimension';
 
 import { createSelector } from 'reselect';
-import createTooltip from './createTooltip';
+import defaultCreateTooltip from './createTooltip';
 import XYChartLayout from '../utils/XYChartLayout';
 import WithLegend from '../components/WithLegend';
 import Encoder, { ChannelTypes, Encoding, Outputs } from './Encoder';
@@ -26,8 +26,23 @@ chartTheme.gridStyles.stroke = '#f1f3f5';
 
 const DEFAULT_MARGIN = { top: 20, right: 20, left: 20, bottom: 20 };
 
+export type RenderTooltipFunction = (params: {
+  datum: SeriesValue;
+  series: {
+    [key: string]: {
+      y: number;
+    };
+  };
+}) => React.ReactNode;
+
+export type CreateTooltipFunction = (params: {
+  encoder: Encoder;
+  allSeries: Series[];
+}) => RenderTooltipFunction;
+
 const defaultProps = {
   className: '',
+  createTooltip: defaultCreateTooltip,
   margin: DEFAULT_MARGIN,
   theme: chartTheme,
 };
@@ -39,6 +54,7 @@ type Props = {
   margin?: Margin;
   data: Dataset;
   theme?: ChartTheme;
+  createTooltip?: CreateTooltipFunction;
 } & PartialSpec<Encoding> &
   Readonly<typeof defaultProps>;
 
@@ -85,7 +101,7 @@ class LineChart extends PureComponent<Props> {
 
   renderChart(dim: Dimension) {
     const { width, height } = dim;
-    const { data, margin, theme } = this.props;
+    const { data, margin, theme, createTooltip } = this.props;
 
     const { channels } = this.encoder;
     const fieldNames = this.encoder.getGroupBys();
@@ -173,7 +189,13 @@ class LineChart extends PureComponent<Props> {
     });
 
     return layout.renderChartWithFrame((chartDim: Dimension) => (
-      <WithTooltip renderTooltip={createTooltip(this.encoder, allSeries)}>
+      <WithTooltip
+        renderTooltip={createTooltip({
+          encoder: this.encoder,
+          allSeries,
+          theme,
+        })}
+      >
         {({
           onMouseLeave,
           onMouseMove,

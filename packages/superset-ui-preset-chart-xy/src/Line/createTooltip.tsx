@@ -1,6 +1,7 @@
 /* eslint-disable no-magic-numbers */
 
 import React from 'react';
+import { chartTheme, ChartTheme } from '@data-ui/theme';
 import TooltipFrame from '../components/tooltip/TooltipFrame';
 import TooltipTable from '../components/tooltip/TooltipTable';
 import { Series, SeriesValue } from './Line';
@@ -8,7 +9,13 @@ import Encoder from './Encoder';
 
 const MARK_STYLE = { marginRight: 4 };
 
-export default function createTooltip(encoder: Encoder, allSeries: Series[]) {
+interface Input {
+  encoder: Encoder;
+  allSeries: Series[];
+  theme: ChartTheme;
+}
+
+export default function createTooltip({ encoder, allSeries, theme = chartTheme }: Input) {
   return function LineTooltip({
     datum,
     series = {},
@@ -23,7 +30,7 @@ export default function createTooltip(encoder: Encoder, allSeries: Series[]) {
     return (
       <TooltipFrame>
         <>
-          <div>
+          <div style={{ fontFamily: theme.labelStyles.fontFamily }}>
             <strong>{encoder.channels.x.formatValue(datum.x)}</strong>
           </div>
           <br />
