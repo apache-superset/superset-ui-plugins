@@ -81,7 +81,7 @@ export interface SeriesValue {
 
 const CIRCLE_STYLE = { strokeWidth: 1.5 };
 
-class LineChart extends PureComponent<Props> {
+export default class LineChart extends PureComponent<Props> {
   static defaultProps = defaultProps;
 
   encoder: Encoder;
@@ -305,5 +305,3 @@ class LineChart extends PureComponent<Props> {
     );
   }
 }
-
-export default LineChart;
