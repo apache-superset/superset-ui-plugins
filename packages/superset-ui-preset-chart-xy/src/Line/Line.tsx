@@ -10,7 +10,7 @@ import {
   CrossHair,
   WithTooltip,
 } from '@data-ui/xy-chart';
-import { chartTheme, ChartTheme } from '@data-ui/theme';
+import { chartTheme } from '@data-ui/theme';
 import { Margin, Dimension } from '@superset-ui/dimension';
 
 import { createSelector } from 'reselect';
@@ -35,7 +35,7 @@ export interface TooltipInput {
       y: number;
     };
   };
-  theme: ChartTheme;
+  theme: typeof chartTheme;
 }
 
 const defaultProps = {
@@ -48,7 +48,7 @@ const defaultProps = {
 /** Part of formData that is needed for rendering logic in this file */
 export type RenderingFormData = {
   margin?: Margin;
-  theme?: ChartTheme;
+  theme?: typeof chartTheme;
 } & PartialSpec<Encoding>;
 
 export type Hooks = {
