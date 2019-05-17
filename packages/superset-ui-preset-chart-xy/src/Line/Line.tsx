@@ -119,7 +119,7 @@ class LineChart extends PureComponent<Props> {
       const firstDatum = seriesData[0];
       const key = fieldNames.map(f => firstDatum[f]).join(',');
       const series: Series = {
-        key: key.length === 0 ? channels.y.definition.field : key,
+        key: key.length === 0 ? channels.y.getTitle() : key,
         fill: channels.fill.encode(firstDatum, false),
         stroke: channels.stroke.encode(firstDatum, '#222'),
         strokeDasharray: channels.strokeDasharray.encode(firstDatum, ''),
