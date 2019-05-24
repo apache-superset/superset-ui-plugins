@@ -1,3 +1,4 @@
+import * as css from 'csstype';
 import { Value } from 'vega-lite/build/src/channeldef';
 import { ObjectWithKeysFromAndValueType } from '../../encodeable/types/Base';
 import { ChannelInput } from '../../encodeable/types/Channel';
@@ -31,6 +32,7 @@ export type LegendGroupRendererProps<ChannelTypes> = {
   ItemRenderer?: LegendItemRendererType<ChannelTypes>;
   ItemMarkRenderer?: LegendItemMarkRendererType<ChannelTypes>;
   ItemLabelRenderer?: LegendItemLabelRendererType<ChannelTypes>;
+  justifyContent?: css.JustifyContentProperty;
 };
 
 export type LegendGroupRendererType<ChannelTypes> = React.ComponentType<
