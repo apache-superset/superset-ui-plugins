@@ -10,10 +10,12 @@ import ChannelEncoder from './ChannelEncoder';
 import { DEFAULT_LABEL_ANGLE } from '../utils/constants';
 
 const DEFAULT_BASE_CONFIG: {
+  labelFlush: number | boolean;
   labelOverlap: LabelOverlapStrategy;
   labelPadding: number;
   tickCount: number;
 } = {
+  labelFlush: true,
   labelOverlap: 'auto',
   labelPadding: 4,
   tickCount: 5,
