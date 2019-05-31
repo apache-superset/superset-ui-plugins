@@ -1,3 +1,5 @@
+/** See https://vega.github.io/vega-lite/docs/axis.html */
+
 import { DateTime } from 'vega-lite/build/src/datetime';
 
 export type AxisOrient = 'top' | 'bottom' | 'left' | 'right';
@@ -15,7 +17,7 @@ export interface CoreAxis {
    * for example, a value of 2 will flush-align the first and last labels
    * and also push them 2 pixels outward from the center of the axis.
    * The additional adjustment can sometimes help the labels better visually group with corresponding axis ticks. */
-  labelFlush: boolean | number;
+  labelFlush?: boolean | number;
   labelOverlap: LabelOverlapStrategy;
   /** The padding, in pixels, between axis and text labels. */
   labelPadding: number;
