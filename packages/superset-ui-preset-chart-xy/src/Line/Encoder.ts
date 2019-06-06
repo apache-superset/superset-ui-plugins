@@ -1,9 +1,10 @@
-import AbstractEncoder from '../encodeable/AbstractEncoder';
-import { PartialSpec } from '../encodeable/types/Specification';
-import { EncodingFromChannelsAndOutputs } from '../encodeable/types/Channel';
+import { Value } from 'vega-lite/build/src/channeldef';
+import { ChannelTypeToDefMap } from '../encodeable/types/Channel';
+import { ExtractChannelOutput } from '../encodeable/types/ChannelDef';
+import createEncoderClass from '../encodeable/createEncoderClass';
 
 /**
- * Define channel types
+ * Define channel names and their types
  */
 const channelTypes = {
   fill: 'Category',
@@ -17,37 +18,46 @@ const channelTypes = {
 export type ChannelTypes = typeof channelTypes;
 
 /**
- * Define output type for each channel
+ * TEMPLATE:
+ * Helper for defining encoding
  */
-export interface Outputs {
-  x: number | null;
-  y: number | null;
-  fill: boolean;
-  stroke: string;
-  strokeDasharray: string;
-  strokeWidth: number;
-}
+type CreateChannelDef<
+  ChannelName extends keyof ChannelTypes,
+  Output extends Value
+> = ChannelTypeToDefMap<Output>[ChannelTypes[ChannelName]];
 
 /**
- * Derive encoding config
+ * Encoding definition
  */
-export type Encoding = EncodingFromChannelsAndOutputs<ChannelTypes, Outputs>;
+export type Encoding = {
+  fill: CreateChannelDef<'fill', boolean>;
+  stroke: CreateChannelDef<'stroke', string>;
+  strokeDasharray: CreateChannelDef<'strokeDasharray', string>;
+  strokeWidth: CreateChannelDef<'strokeWidth', number>;
+  x: CreateChannelDef<'x', number>;
+  y: CreateChannelDef<'y', number>;
+};
 
-export default class Encoder extends AbstractEncoder<ChannelTypes, Outputs> {
-  static readonly DEFAULT_ENCODINGS: Encoding = {
+/**
+ * TEMPLATE:
+ * Can use this to get returned type of a Channel
+ * example usage: ChannelOutput<'x'>
+ */
+export type ChannelOutput<ChannelName extends keyof Encoding> = ExtractChannelOutput<
+  Encoding[ChannelName]
+>;
+
+export default class Encoder extends createEncoderClass<ChannelTypes, Encoding>({
+  allChannelOptions: {
+    fill: { legend: false },
+  },
+  channelTypes,
+  defaultEncoding: {
     fill: { value: false },
     stroke: { value: '#222' },
     strokeDasharray: { value: '' },
     strokeWidth: { value: 1 },
     x: { field: 'x', type: 'quantitative' },
     y: { field: 'y', type: 'quantitative' },
-  };
-
-  static readonly CHANNEL_OPTIONS = {
-    fill: { legend: false },
-  };
-
-  constructor(spec: PartialSpec<Encoding>) {
-    super(channelTypes, spec, Encoder.DEFAULT_ENCODINGS, Encoder.CHANNEL_OPTIONS);
-  }
-}
+  },
+}) {}

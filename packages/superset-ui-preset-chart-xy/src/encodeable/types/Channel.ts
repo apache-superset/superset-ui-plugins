@@ -1,6 +1,5 @@
 import { Value } from 'vega-lite/build/src/channeldef';
-import { XFieldDef, YFieldDef, ChannelDef, MarkPropChannelDef, TextChannelDef } from './ChannelDef';
-import { ObjectWithKeysFromAndValueType } from './Base';
+import { XFieldDef, YFieldDef, MarkPropChannelDef, TextChannelDef } from './ChannelDef';
 
 export type ChannelInput = number | string | boolean | null | Date | undefined;
 
@@ -10,11 +9,12 @@ export interface ChannelOptions {
   legend?: boolean;
 }
 
+export type AllChannelOptions<Encoding> = Partial<{ [k in keyof Encoding]: ChannelOptions }>;
+
 /**
  * Define all channel types and mapping to available definition grammar
  */
-export interface ChannelTypeToDefMap<Output extends Value = Value>
-  extends ObjectWithKeysFromAndValueType<ChannelTypeToDefMap<Output>, ChannelDef> {
+export interface ChannelTypeToDefMap<Output extends Value = Value> {
   // position on x-axis
   X: XFieldDef<Output>;
   // position on y-axis
@@ -34,13 +34,3 @@ export interface ChannelTypeToDefMap<Output extends Value = Value>
 }
 
 export type ChannelType = keyof ChannelTypeToDefMap;
-
-export type ChannelDefFromType<
-  T extends keyof ChannelTypeToDefMap,
-  Output extends Value
-> = ChannelTypeToDefMap<Output>[T];
-
-export type EncodingFromChannelsAndOutputs<
-  Channels extends ObjectWithKeysFromAndValueType<Outputs, ChannelType>,
-  Outputs extends ObjectWithKeysFromAndValueType<Channels, Value>
-> = { [key in keyof Channels]: ChannelDefFromType<Channels[key], Outputs[key]> };

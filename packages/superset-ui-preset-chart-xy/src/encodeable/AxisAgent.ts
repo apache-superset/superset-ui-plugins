@@ -1,6 +1,5 @@
 /* eslint-disable no-magic-numbers */
 import { CSSProperties } from 'react';
-import { Value } from 'vega-lite/build/src/channeldef';
 import { getTextDimension, Margin, Dimension } from '@superset-ui/dimension';
 import { CategoricalColorScale } from '@superset-ui/color';
 import { extractFormatFromTypeAndFormat } from './parsers/extractFormat';
@@ -44,12 +43,12 @@ export interface AxisLayout {
   tickTextAnchor?: string;
 }
 
-export default class AxisAgent<Def extends ChannelDef<Output>, Output extends Value = Value> {
-  private readonly channelEncoder: ChannelEncoder<Def, Output>;
+export default class AxisAgent<Def extends ChannelDef> {
+  private readonly channelEncoder: ChannelEncoder<Def>;
   private readonly format?: (value: any) => string;
   readonly config: CoreAxis;
 
-  constructor(channelEncoder: ChannelEncoder<Def, Output>) {
+  constructor(channelEncoder: ChannelEncoder<Def>) {
     this.channelEncoder = channelEncoder;
     const definition = channelEncoder.definition as PositionFieldDef;
     const { type, axis = {} } = definition;
@@ -111,7 +110,7 @@ export default class AxisAgent<Def extends ChannelDef<Output>, Output extends Va
     gapBetweenAxisLabelAndBorder = 4,
     gapBetweenTickAndTickLabel = 4,
     labelAngle = this.config.labelAngle,
-    tickLength = 8,
+    tickSize = 8,
     tickTextStyle = {},
   }: {
     axisTitleHeight?: number;
@@ -119,7 +118,7 @@ export default class AxisAgent<Def extends ChannelDef<Output>, Output extends Va
     gapBetweenAxisLabelAndBorder?: number;
     gapBetweenTickAndTickLabel?: number;
     labelAngle?: number;
-    tickLength?: number;
+    tickSize?: number;
     tickTextStyle?: CSSProperties;
   }): AxisLayout {
     const tickLabels = this.getTickLabels();
@@ -151,7 +150,7 @@ export default class AxisAgent<Def extends ChannelDef<Output>, Output extends Va
     let tickTextAnchor;
     let labelOffset: number = 0;
     let requiredMargin =
-      tickLength + gapBetweenTickAndTickLabel + spaceForAxisTitle + gapBetweenAxisLabelAndBorder;
+      tickSize + gapBetweenTickAndTickLabel + spaceForAxisTitle + gapBetweenAxisLabelAndBorder;
 
     if (this.channelEncoder.isX()) {
       if (strategyForLabelOverlap === 'flat') {

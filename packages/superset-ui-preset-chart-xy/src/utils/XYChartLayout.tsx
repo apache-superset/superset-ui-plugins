@@ -1,9 +1,7 @@
 /* eslint-disable sort-keys, no-magic-numbers */
 
-import React, { ReactNode } from 'react';
-import collectScalesFromProps from '@data-ui/xy-chart/esm/utils/collectScalesFromProps';
+import React, { ReactNode, CSSProperties } from 'react';
 import { XAxis, YAxis } from '@data-ui/xy-chart';
-import { ChartTheme } from '@data-ui/theme';
 import { Margin, mergeMargin, Dimension } from '@superset-ui/dimension';
 import { ChartFrame } from '@superset-ui/chart-composition';
 import createTickComponent from './createTickComponent';
@@ -11,7 +9,6 @@ import ChannelEncoder from '../encodeable/ChannelEncoder';
 import { XFieldDef, YFieldDef } from '../encodeable/types/ChannelDef';
 import { PlainObject } from '../encodeable/types/Data';
 import { DEFAULT_LABEL_ANGLE } from './constants';
-import convertScaleToDataUIScale from './convertScaleToDataUIScaleShape';
 import { AxisLayout } from '../encodeable/AxisAgent';
 
 // Additional margin to avoid content hidden behind scroll bar
@@ -24,9 +21,13 @@ export interface XYChartLayoutConfig {
   minContentHeight?: number;
   margin: Margin;
   xEncoder: ChannelEncoder<XFieldDef>;
+  xTickSize?: number;
+  xTickTextStyle?: CSSProperties;
+  autoAdjustXMargin?: boolean;
   yEncoder: ChannelEncoder<YFieldDef>;
-  children: ReactNode[];
-  theme: ChartTheme;
+  yTickSize?: number;
+  yTickTextStyle?: CSSProperties;
+  autoAdjustYMargin?: boolean;
 }
 
 export default class XYChartLayout {
@@ -35,16 +36,13 @@ export default class XYChartLayout {
   containerWidth: number;
   containerHeight: number;
   margin: Margin;
-  config: XYChartLayoutConfig;
-
+  xEncoder: ChannelEncoder<XFieldDef>;
   xLayout?: AxisLayout;
-
+  yEncoder: ChannelEncoder<YFieldDef>;
   yLayout?: AxisLayout;
 
   // eslint-disable-next-line complexity
   constructor(config: XYChartLayoutConfig) {
-    this.config = config;
-
     const {
       width,
       height,
@@ -52,52 +50,43 @@ export default class XYChartLayout {
       minContentHeight = 0,
       margin,
       xEncoder,
+      xTickSize,
+      xTickTextStyle,
+      autoAdjustXMargin = true,
       yEncoder,
-      children,
-      theme,
+      yTickSize,
+      yTickTextStyle,
+      autoAdjustYMargin = true,
     } = config;
 
-    const { xScale, yScale } = collectScalesFromProps({
-      width,
-      height,
-      margin,
-      xScale: convertScaleToDataUIScale(xEncoder.scale!.config || {}),
-      yScale: convertScaleToDataUIScale(yEncoder.scale!.config || {}),
-      theme,
-      children,
-    });
+    this.xEncoder = xEncoder;
+    this.yEncoder = yEncoder;
 
-    if (typeof yEncoder.scale !== 'undefined') {
-      yEncoder.scale.setDomain(yScale.domain());
-    }
     if (typeof yEncoder.axis !== 'undefined') {
       this.yLayout = yEncoder.axis.computeLayout({
         axisWidth: Math.max(height - margin.top - margin.bottom),
-        // @ts-ignore
-        tickLength: theme.yTickStyles.length || theme.yTickStyles.tickLength,
-        tickTextStyle: theme.yTickStyles.label.right,
+        tickSize: yEncoder.axis.config.tickSize || yTickSize,
+        tickTextStyle: yTickTextStyle,
       });
     }
 
-    const secondMargin = this.yLayout ? mergeMargin(margin, this.yLayout.minMargin) : margin;
+    const secondMargin =
+      this.yLayout && autoAdjustYMargin ? mergeMargin(margin, this.yLayout.minMargin) : margin;
     const innerWidth = Math.max(width - secondMargin.left - secondMargin.right, minContentWidth);
 
-    if (typeof xEncoder.scale !== 'undefined') {
-      xEncoder.scale.setDomain(xScale.domain());
-    }
     if (typeof xEncoder.axis !== 'undefined') {
       this.xLayout = xEncoder.axis.computeLayout({
         axisWidth: innerWidth,
         labelAngle: this.recommendXLabelAngle(xEncoder.axis.config.orient as 'top' | 'bottom'),
-        // @ts-ignore
-        tickLength: theme.xTickStyles.length || theme.xTickStyles.tickLength,
-        tickTextStyle: theme.xTickStyles.label.bottom,
+        tickSize: xEncoder.axis.config.tickSize || xTickSize,
+        tickTextStyle: xTickTextStyle,
       });
     }
 
-    const finalMargin = this.xLayout
-      ? mergeMargin(secondMargin, this.xLayout.minMargin)
-      : secondMargin;
+    const finalMargin =
+      this.xLayout && autoAdjustXMargin
+        ? mergeMargin(secondMargin, this.xLayout.minMargin)
+        : secondMargin;
 
     const innerHeight = Math.max(height - finalMargin.top - finalMargin.bottom, minContentHeight);
 
@@ -120,7 +109,7 @@ export default class XYChartLayout {
   }
 
   recommendXLabelAngle(xOrient: 'top' | 'bottom' = 'bottom') {
-    const { axis } = this.config.yEncoder;
+    const { axis } = this.yEncoder;
 
     return !this.yLayout ||
       (typeof axis !== 'undefined' &&
@@ -143,7 +132,7 @@ export default class XYChartLayout {
   }
 
   renderXAxis(props?: PlainObject) {
-    const { axis } = this.config.xEncoder;
+    const { axis } = this.xEncoder;
 
     return axis && this.xLayout ? (
       <XAxis
@@ -159,7 +148,7 @@ export default class XYChartLayout {
   }
 
   renderYAxis(props?: PlainObject) {
-    const { axis } = this.config.yEncoder;
+    const { axis } = this.yEncoder;
 
     return axis && this.yLayout ? (
       <YAxis

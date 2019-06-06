@@ -14,17 +14,16 @@ import { chartTheme } from '@data-ui/theme';
 import { Margin, Dimension } from '@superset-ui/dimension';
 import { WithLegend } from '@superset-ui/chart-composition';
 import { createSelector } from 'reselect';
-import Encoder, { ChannelTypes, Encoding, Outputs } from './Encoder';
+import Encoder, { Encoding, ChannelOutput } from './Encoder';
 import { Dataset, PlainObject } from '../encodeable/types/Data';
-import ChartLegend, {
-  Props as LegendProps,
-  Hooks as LegendHooks,
-} from '../components/legend/ChartLegend';
 import { PartialSpec } from '../encodeable/types/Specification';
 import DefaultTooltipRenderer from './DefaultTooltipRenderer';
 import createMarginSelector, { DEFAULT_MARGIN } from '../utils/selectors/createMarginSelector';
-import createXYChartLayoutSelector from '../utils/selectors/createXYChartLayoutSelector';
 import convertScaleToDataUIScale from '../utils/convertScaleToDataUIScaleShape';
+import createXYChartLayoutWithTheme from '../utils/createXYChartLayoutWithTheme';
+import createEncoderSelector from '../encodeable/createEncoderSelector';
+import createRenderLegend from '../components/legend/createRenderLegend';
+import { LegendHooks } from '../components/legend/types';
 
 export interface TooltipProps {
   encoder: Encoder;
@@ -42,7 +41,6 @@ const defaultProps = {
   className: '',
   margin: DEFAULT_MARGIN,
   theme: chartTheme,
-  LegendRenderer: ChartLegend,
   TooltipRenderer: DefaultTooltipRenderer,
 };
 
@@ -53,9 +51,8 @@ export type FormDataProps = {
 } & PartialSpec<Encoding>;
 
 export type HookProps = {
-  LegendRenderer?: React.ComponentType<LegendProps<Encoder, ChannelTypes>>;
   TooltipRenderer?: React.ComponentType<TooltipProps>;
-} & LegendHooks<ChannelTypes>;
+} & LegendHooks<Encoder>;
 
 type Props = {
   className?: string;
@@ -68,10 +65,10 @@ type Props = {
 
 export interface Series {
   key: string;
-  stroke: Outputs['stroke'];
-  fill: Outputs['fill'];
-  strokeDasharray: Outputs['strokeDasharray'];
-  strokeWidth: Outputs['strokeWidth'];
+  fill: ChannelOutput<'fill'>;
+  stroke: ChannelOutput<'stroke'>;
+  strokeDasharray: ChannelOutput<'strokeDasharray'>;
+  strokeWidth: ChannelOutput<'strokeWidth'>;
   values: SeriesValue[];
 }
 
@@ -87,12 +84,7 @@ const CIRCLE_STYLE = { strokeWidth: 1.5 };
 export default class LineChart extends PureComponent<Props> {
   static defaultProps = defaultProps;
 
-  private createEncoder = createSelector(
-    (p: PartialSpec<Encoding>) => p.encoding,
-    p => p.commonEncoding,
-    p => p.options,
-    (encoding, commonEncoding, options) => new Encoder({ encoding, commonEncoding, options }),
-  );
+  private createEncoder = createEncoderSelector(Encoder);
 
   private createAllSeries = createSelector(
     (input: { encoder: Encoder; data: Dataset }) => input.encoder,
@@ -136,62 +128,56 @@ export default class LineChart extends PureComponent<Props> {
     },
   );
 
-  private createChildren = createSelector(
-    (allSeries: Series[]) => allSeries,
-    allSeries => {
-      const filledSeries = flatMap(
-        allSeries
-          .filter(({ fill }) => fill)
-          .map(series => {
-            const gradientId = uniqueId(kebabCase(`gradient-${series.key}`));
-
-            return [
-              <LinearGradient
-                key={`${series.key}-gradient`}
-                id={gradientId}
-                from={series.stroke}
-                to="#fff"
-              />,
-              <AreaSeries
-                key={`${series.key}-fill`}
-                seriesKey={series.key}
-                data={series.values}
-                interpolation="linear"
-                fill={`url(#${gradientId})`}
-                stroke={series.stroke}
-                strokeWidth={series.strokeWidth}
-              />,
-            ];
-          }),
-      );
-
-      const unfilledSeries = allSeries
-        .filter(({ fill }) => !fill)
-        .map(series => (
-          <LineSeries
-            key={series.key}
-            seriesKey={series.key}
-            interpolation="linear"
-            data={series.values}
-            stroke={series.stroke}
-            strokeDasharray={series.strokeDasharray}
-            strokeWidth={series.strokeWidth}
-          />
-        ));
-
-      return filledSeries.concat(unfilledSeries);
-    },
-  );
-
   private createMargin = createMarginSelector();
-
-  private createXYChartLayout = createXYChartLayoutSelector();
 
   constructor(props: Props) {
     super(props);
 
-    this.renderLegend = this.renderLegend.bind(this);
     this.renderChart = this.renderChart.bind(this);
+  }
+
+  renderSeries(allSeries: Series[]) {
+    const filledSeries = flatMap(
+      allSeries
+        .filter(({ fill }) => fill)
+        .map(series => {
+          const gradientId = uniqueId(kebabCase(`gradient-${series.key}`));
+
+          return [
+            <LinearGradient
+              key={`${series.key}-gradient`}
+              id={gradientId}
+              from={series.stroke}
+              to="#fff"
+            />,
+            <AreaSeries
+              key={`${series.key}-fill`}
+              seriesKey={series.key}
+              data={series.values}
+              interpolation="linear"
+              fill={`url(#${gradientId})`}
+              stroke={series.stroke}
+              strokeWidth={series.strokeWidth}
+            />,
+          ];
+        }),
+    );
+
+    const unfilledSeries = allSeries
+      .filter(({ fill }) => !fill)
+      .map(series => (
+        <LineSeries
+          key={series.key}
+          seriesKey={series.key}
+          interpolation="linear"
+          data={series.values}
+          stroke={series.stroke}
+          strokeDasharray={series.strokeDasharray}
+          strokeWidth={series.strokeWidth}
+        />
+      ));
+
+    return filledSeries.concat(unfilledSeries);
   }
 
   renderChart(dim: Dimension) {
@@ -200,16 +186,25 @@ export default class LineChart extends PureComponent<Props> {
 
     const encoder = this.createEncoder(this.props);
     const { channels } = encoder;
+
+    if (typeof channels.x.scale !== 'undefined') {
+      const xDomain = channels.x.getDomain(data);
+      channels.x.scale.setDomain(xDomain);
+    }
+    if (typeof channels.y.scale !== 'undefined') {
+      const yDomain = channels.y.getDomain(data);
+      channels.y.scale.setDomain(yDomain);
+    }
+
     const allSeries = this.createAllSeries({ encoder, data });
-    const children = this.createChildren(allSeries);
-    const layout = this.createXYChartLayout({
+
+    const layout = createXYChartLayoutWithTheme({
       width,
       height,
       margin: this.createMargin(margin),
       theme,
       xEncoder: channels.x,
       yEncoder: channels.y,
-      children,
     });
 
     return layout.renderChartWithFrame((chartDim: Dimension) => (
@@ -261,7 +256,7 @@ export default class LineChart extends PureComponent<Props> {
           >
             {layout.renderXAxis()}
             {layout.renderYAxis()}
-            {children}
+            {this.renderSeries(allSeries)}
             <CrossHair
               fullHeight
               strokeDasharray=""
@@ -284,32 +279,8 @@ export default class LineChart extends PureComponent<Props> {
     ));
   }
 
-  renderLegend() {
-    const {
-      data,
-      LegendRenderer,
-      LegendGroupRenderer,
-      LegendItemRenderer,
-      LegendItemLabelRenderer,
-      LegendItemMarkRenderer,
-    } = this.props;
-
-    const encoder = this.createEncoder(this.props);
-
-    return (
-      <LegendRenderer
-        data={data}
-        encoder={encoder}
-        LegendGroupRenderer={LegendGroupRenderer}
-        LegendItemRenderer={LegendItemRenderer}
-        LegendItemMarkRenderer={LegendItemMarkRenderer}
-        LegendItemLabelRenderer={LegendItemLabelRenderer}
-      />
-    );
-  }
-
   render() {
-    const { className, width, height } = this.props;
+    const { className, data, width, height } = this.props;
 
     const encoder = this.createEncoder(this.props);
 
@@ -319,7 +290,7 @@ export default class LineChart extends PureComponent<Props> {
         width={width}
         height={height}
         position="top"
-        renderLegend={encoder.hasLegend() ? this.renderLegend : undefined}
+        renderLegend={createRenderLegend(encoder, data, this.props)}
         renderChart={this.renderChart}
       />
     );
