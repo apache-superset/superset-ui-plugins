@@ -1,0 +1,1 @@
+{"version":3,"file":"19.b5decaab6f7a61374d02.bundle.js","sources":["webpack:////Users/michelle_thomas/code/superset-ui-plugins/node_modules/d3-svg-legend/index.js"],"sourcesContent":["var d3 = require('d3');\n\nd3.legend = require('./no-extend');\n\nmodule.exports = d3;\n"],"mappings":"AAAA","sourceRoot":""}
