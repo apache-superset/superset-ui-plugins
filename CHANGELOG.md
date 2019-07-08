@@ -1,7 +1,3 @@
-# [0.0.0-master](https://github.com/apache-superset/superset-ui-plugins/compare/v0.10.35...v0.0.0-master) (2019-07-08)
-
-
-
 ## [0.10.35](https://github.com/apache-superset/superset-ui-plugins/compare/v0.10.34...v0.10.35) (2019-07-08)
 
 
