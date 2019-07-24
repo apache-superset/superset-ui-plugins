@@ -54,6 +54,7 @@
     "core-js": "^3.0.1",
     "csstype": "^2.6.3",
     "fast-glob": "^3.0.1",
+    "react-hot-loader": "^4.5.3",
     "fs-extra": "^8.0.1",
     "husky": "^2.3.0",
     "lerna": "^3.2.1",

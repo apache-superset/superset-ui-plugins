@@ -50,6 +50,7 @@ import {
   setAxisShowMaxMin,
   stringifyTimeRange,
   wrapTooltip,
+  computeYDomain,
 } from './utils';
 import {
   annotationLayerType,
@@ -612,10 +613,24 @@ function nvd3Vis(element, props) {
       const [min, max] = yAxisBounds;
       const hasCustomMin = isDefined(min) && !Number.isNaN(min);
       const hasCustomMax = isDefined(max) && !Number.isNaN(max);
+      let yMin;
+      let yMax;
       if (hasCustomMin && hasCustomMax) {
-        chart.yDomain([min, max]);
-        chart.clipEdge(true);
+        yMin = min;
+        yMax = max;
+      } else {
+        let [trueMin, trueMax] = [0, 1];
+        // These viz types can be stacked
+        if (isVizTypes(['area', 'bar', 'dist_bar'])) {
+          [trueMin, trueMax] = chart.yAxis.scale().domain();
+        } else {
+          [trueMin, trueMax] = computeYDomain(data);
+        }
+        yMin = hasCustomMin ? min : trueMin;
+        yMax = hasCustomMax ? max : trueMax;
       }
+      chart.yDomain([yMin, yMax]);
+      chart.clipEdge(true);
     }
 
     // align yAxis1 and yAxis2 ticks

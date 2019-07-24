@@ -1,0 +1,79 @@
+{
+  "name": "@superset-ui/legacy-plugin-chart-funnel",
+  "version": "0.11.11",
+  "description": "Superset Legacy Chart - Funnel Chart",
+  "sideEffects": [
+    "*.css"
+  ],
+  "main": "lib/index.js",
+  "module": "esm/index.js",
+  "files": [
+    "esm",
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/apache-superset/superset-ui-plugins.git"
+  },
+  "keywords": [
+    "superset"
+  ],
+  "author": "Superset",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/apache-superset/superset-ui-plugins/issues"
+  },
+  "homepage": "https://github.com/apache-superset/superset-ui-plugins#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "d3": "^3.5.17",
+    "d3-funnel": "^1.2.2",
+    "prop-types": "^15.6.2",
+    "d3-selection": "^1.4.0"
+  },
+  "peerDependencies": {
+    "@superset-ui/chart": "^0.10.0 || ^0.11.0",
+    "@superset-ui/color": "^0.10.0 || ^0.11.0",
+    "@superset-ui/core": "^0.10.0 || ^0.11.0",
+    "@superset-ui/dimension": "^0.10.0 || ^0.11.0",
+    "@superset-ui/number-format": "^0.10.0 || ^0.11.0",
+    "@superset-ui/time-format": "^0.10.0 || ^0.11.0",
+    "@superset-ui/translation": "^0.10.0 || ^0.11.0",
+    "react": "^15 || ^16"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "babel-loader": "^8.0.0",
+    "browser-sync": "^2.26.3",
+    "chai": "^4.0.1",
+    "d3": "^5.5.0",
+    "eslint": "^6.0.0",
+    "eslint-config-takiyon": "^0.3.1",
+    "eslint-import-resolver-webpack": "^0.11.0",
+    "eslint-plugin-import": "^2.7.0",
+    "gulp": "^4.0.0",
+    "gulp-autoprefixer": "^6.0.0",
+    "gulp-clean-css": "^4.0.0",
+    "gulp-eslint": "^5.0.0",
+    "gulp-exec": "^3.0.2",
+    "gulp-header": "^2.0.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-sass": "^4.0.1",
+    "gulp-scss-lint": "^1.0.0",
+    "jsdom": "^15.0.0",
+    "lodash": "^4.17.10",
+    "mocha": "^6.0.0",
+    "mocha-chrome": "^2.0.0",
+    "sinon": "^7.2.3",
+    "webpack": "^4.12.1",
+    "webpack-cli": "^3.2.1",
+    "webpack-stream": "^5.1.1"
+  }
+}
