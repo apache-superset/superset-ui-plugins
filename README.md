@@ -109,6 +109,12 @@ cd packages/superset-ui-plugins-demo
 yarn storybook
 ```
 
+Alternatively, you can use the following command while in `packages/superset-ui-plugins-demo`
+
+```sh
+sudo python build.py
+```
+
 ### Committing
 
 This repository follows [conventional commits](https://www.conventionalcommits.org/en/v1.0.0-beta.3/) guideline for commit messages and has a `commitlint` hook which will require you to have the valid commit message before committing. You can use `npm run commit` to help you create a commit message.
