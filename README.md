@@ -109,10 +109,10 @@ cd packages/superset-ui-plugins-demo
 yarn storybook
 ```
 
-Alternatively, you can use the following command while in `packages/superset-ui-plugins-demo`
+Alternatively, you can demo your changes by using the following command while in `packages/superset-ui-plugins-demo`:
 
 ```sh
-sudo python build.py
+npm run build
 ```
 
 ### Committing
