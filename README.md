@@ -112,7 +112,7 @@ yarn storybook
 Alternatively, you can demo your changes by using the following command while in `packages/superset-ui-plugins-demo`:
 
 ```sh
-npm run build
+npm run storybook
 ```
 
 ### Committing
