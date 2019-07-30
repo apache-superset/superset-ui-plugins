@@ -13,10 +13,6 @@ interface Props {
 }
 
 export default class IcicleEventViz extends PureComponent<Props> {
-  constructor(props: Props) {
-    super(props);
-  }
-
   render() {
     // TODO: create d3 partition & layout w/ memoization & pass into chart here
 

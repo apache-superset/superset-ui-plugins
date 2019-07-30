@@ -1,6 +1,6 @@
-import { IcicleEventNode } from '../../types/IcicleEventNode';
-import { HierarchyRectangularNode } from 'd3-hierarchy';
 import { max as d3Max } from 'd3-array';
+import { HierarchyRectangularNode } from 'd3-hierarchy';
+import { IcicleEventNode } from '../../types/IcicleEventNode';
 
 export function findDepth(node: IcicleEventNode, depth: number = 0): number {
   if (!node.children) {
@@ -8,7 +8,8 @@ export function findDepth(node: IcicleEventNode, depth: number = 0): number {
   }
 
   const maxDepth = d3Max(node.children.map(child => findDepth(child, depth + 1)));
-  return maxDepth ? maxDepth : depth;
+
+  return maxDepth || depth;
 }
 
 export function hierarchySort(

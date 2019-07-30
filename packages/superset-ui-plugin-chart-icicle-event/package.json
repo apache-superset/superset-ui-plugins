@@ -33,6 +33,7 @@
     "@types/d3-hierarchy": "^1.1.6",
     "d3": "^5.9.7",
     "d3-array": "^2.2.0",
+    "d3-hierarchy": "^1.1.8",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.2"
   },

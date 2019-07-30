@@ -1,6 +1,6 @@
 import React, { Component, createRef } from 'react';
-import { IcicleEventNode } from '../types/IcicleEventNode';
 import { HierarchyRectangularNode } from 'd3-hierarchy';
+import { IcicleEventNode } from '../types/IcicleEventNode';
 
 interface Props {
   className?: string;
