@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 
 const BABEL_TYPESCRIPT_OPTIONS = {
   presets: [
@@ -21,8 +22,9 @@ module.exports = async ({ config }) => {
   config.resolve = config.resolve || {};
   config.resolve.extensions = ['.tsx', '.ts', '.jsx', '.js'];
 
+  config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
   // Avoid parsing large libraries to speed up build
-  config.module.noParse = /d3$|jquery|moment|mathjs|datamaps|datatables|^mapbox[-]gl/;
+  config.module.noParse = /^(d3|jquery|lodash|moment|mathjs|datamaps)$/;
 
   // To enable live debugging of other packages when referring to `src`
   config.module.rules.push({
@@ -57,6 +59,8 @@ module.exports = async ({ config }) => {
       chunks: 'async'
     },
   };
+
+  console.log('config', config);
 
   return config;
 };
