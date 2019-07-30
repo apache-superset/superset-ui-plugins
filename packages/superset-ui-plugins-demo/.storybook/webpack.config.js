@@ -1,4 +1,7 @@
 const path = require('path');
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+
+const smp = new SpeedMeasurePlugin();
 
 const BABEL_TYPESCRIPT_OPTIONS = {
   presets: [
@@ -21,7 +24,7 @@ module.exports = async ({ config }) => {
   config.resolve = config.resolve || {};
   config.resolve.extensions = ['.tsx', '.ts', '.jsx', '.js'];
 
-  config.module.noParse = /core[-]js|lodash|moment|mathjs|d3[-].*/;
+  config.module.noParse = /core[-]js|jquery|lodash|moment|mathjs|d3([-].+)?/;
 
   // To enable live debugging of other packages when referring to `src`
   config.module.rules.push({
@@ -57,5 +60,5 @@ module.exports = async ({ config }) => {
     },
   };
 
-  return config;
+  return smp.wrap(config);
 };
