@@ -5,7 +5,7 @@ import thumbnail from './images/thumbnail.png';
 export default function createMetadata(useLegacyApi = false) {
   return new ChartMetadata({
     description: '',
-    name: t('Icicle Chart'),
+    name: t('Icicle Event Chart'),
     thumbnail,
     useLegacyApi,
   });

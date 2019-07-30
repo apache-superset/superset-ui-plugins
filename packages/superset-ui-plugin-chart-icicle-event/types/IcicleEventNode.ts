@@ -1,7 +1,7 @@
-export type IcicleNode = {
+export type IcicleEventNode = {
   id: string;
   event: string;
   name?: string;
   value: number;
-  children?: [IcicleNode]
+  children?: [IcicleEventNode]
 }

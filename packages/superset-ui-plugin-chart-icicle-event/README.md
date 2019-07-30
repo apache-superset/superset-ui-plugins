@@ -4,16 +4,16 @@
 
 This is a work in progress with the design being finalized.
 
-This plugin provides Icicle Chart for Superset.
+This plugin provides Icicle Event Chart for Superset.
 
 ### Usage
 
 Configure `key`, which can be any `string`, and register the plugin. This `key` will be used to lookup this chart throughout the app.
 
 ```js
-import IcicleChartPlugin from '@superset-ui/plugin-chart-icicle';
+import IcicleEventVizPlugin from '@superset-ui/plugin-chart-icicle-event';
 
-new IcicleChartPlugin()
+new IcicleEventVizPlugin()
   .configure({ key: 'icicle' })
   .register();
 ```
