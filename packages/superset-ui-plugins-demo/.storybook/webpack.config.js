@@ -22,7 +22,7 @@ module.exports = async ({ config }) => {
   config.resolve.extensions = ['.tsx', '.ts', '.jsx', '.js'];
 
   // Avoid parsing large libraries to speed up build
-  config.module.noParse = /core[-]js|jquery|lodash|moment|mathjs|d3([-][a-z]+)?/;
+  config.module.noParse = /core[-]js|jquery|lodash|moment|mathjs|d3([-][a-z]+)?|[@]storybook/;
 
   // To enable live debugging of other packages when referring to `src`
   config.module.rules.push({
