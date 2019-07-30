@@ -8,6 +8,7 @@ const BABEL_TYPESCRIPT_OPTIONS = {
     '@babel/preset-typescript',
   ],
   plugins: [
+    'lodash',
     '@babel/plugin-proposal-object-rest-spread',
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-syntax-dynamic-import',
@@ -59,8 +60,6 @@ module.exports = async ({ config }) => {
       chunks: 'async'
     },
   };
-
-  console.log('config', config);
 
   return config;
 };
