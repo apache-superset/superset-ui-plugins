@@ -21,6 +21,8 @@ module.exports = async ({ config }) => {
   config.resolve = config.resolve || {};
   config.resolve.extensions = ['.tsx', '.ts', '.jsx', '.js'];
 
+  config.module.noParse = /core[-]js|lodash|moment|mathjs|d3[-].*/;
+
   // To enable live debugging of other packages when referring to `src`
   config.module.rules.push({
     include: SIBLING_PACKAGES_PATH_REGEXP,
@@ -48,6 +50,12 @@ module.exports = async ({ config }) => {
       options: BABEL_TYPESCRIPT_OPTIONS,
     }],
   });
+
+  config.optimization = {
+    splitChunks: {
+      chunks: 'async'
+    },
+  };
 
   return config;
 };
