@@ -22,10 +22,15 @@ const SIBLING_PACKAGES_PATH_REGEXP = new RegExp(
 module.exports = async ({ config }) => {
   config.resolve = config.resolve || {};
   config.resolve.extensions = ['.tsx', '.ts', '.jsx', '.js'];
+  config.resolve.alias = {
+    ...config.resolve.alias,
+    d3$: path.resolve(__dirname, '../../../node_modules/d3/d3.min.js'),
+    nvd3$: path.resolve(__dirname, '../../../node_modules/nvd3/build/nv.d3.min.js'),
+  }
 
   config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
   // Avoid parsing large libraries to speed up build
-  config.module.noParse = /^(d3|jquery|lodash|moment|mathjs|datamaps)$/;
+  config.module.noParse = /jquery|moment/;
 
   // To enable live debugging of other packages when referring to `src`
   config.module.rules.push({
@@ -62,7 +67,6 @@ module.exports = async ({ config }) => {
   };
 
   if (process.env.RUNNING_CONTEXT === 'netlify') {
-    config.parallelism = 1;
     config.devtool = false;
   }
 
