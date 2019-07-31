@@ -21,7 +21,7 @@
 import { kebabCase, throttle } from 'lodash';
 import d3 from 'd3';
 import nv from 'nvd3';
-import mathjs from 'mathjs';
+import { parse as mathjsParse } from 'mathjs';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import { isDefined } from '@superset-ui/core';
@@ -819,7 +819,7 @@ function nvd3Vis(element, props) {
         // Formula annotations
         const formulas = activeAnnotationLayers
           .filter(a => a.annotationType === ANNOTATION_TYPES.FORMULA)
-          .map(a => ({ ...a, formula: mathjs.parse(a.value) }));
+          .map(a => ({ ...a, formula: mathjsParse(a.value) }));
 
         let xMax;
         let xMin;

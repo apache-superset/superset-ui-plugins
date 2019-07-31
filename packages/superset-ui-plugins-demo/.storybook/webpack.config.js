@@ -26,6 +26,7 @@ module.exports = async ({ config }) => {
     ...config.resolve.alias,
     d3$: path.resolve(__dirname, '../../../node_modules/d3/d3.min.js'),
     nvd3$: path.resolve(__dirname, '../../../node_modules/nvd3/build/nv.d3.min.js'),
+    'datatables.net$': path.resolve(__dirname, '../../../node_modules/datatables.net/js/jquery.dataTables.min.js'),
   }
 
   config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
