@@ -18,7 +18,7 @@ new IcicleEventVizPlugin()
   .register();
 ```
 
-Then use it via `SuperChart`. See [storybook](https://apache-superset.github.io/superset-ui-plugins/?selectedKind=plugin-chart-word-cloud) for more details.
+Then use it via `SuperChart`. A link to Storybook for the Icicle Event Chart will be available here in the future for more details.
 
 ```js
 <SuperChart
