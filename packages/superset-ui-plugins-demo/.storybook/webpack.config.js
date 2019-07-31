@@ -2,9 +2,6 @@ const path = require('path');
 const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
 
-const SpeedMeasurePlugin = require("speed-measure-webpack-plugin");
-const smp = new SpeedMeasurePlugin();
-
 const BABEL_TYPESCRIPT_OPTIONS = {
   presets: [
     ['@babel/preset-env', { useBuiltIns: 'entry' }],
