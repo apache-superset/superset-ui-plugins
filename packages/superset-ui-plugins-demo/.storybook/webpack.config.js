@@ -62,7 +62,7 @@ module.exports = async ({ config }) => {
   };
 
   if (process.env.RUNNING_CONTEXT === 'netlify') {
-    config.paralellism = 1;
+    config.parallelism = 1;
     config.devtool = false;
   }
 
