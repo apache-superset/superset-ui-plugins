@@ -61,5 +61,8 @@ module.exports = async ({ config }) => {
     },
   };
 
+  console.log('process.env.RUNNING_CONTEXT', process.env.RUNNING_CONTEXT);
+  config.parellism = process.env.RUNNING_CONTEXT === 'netlify' ? 1 : 100;
+
   return config;
 };
