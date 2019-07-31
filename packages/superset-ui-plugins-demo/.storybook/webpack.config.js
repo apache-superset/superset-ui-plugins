@@ -61,11 +61,11 @@ module.exports = async ({ config }) => {
     }],
   });
 
-  config.optimization = {
-    splitChunks: {
-      chunks: 'async'
-    },
-  };
+  // config.optimization = {
+  //   splitChunks: {
+  //     chunks: 'async'
+  //   },
+  // };
 
   if (process.env.RUNNING_CONTEXT === 'netlify') {
     config.devtool = false;
