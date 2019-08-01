@@ -16,27 +16,41 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { ChartProps } from '@superset-ui/chart';
-import { findDepth } from './utils/IcicleEventTreeHelpers';
+import { IcicleEventNode } from '../../types/IcicleEventNode';
+import { findDepth } from '../../src/utils/IcicleEventTreeHelpers';
 
-export default function transformProps(chartProps: ChartProps) {
-  const { formData, payload, width } = chartProps;
-  // Need to double check if actually part of formData
-  const { color, isVertical, rounding, transitionDuration } = formData;
-  const { data } = payload;
+const ROOT_NODE: IcicleEventNode = {
+  id: 'root',
+  event: 'root',
+  name: 'Root',
+  value: 1,
+};
 
-  const chartPropsHeight = chartProps.height;
-  const rectHeight = 30;
-  const heightFromTreeDepth = findDepth(data) * rectHeight;
-  const height = chartPropsHeight > heightFromTreeDepth ? chartPropsHeight : heightFromTreeDepth;
+const NODE_A: IcicleEventNode = {
+  id: 'a-0',
+  event: 'a',
+  name: 'A',
+  value: 1,
+};
 
-  return {
-    color,
-    data,
-    height,
-    isVertical,
-    rounding,
-    transitionDuration,
-    width,
-  };
-}
+const NODE_B: IcicleEventNode = {
+  id: 'b-0',
+  event: 'b',
+  name: 'B',
+  value: 1,
+};
+
+const BALANCED_TREE: IcicleEventNode = {
+  id: 'root',
+  event: 'root',
+  name: 'Root',
+  value: 2,
+  children: [NODE_A, NODE_B],
+};
+
+describe('findDepth', () => {
+  it('finds depth of tree with root node', () => {
+    expect(findDepth(ROOT_NODE)).toBe(0);
+    expect(findDepth(BALANCED_TREE)).toBe(1);
+  });
+});
