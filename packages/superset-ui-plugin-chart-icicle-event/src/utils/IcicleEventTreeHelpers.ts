@@ -48,11 +48,11 @@ export function hierarchySort(
 
 export function createPartitionAndLayout(
   data: IcicleEventNode,
-  height: number,
   width: number,
+  height: number,
 ): HierarchyRectangularNode<IcicleEventNode> {
   const root = d3Hierarchy(data).sort(hierarchySort);
-  const createLayout = d3Partition<IcicleEventNode>().size([height, width]);
+  const createLayout = d3Partition<IcicleEventNode>().size([width, height]);
   const layout = createLayout(root);
 
   return layout;
