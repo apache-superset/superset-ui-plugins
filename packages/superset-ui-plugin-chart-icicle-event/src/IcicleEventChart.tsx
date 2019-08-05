@@ -18,7 +18,7 @@
  */
 import React, { Component, createRef } from 'react';
 import { HierarchyRectangularNode } from 'd3-hierarchy';
-import { select as d3Select } from 'd3-selection';
+import { BaseType, select as d3Select } from 'd3-selection';
 import { IcicleEventNode } from '../types/IcicleEventNode';
 import { x0, y0, rectWidth, rectHeight } from './utils/RenderedIcicleAccessors';
 
@@ -31,7 +31,14 @@ interface Props {
     y: number;
   };
   color: (name: string) => string;
-  contentRenderer: (...args: any[]) => void;
+  contentRenderer: (
+    datum: HierarchyRectangularNode<IcicleEventNode>,
+    container: BaseType,
+    rect: {
+      width: number;
+      height: number;
+    },
+  ) => void;
   d3TreeRoot: HierarchyRectangularNode<IcicleEventNode>;
   isVertical: boolean;
   rounding: number;
