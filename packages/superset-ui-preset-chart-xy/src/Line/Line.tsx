@@ -30,9 +30,7 @@ export interface TooltipProps {
   allSeries: Series[];
   datum: SeriesValue;
   series: {
-    [key: string]: {
-      y: number;
-    };
+    [key: string]: SeriesValue;
   };
   theme: typeof chartTheme;
 }
