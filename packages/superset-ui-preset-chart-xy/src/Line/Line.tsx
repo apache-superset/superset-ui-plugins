@@ -213,9 +213,7 @@ export default class LineChart extends PureComponent<Props> {
         }: {
           datum: SeriesValue;
           series: {
-            [key: string]: {
-              y: number;
-            };
+            [key: string]: SeriesValue;
           };
         }) => (
           <TooltipRenderer
