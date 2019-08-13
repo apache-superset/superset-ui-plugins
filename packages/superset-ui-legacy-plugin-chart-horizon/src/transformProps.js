@@ -25,5 +25,6 @@ export default function transformProps(chartProps) {
     data: queryData.data,
     seriesHeight: parseInt(seriesHeight, 10),
     width,
+    height,
   };
 }

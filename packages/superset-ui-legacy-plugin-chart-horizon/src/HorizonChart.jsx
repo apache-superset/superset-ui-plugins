@@ -26,6 +26,7 @@ import './HorizonChart.css';
 const propTypes = {
   className: PropTypes.string,
   width: PropTypes.number,
+  height: PropTypes.number,
   seriesHeight: PropTypes.number,
   data: PropTypes.arrayOf(
     PropTypes.shape({
@@ -60,6 +61,7 @@ class HorizonChart extends React.PureComponent {
     const {
       className,
       width,
+      height,
       data,
       seriesHeight,
       bands,
@@ -76,7 +78,7 @@ class HorizonChart extends React.PureComponent {
     }
 
     return (
-      <div className={`superset-legacy-chart-horizon ${className}`}>
+      <div className={`superset-legacy-chart-horizon ${className}`} style={{ height: height }}>
         {data.map(row => (
           <HorizonRow
             key={row.key}
