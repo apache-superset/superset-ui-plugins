@@ -33,6 +33,7 @@ const countries = {
   egypt,
   france,
   germany,
+  india,
   italy,
   japan,
   korea,
