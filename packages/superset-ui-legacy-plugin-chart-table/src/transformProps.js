@@ -18,7 +18,7 @@
  */
 /* eslint-disable sort-keys */
 export default function transformProps(chartProps) {
-  const { height, datasource, filters, formData, onAddFilter, payload } = chartProps;
+  const { height, datasource, filters, formData, onAddFilter, queryData } = chartProps;
   const {
     alignPn,
     colorPn,
@@ -32,7 +32,7 @@ export default function transformProps(chartProps) {
     timeseriesLimitMetric,
   } = formData;
   const { columnFormats, verboseMap } = datasource;
-  const { records, columns } = payload.data;
+  const { records, columns } = queryData.data;
 
   const processedColumns = columns.map(key => {
     let label = verboseMap[key];

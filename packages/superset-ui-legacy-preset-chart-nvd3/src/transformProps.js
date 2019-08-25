@@ -29,7 +29,7 @@ export default function transformProps(chartProps) {
     formData,
     onError,
     onAddFilter,
-    payload,
+    queryData,
   } = chartProps;
 
   const {
@@ -76,7 +76,7 @@ export default function transformProps(chartProps) {
     yLogScale,
   } = formData;
 
-  const rawData = payload.data || [];
+  const rawData = queryData.data || [];
   const data = Array.isArray(rawData)
     ? rawData.map(row => ({
         ...row,
