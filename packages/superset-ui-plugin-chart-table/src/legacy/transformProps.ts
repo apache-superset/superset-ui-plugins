@@ -23,8 +23,13 @@ import processColumns from '../processColumns';
 import processMetrics from '../processMetrics';
 import processData from '../processData';
 
+function NOOP() {}
+
 export default function transformProps(chartProps: ChartProps) {
-  const { height, datasource, filters, formData, onAddFilter, queryData } = chartProps;
+  const { height, datasource, initialValues, formData, hooks, queryData } = chartProps;
+
+  const { onAddFilter = NOOP } = hooks;
+
   const {
     alignPn,
     colorPn,
@@ -66,7 +71,7 @@ export default function transformProps(chartProps: ChartProps) {
     alignPositiveNegative: alignPn,
     colorPositiveNegative: colorPn,
     columns: processedColumns,
-    filters,
+    filters: initialValues,
     includeSearch,
     onAddFilter,
     orderDesc,

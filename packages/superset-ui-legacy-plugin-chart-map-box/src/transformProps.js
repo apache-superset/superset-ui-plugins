@@ -20,8 +20,11 @@
 import supercluster from 'supercluster';
 import { DEFAULT_POINT_RADIUS, DEFAULT_MAX_ZOOM } from './MapBox';
 
+function NOOP() {}
+
 export default function transformProps(chartProps) {
-  const { width, height, formData, onError, queryData, setControlValue = () => {} } = chartProps;
+  const { width, height, formData, hooks, queryData } = chartProps;
+  const { onError = NOOP, setControlValue = NOOP } = hooks;
   const { bounds, geoJSON, hasCustomMetric, mapboxApiKey } = queryData.data;
   const {
     clusteringRadius,

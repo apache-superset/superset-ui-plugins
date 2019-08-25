@@ -82,8 +82,13 @@ function transformData(data: PlainObject[], formData: PlainObject) {
   };
 }
 
+function NOOP() {}
+
 export default function transformProps(chartProps: ChartProps) {
-  const { height, datasource, filters, formData, onAddFilter, queryData } = chartProps;
+  const { height, datasource, initialValues, formData, hooks, queryData } = chartProps;
+
+  const { onAddFilter = NOOP } = hooks;
+
   const {
     alignPn,
     colorPn,
@@ -124,7 +129,7 @@ export default function transformProps(chartProps: ChartProps) {
     colorPositiveNegative: colorPn,
     columns: processedColumns,
     data: processedData,
-    filters,
+    filters: initialValues,
     height,
     includeSearch,
     onAddFilter,

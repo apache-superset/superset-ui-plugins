@@ -63,7 +63,7 @@ export default function createQueryStory({
                         />
                         <br />
                         <Expandable expandableWhat="payload">
-                          <pre style={{ fontSize: 11 }}>{JSON.stringify(queryData, null, 2)}</pre>
+                          <pre style={{ fontSize: 11 }}>{JSON.stringify(payload, null, 2)}</pre>
                         </Expandable>
                       </>
                     );
