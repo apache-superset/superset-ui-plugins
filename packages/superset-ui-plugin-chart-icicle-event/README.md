@@ -27,7 +27,7 @@ Then use it via `SuperChart`. A link to Storybook for the Icicle Event Chart wil
     width: 600,
     height: 600,
     formData: {...},
-    payload: {
+    queryData: {
       data: {...},
     },
   }}

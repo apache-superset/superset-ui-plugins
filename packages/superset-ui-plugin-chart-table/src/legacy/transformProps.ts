@@ -24,7 +24,7 @@ import processMetrics from '../processMetrics';
 import processData from '../processData';
 
 export default function transformProps(chartProps: ChartProps) {
-  const { height, datasource, filters, formData, onAddFilter, payload } = chartProps;
+  const { height, datasource, filters, formData, onAddFilter, queryData } = chartProps;
   const {
     alignPn,
     colorPn,
@@ -37,7 +37,7 @@ export default function transformProps(chartProps: ChartProps) {
     tableTimestampFormat,
     timeseriesLimitMetric,
   } = formData;
-  const { records, columns } = payload.data;
+  const { records, columns } = queryData.data;
 
   const metrics = processMetrics({
     metrics: rawMetrics,

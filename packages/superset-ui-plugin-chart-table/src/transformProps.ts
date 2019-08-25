@@ -83,7 +83,7 @@ function transformData(data: PlainObject[], formData: PlainObject) {
 }
 
 export default function transformProps(chartProps: ChartProps) {
-  const { height, datasource, filters, formData, onAddFilter, payload } = chartProps;
+  const { height, datasource, filters, formData, onAddFilter, queryData } = chartProps;
   const {
     alignPn,
     colorPn,
@@ -96,7 +96,7 @@ export default function transformProps(chartProps: ChartProps) {
     tableTimestampFormat,
     timeseriesLimitMetric,
   } = formData;
-  const { records, columns } = transformData(payload.data, formData);
+  const { records, columns } = transformData(queryData.data, formData);
 
   const metrics = processMetrics({
     metrics: rawMetrics,

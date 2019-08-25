@@ -37,7 +37,7 @@ Then use it via `SuperChart`. See [storybook](https://apache-superset.github.io/
     width: 600,
     height: 600,
     formData: {...},
-    payload: {
+    queryData: {
       data: {...},
     },
   }}
