@@ -20,7 +20,7 @@
 import supercluster from 'supercluster';
 import { DEFAULT_POINT_RADIUS, DEFAULT_MAX_ZOOM } from './MapBox';
 
-function NOOP() {}
+const NOOP = () => {};
 
 export default function transformProps(chartProps) {
   const { width, height, formData, hooks, queryData } = chartProps;

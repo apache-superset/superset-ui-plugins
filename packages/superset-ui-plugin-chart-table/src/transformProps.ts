@@ -83,7 +83,7 @@ function transformData(data: PlainObject[], formData: PlainObject) {
   };
 }
 
-function NOOP() {}
+const NOOP = () => {};
 
 export default function transformProps(chartProps: ChartProps) {
   const { height, datasource, initialValues, formData, hooks, queryData } = chartProps;

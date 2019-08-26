@@ -23,7 +23,7 @@ import processColumns from '../processColumns';
 import processMetrics from '../processMetrics';
 import processData from '../processData';
 
-function NOOP() {}
+const NOOP = () => {};
 
 export default function transformProps(chartProps: ChartProps) {
   const { height, datasource, initialValues, formData, hooks, queryData } = chartProps;
