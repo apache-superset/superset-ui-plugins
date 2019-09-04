@@ -4,7 +4,6 @@ import Text from '@airbnb/lunar/lib/components/Text';
 import Input from '@airbnb/lunar/lib/components/Input';
 import withStyles, { WithStylesProps } from '@airbnb/lunar/lib/composers/withStyles';
 import { Renderers, ParentRow, ColumnMetadata } from '@airbnb/lunar/lib/components/DataTable/types';
-import { getMultipleTextDimensions } from '@superset-ui/dimension';
 import { getRenderer, ColumnType, heightType, Cell } from './renderer';
 
 type Props = {
@@ -35,6 +34,8 @@ const defaultProps = {
 };
 
 const SEARCH_BAR_HEIGHT = 40;
+
+const CHAR_WIDTH = 10;
 
 const MAX_COLUMN_WIDTH = 500;
 
@@ -184,18 +185,13 @@ class TableVis extends React.PureComponent<InternalTableProps, TableState> {
     const keys = dataToRender && dataToRender.length > 0 ? Object.keys(dataToRender[0].data) : [];
     let calculatedWidth = 0;
     keys.forEach(key => {
-      // const maxLength = Math.max(...data.map(d => String(d.data[key]).length), key.length);
-      const dimensions = getMultipleTextDimensions({
-        style: { fontSize: 20 },
-        texts: data.map(d => String(d.data[key])).concat([key]),
-      });
-      const columnWidth = Math.max(...dimensions.map(dim => dim.width));
+      const maxLength = Math.max(...data.map(d => String(d.data[key]).length), key.length);
       columnMetadata[key] = {
         maxWidth: MAX_COLUMN_WIDTH,
-        width: columnWidth,
+        width: maxLength * CHAR_WIDTH,
         ...columnMetadata[key],
       };
-      calculatedWidth += Math.min(columnWidth, MAX_COLUMN_WIDTH);
+      calculatedWidth += Math.min(maxLength * CHAR_WIDTH, MAX_COLUMN_WIDTH);
     });
 
     const tableHeight = includeSearch ? height - SEARCH_BAR_HEIGHT : height;
