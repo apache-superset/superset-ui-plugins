@@ -4,6 +4,7 @@ import Text from '@airbnb/lunar/lib/components/Text';
 import Input from '@airbnb/lunar/lib/components/Input';
 import withStyles, { WithStylesProps } from '@airbnb/lunar/lib/composers/withStyles';
 import { Renderers, ParentRow, ColumnMetadata } from '@airbnb/lunar/lib/components/DataTable/types';
+import dompurify from 'dompurify';
 import { getRenderer, ColumnType, heightType, Cell } from './renderer';
 
 type Props = {
@@ -61,7 +62,8 @@ function getCellHash(cell: Cell) {
 function getText(value: string | number) {
   if (typeof value === 'string') {
     const span = document.createElement('span');
-    span.innerHTML = value;
+    const sanitizedString = dompurify.sanitize(value);
+    span.innerHTML = sanitizedString;
 
     return String(span.textContent || span.innerText);
   }
