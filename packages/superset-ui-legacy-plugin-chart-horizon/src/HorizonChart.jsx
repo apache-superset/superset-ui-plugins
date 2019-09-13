@@ -48,6 +48,7 @@ const propTypes = {
 const defaultProps = {
   className: '',
   width: 800,
+  height: 600,
   seriesHeight: 20,
   bands: Math.floor(DEFAULT_COLORS.length / 2),
   colors: DEFAULT_COLORS,
@@ -76,9 +77,8 @@ class HorizonChart extends React.PureComponent {
       const allValues = data.reduce((acc, current) => acc.concat(current.values), []);
       yDomain = d3Extent(allValues, d => d.y);
     }
-
     return (
-      <div className={`superset-legacy-chart-horizon ${className}`} style={{ height: height }}>
+      <div className={`superset-legacy-chart-horizon ${className}`} style={{ height }}>
         {data.map(row => (
           <HorizonRow
             key={row.key}
