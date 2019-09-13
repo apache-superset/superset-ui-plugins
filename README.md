@@ -102,33 +102,38 @@ yarn build
 ```sh
 cd superset-ui
 cd packages/superset-ui-chart
-npm link```
+npm link
+```
 
 2. Link the local package to `incubator-superset`.
 
 ```sh
 cd incubator-superset
 cd superset/assets
-npm link @superset-ui/chart \# use package name in package.json, not directory name ```
+npm link @superset-ui/chart \# use package name in package.json, not directory name 
+```
 
 3) After npm link complete, update the import statements in Superset.
 
 Instead of
 
 ```js
-import { xxx } from '@superset-ui/plugin-chart-horizon';```
+import { xxx } from '@superset-ui/plugin-chart-horizon';
+```
 
 which will point to the transpiled code.
 
 do refer to `src`
 
 ```js
-import { xxx } from '@superset-ui/plugin-chart-horizon/src'```
+import { xxx } from '@superset-ui/plugin-chart-horizon/src'
+```
 
 4. After that you can run `dev-server` as usual.
 
 ```sh
-npm run dev-server```
+npm run dev-server
+```
 
 Now when you change the code in `@superset-ui`, it will update the app immediately similar to code inside `incubator-superset`.
 
@@ -140,7 +145,8 @@ Now when you change the code in `@superset-ui`, it will update the app immediate
 
 ```cd incubator-superset
 cd superset/assets
-npm unlink @superset-ui/chart```
+npm unlink @superset-ui/chart
+```
 
 Note: Quite often, `npm link` mess up your `node_modules` and the `unlink` command above does not work correctly, making webpack build fails or other unexpected behaviors. If that happens, just delete your `node_modules` and `npm install` from scratch.
 
@@ -149,7 +155,8 @@ Note: Quite often, `npm link` mess up your `node_modules` and the `unlink` comma
 ```sh
 cd superset-ui
 cd packages/superset-ui-chart
-npm unlink```
+npm unlink
+```
 
 ### Builds, linting, and testing
 
