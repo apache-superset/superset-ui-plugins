@@ -1080,7 +1080,7 @@ function nvd3Vis(element, props) {
           .call(chart);
 
         // Display styles for Time Series Annotations
-        chart.dispatch.on("renderEnd.timeseries-annotation", function(){
+        chart.dispatch.on('renderEnd.timeseries-annotation', () => {
           d3.selectAll('.slice_container .nv-timeseries-annotation-layer.showMarkerstrue .nv-point')
             .style('stroke-opacity', 1)
             .style('fill-opacity', 1);
