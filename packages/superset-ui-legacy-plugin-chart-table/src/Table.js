@@ -75,7 +75,6 @@ function TableVis(element, props) {
     includeSearch = false,
     metrics: rawMetrics,
     onAddFilter = NOOP,
-    onRemoveFilter = NOOP,
     orderDesc,
     pageLength,
     percentMetrics,
@@ -134,6 +133,30 @@ function TableVis(element, props) {
     .enter()
     .append('th')
     .text(d => d);
+
+  let registeredFilters = {};
+  function _addFilter(col, val) {
+    if (!Array.isArray(registeredFilters[col])) {
+      registeredFilters[col] = [];
+    }
+    if (registeredFilters[col].indexOf(val) === -1) {
+      registeredFilters[col].push(val);
+    }
+  }
+
+  function _removeFilter(col, val) {
+    if (!Array.isArray(registeredFilters[col])) {
+      return;
+    }
+
+    let index = registeredFilters[col].indexOf(val);
+    registeredFilters[col].splice(index, 1);
+    return registeredFilters;
+  }
+  let onRemoveFilter = col => {
+    let obj = _removeFilter(col.col, col.val);
+    onAddFilter(obj, false);
+  };
 
   table
     .append('tbody')
@@ -218,11 +241,14 @@ function TableVis(element, props) {
       if (!d.isMetric && tableFilter) {
         const td = d3.select(this);
         if (td.classed('filtered')) {
-          onRemoveFilter(d.col, [d.val]);
+          onRemoveFilter(d);
           d3.select(this).classed('filtered', false);
         } else {
           d3.select(this).classed('filtered', true);
-          onAddFilter(d.col, [d.val]);
+          let obj = {};
+          obj[d.col] = [d.val];
+          onAddFilter(obj, false);
+          _addFilter(d.col, d.val);
         }
       }
     })
