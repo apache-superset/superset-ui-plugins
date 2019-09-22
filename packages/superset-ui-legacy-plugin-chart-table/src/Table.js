@@ -134,27 +134,29 @@ function TableVis(element, props) {
     .append('th')
     .text(d => d);
 
-  let registeredFilters = {};
-  function _addFilter(col, val) {
-    if (!Array.isArray(registeredFilters[col])) {
-      registeredFilters[col] = [];
+  const registeredFilters = {};
+  function addFilterLocal(column, val) {
+    if (!Array.isArray(registeredFilters[column])) {
+      registeredFilters[column] = [];
     }
-    if (registeredFilters[col].indexOf(val) === -1) {
-      registeredFilters[col].push(val);
+    if (registeredFilters[column].indexOf(val) === -1) {
+      registeredFilters[column].push(val);
     }
   }
 
-  function _removeFilter(col, val) {
-    if (!Array.isArray(registeredFilters[col])) {
-      return;
+  function removeFilterLocal(column, val) {
+    if (!Array.isArray(registeredFilters[column])) {
+      return null;
     }
 
-    let index = registeredFilters[col].indexOf(val);
-    registeredFilters[col].splice(index, 1);
+    const index = registeredFilters[col].indexOf(val);
+    registeredFilters[column].splice(index, 1);
+
     return registeredFilters;
   }
-  let onRemoveFilter = col => {
-    let obj = _removeFilter(col.col, col.val);
+  const onRemoveFilter = column => {
+    const obj = removeFilterLocal(column.col, column.val);
+    if (obj == null) return;
     onAddFilter(obj, false);
   };
 
@@ -245,10 +247,10 @@ function TableVis(element, props) {
           d3.select(this).classed('filtered', false);
         } else {
           d3.select(this).classed('filtered', true);
-          let obj = {};
+          const obj = {};
           obj[d.col] = [d.val];
           onAddFilter(obj, false);
-          _addFilter(d.col, d.val);
+          addFilterLocal(d.col, d.val);
         }
       }
     })
