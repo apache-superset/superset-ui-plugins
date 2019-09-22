@@ -156,7 +156,7 @@ function TableVis(element, props) {
   }
   const onRemoveFilter = column => {
     const obj = removeFilterLocal(column.col, column.val);
-    if (obj == null) return;
+    if (obj === null) return;
     onAddFilter(obj, false);
   };
 
