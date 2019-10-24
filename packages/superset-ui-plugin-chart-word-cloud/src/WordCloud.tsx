@@ -1,7 +1,6 @@
 import React from 'react';
-import { extent as d3Extent } from 'd3-array';
 import { scaleLinear } from 'd3-scale';
-import cloudLayout from 'd3-cloud';
+import cloudLayout, { Word } from 'd3-cloud';
 import { CategoricalColorNamespace } from '@superset-ui/color';
 
 const ROTATION = {
@@ -27,7 +26,7 @@ export interface Props {
 }
 
 interface State {
-  words: d3.layout.cloud.Word[];
+  words: Word[];
 }
 
 export default class WordCloud extends React.PureComponent<Props, State> {
@@ -57,7 +56,7 @@ export default class WordCloud extends React.PureComponent<Props, State> {
 
     const scale = scaleLinear()
       .range(sizeRange)
-      .domain(d3Extent(data, d => d.size) as [number, number]);
+      .domain([0, Math.max(...data.map(d => d.size))]);
 
     cloudLayout<Datum>()
       .size(size)
@@ -68,7 +67,7 @@ export default class WordCloud extends React.PureComponent<Props, State> {
       .font('Helvetica')
       .fontWeight('bold')
       .fontSize(d => scale(d.size))
-      .on('end', (words: d3.layout.cloud.Word[]) => {
+      .on('end', (words: Word[]) => {
         if (this.isMounted) {
           this.setState({ words });
         }
