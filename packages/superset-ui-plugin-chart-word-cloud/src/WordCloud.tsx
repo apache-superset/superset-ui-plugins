@@ -40,13 +40,29 @@ export default class WordCloud extends React.PureComponent<Props, State> {
     this.update();
   }
 
-  componentDidUpdate() {
-    this.update();
+  componentDidUpdate(prevProps: Props) {
+    const { data, width, height, rotation, sizeRange } = this.props;
+
+    if (
+      prevProps.data !== data ||
+      prevProps.width !== width ||
+      prevProps.height !== height ||
+      prevProps.rotation !== rotation ||
+      prevProps.sizeRange !== sizeRange
+    ) {
+      this.update();
+    }
   }
 
   componentWillUnmount() {
     this.isMounted = false;
   }
+
+  setWords = (words: Word[]) => {
+    if (this.isMounted) {
+      this.setState({ words });
+    }
+  };
 
   update() {
     const { data, width, height, rotation, sizeRange } = this.props;
@@ -67,11 +83,7 @@ export default class WordCloud extends React.PureComponent<Props, State> {
       .font('Helvetica')
       .fontWeight('bold')
       .fontSize(d => scale(d.size))
-      .on('end', (words: Word[]) => {
-        if (this.isMounted) {
-          this.setState({ words });
-        }
-      })
+      .on('end', this.setWords)
       .start();
   }
 
