@@ -1,22 +1,26 @@
 import { getNumberFormatter, NumberFormats, NumberFormatter } from '@superset-ui/number-format';
 import { getTimeFormatter, TimeFormatter } from '@superset-ui/time-format';
+import { createSelector } from 'reselect';
 import { PlainObject } from './types';
+import { ColumnType } from './renderer';
 
 const DTTM_ALIAS = '__timestamp';
 
-export default function processColumns({
-  columns,
-  metrics,
-  records,
-  tableTimestampFormat,
-  datasource,
-}: {
+type inputType = {
   columns: string[];
   metrics: string[];
   records: any[];
   tableTimestampFormat: string;
   datasource: PlainObject;
-}) {
+};
+
+function processColumns(
+  columns: string[],
+  metrics: string[],
+  records: any[],
+  tableTimestampFormat: string,
+  datasource: PlainObject,
+) {
   const { columnFormats, verboseMap } = datasource;
 
   const dataArray: {
@@ -51,7 +55,7 @@ export default function processColumns({
     let label = verboseMap[key];
     const formatString = columnFormats && columnFormats[key];
     let formatFunction: NumberFormatter | TimeFormatter | undefined;
-    let type = 'string';
+    let type: 'string' | 'metric' = 'string';
 
     if (key === DTTM_ALIAS) {
       formatFunction = tsFormatter;
@@ -90,3 +94,21 @@ export default function processColumns({
 
   return processedColumns;
 }
+
+export default createSelector<
+  inputType,
+  string[],
+  string[],
+  any[],
+  string,
+  PlainObject,
+  ColumnType[]
+>(
+  data => data.columns,
+  data => data.metrics,
+  data => data.records,
+  data => data.tableTimestampFormat,
+  data => data.datasource,
+  (columns, metrics, records, tableTimestampFormat, datasource) =>
+    processColumns(columns, metrics, records, tableTimestampFormat, datasource),
+);
