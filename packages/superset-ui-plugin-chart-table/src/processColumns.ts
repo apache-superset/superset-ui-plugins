@@ -2,7 +2,6 @@ import { getNumberFormatter, NumberFormats, NumberFormatter } from '@superset-ui
 import { getTimeFormatter, TimeFormatter } from '@superset-ui/time-format';
 import { createSelector } from 'reselect';
 import { PlainObject } from './types';
-import { ColumnType } from './renderer';
 
 const DTTM_ALIAS = '__timestamp';
 
@@ -95,16 +94,8 @@ function processColumns(
   return processedColumns;
 }
 
-export default createSelector<
-  inputType,
-  string[],
-  string[],
-  any[],
-  string,
-  PlainObject,
-  ColumnType[]
->(
-  data => data.columns,
+export default createSelector(
+  (data: inputType) => data.columns,
   data => data.metrics,
   data => data.records,
   data => data.tableTimestampFormat,

@@ -79,38 +79,38 @@ type columnWidthMetaDataType = {
   };
 };
 
-const columnWidthSelector = createSelector<
-  ParentRow[],
-  ParentRow[],
-  {
-    columnWidthMetaData: columnWidthMetaDataType;
-    totalWidth: number;
-  }
->(
-  data => data,
-  data => {
-    const keys = data && data.length > 0 ? Object.keys(data[0].data) : [];
-    let totalWidth = 0;
-    const columnWidthMetaData: columnWidthMetaDataType = {};
-
-    keys.forEach(key => {
-      const maxLength = Math.max(...data.map(d => getText(d.data[key]).length), key.length);
-      const stringWidth = maxLength * CHAR_WIDTH + CELL_PADDING;
-      columnWidthMetaData[key] = {
-        maxWidth: MAX_COLUMN_WIDTH,
-        width: stringWidth,
-      };
-      totalWidth += Math.min(stringWidth, MAX_COLUMN_WIDTH);
-    });
-
-    return {
-      columnWidthMetaData,
-      totalWidth,
-    };
-  },
-);
-
 class TableVis extends React.PureComponent<InternalTableProps, TableState> {
+  columnWidthSelector = createSelector<
+    ParentRow[],
+    ParentRow[],
+    {
+      columnWidthMetaData: columnWidthMetaDataType;
+      totalWidth: number;
+    }
+  >(
+    data => data,
+    data => {
+      const keys = data && data.length > 0 ? Object.keys(data[0].data) : [];
+      let totalWidth = 0;
+      const columnWidthMetaData: columnWidthMetaDataType = {};
+
+      keys.forEach(key => {
+        const maxLength = Math.max(...data.map(d => getText(d.data[key]).length), key.length);
+        const stringWidth = maxLength * CHAR_WIDTH + CELL_PADDING;
+        columnWidthMetaData[key] = {
+          maxWidth: MAX_COLUMN_WIDTH,
+          width: stringWidth,
+        };
+        totalWidth += Math.min(stringWidth, MAX_COLUMN_WIDTH);
+      });
+
+      return {
+        columnWidthMetaData,
+        totalWidth,
+      };
+    },
+  );
+
   static defaultProps = defaultProps;
 
   constructor(props: InternalTableProps) {
@@ -236,7 +236,7 @@ class TableVis extends React.PureComponent<InternalTableProps, TableState> {
     });
 
     const keys = dataToRender && dataToRender.length > 0 ? Object.keys(dataToRender[0].data) : [];
-    const columnWidthInfo = columnWidthSelector(data);
+    const columnWidthInfo = this.columnWidthSelector(data);
 
     keys.forEach(key => {
       columnMetadata[key] = {

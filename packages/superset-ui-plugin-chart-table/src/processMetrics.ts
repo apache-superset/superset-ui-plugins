@@ -24,14 +24,8 @@ function processMetrics(
     .filter(m => typeof records[0][m] === 'number');
 }
 
-export default createSelector<
-  inputType,
-  QueryFormDataMetric[],
-  QueryFormDataMetric[],
-  PlainObject[],
-  string[]
->(
-  data => data.metrics,
+export default createSelector(
+  (data: inputType) => data.metrics,
   data => data.percentMetrics,
   data => data.records,
   (metrics, percentMetrics, records) => processMetrics(metrics, percentMetrics, records),

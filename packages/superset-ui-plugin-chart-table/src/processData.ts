@@ -1,6 +1,5 @@
 import { QueryFormDataMetric, AdhocMetric } from '@superset-ui/query';
 import { createSelector } from 'reselect';
-import { ParentRow } from '@airbnb/lunar/lib/components/DataTable/types';
 import { PlainObject } from './types';
 
 type inputType = {
@@ -42,15 +41,8 @@ function processData(
   );
 }
 
-export default createSelector<
-  inputType,
-  QueryFormDataMetric,
-  boolean,
-  PlainObject[],
-  string[],
-  ParentRow[]
->(
-  data => data.timeseriesLimitMetric,
+export default createSelector(
+  (data: inputType) => data.timeseriesLimitMetric,
   data => data.orderDesc,
   data => data.records,
   data => data.metrics,
