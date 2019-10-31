@@ -94,12 +94,15 @@ function processColumns(
   return processedColumns;
 }
 
-export default createSelector(
-  (data: inputType) => data.columns,
-  data => data.metrics,
-  data => data.records,
-  data => data.tableTimestampFormat,
-  data => data.datasource,
-  (columns, metrics, records, tableTimestampFormat, datasource) =>
-    processColumns(columns, metrics, records, tableTimestampFormat, datasource),
-);
+const getCreateSelectorFunction = () =>
+  createSelector(
+    (data: inputType) => data.columns,
+    data => data.metrics,
+    data => data.records,
+    data => data.tableTimestampFormat,
+    data => data.datasource,
+    (columns, metrics, records, tableTimestampFormat, datasource) =>
+      processColumns(columns, metrics, records, tableTimestampFormat, datasource),
+  );
+
+export default getCreateSelectorFunction;

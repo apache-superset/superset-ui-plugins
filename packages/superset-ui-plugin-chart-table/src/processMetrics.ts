@@ -24,9 +24,12 @@ function processMetrics(
     .filter(m => typeof records[0][m] === 'number');
 }
 
-export default createSelector(
-  (data: inputType) => data.metrics,
-  data => data.percentMetrics,
-  data => data.records,
-  (metrics, percentMetrics, records) => processMetrics(metrics, percentMetrics, records),
-);
+const getCreateSelectorFunction = () =>
+  createSelector(
+    (data: inputType) => data.metrics,
+    data => data.percentMetrics,
+    data => data.records,
+    (metrics, percentMetrics, records) => processMetrics(metrics, percentMetrics, records),
+  );
+
+export default getCreateSelectorFunction;

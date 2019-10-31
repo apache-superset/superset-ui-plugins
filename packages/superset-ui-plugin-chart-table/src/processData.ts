@@ -41,11 +41,14 @@ function processData(
   );
 }
 
-export default createSelector(
-  (data: inputType) => data.timeseriesLimitMetric,
-  data => data.orderDesc,
-  data => data.records,
-  data => data.metrics,
-  (timeseriesLimitMetric, orderDesc, records, metrics) =>
-    processData(timeseriesLimitMetric, orderDesc, records, metrics),
-);
+const getCreateSelectorFunction = () =>
+  createSelector(
+    (data: inputType) => data.timeseriesLimitMetric,
+    data => data.orderDesc,
+    data => data.records,
+    data => data.metrics,
+    (timeseriesLimitMetric, orderDesc, records, metrics) =>
+      processData(timeseriesLimitMetric, orderDesc, records, metrics),
+  );
+
+export default getCreateSelectorFunction;

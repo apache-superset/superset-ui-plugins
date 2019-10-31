@@ -80,15 +80,8 @@ type columnWidthMetaDataType = {
 };
 
 class TableVis extends React.PureComponent<InternalTableProps, TableState> {
-  columnWidthSelector = createSelector<
-    ParentRow[],
-    ParentRow[],
-    {
-      columnWidthMetaData: columnWidthMetaDataType;
-      totalWidth: number;
-    }
-  >(
-    data => data,
+  columnWidthSelector = createSelector(
+    (data: ParentRow[]) => data,
     data => {
       const keys = data && data.length > 0 ? Object.keys(data[0].data) : [];
       let totalWidth = 0;
