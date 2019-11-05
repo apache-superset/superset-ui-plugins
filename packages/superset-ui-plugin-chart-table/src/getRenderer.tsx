@@ -86,12 +86,9 @@ export default function getRenderer({
   return ({ keyName, row }: RendererProps) => {
     const value = row.rowData.data[keyName];
     const cell = { key: keyName as string, value };
+    const handleClick = isMetric ? NOOP : useMemo(() => handleCellSelected(cell), [keyName, value]);
+
     let Parent;
-
-    const memoizedClickHandler = isMetric
-      ? NOOP
-      : useMemo(() => handleCellSelected(cell), [keyName, value]);
-
     if (isMetric) {
       let left = 0;
       let width = 0;
@@ -128,7 +125,7 @@ export default function getRenderer({
     }
 
     return (
-      <div onClick={memoizedClickHandler}>
+      <div onClick={handleClick}>
         <div style={getBoxStyle(isSelected(cell))}>
           <div style={boxContainerStyle}>
             <Parent>
