@@ -26,7 +26,7 @@ module.exports = async ({ config }) => {
 
   config.plugins.push(new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/));
   // Avoid parsing large libraries to speed up build
-  config.module.noParse = /jquery|moment/;
+  config.module.noParse = /jquery|moment|geojson/;
 
   // To enable live debugging of other packages when referring to `src`
   config.module.rules.push({
