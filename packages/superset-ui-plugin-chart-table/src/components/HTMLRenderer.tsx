@@ -13,5 +13,5 @@ export default function HTMLRenderer({ value }: { value: string }) {
     );
   }
 
-  return <>value</>;
+  return <>{value}</>;
 }
