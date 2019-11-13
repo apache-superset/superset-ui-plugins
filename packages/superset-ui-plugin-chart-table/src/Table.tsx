@@ -9,7 +9,6 @@ import {
   ColumnMetadata,
   GenericRow,
 } from '@airbnb/lunar/lib/components/DataTable/types';
-import dompurify from 'dompurify';
 import { createSelector } from 'reselect';
 import { TimeFormatter } from '@superset-ui/time-format';
 import { NumberFormatter } from '@superset-ui/number-format';
@@ -50,6 +49,8 @@ const CELL_PADDING = 32;
 
 const MAX_COLUMN_WIDTH = 300;
 
+const htmlTagRegex = /(<([^>]+)>)/gi;
+
 export type TableProps = Props & Readonly<typeof defaultProps>;
 
 type InternalTableProps = TableProps & WithStylesProps;
@@ -68,19 +69,14 @@ function getCellHash(cell: Cell) {
 }
 
 function getText(value: unknown, format: TimeFormatter | NumberFormatter | undefined) {
-  let formattedValue = value;
   if (format) {
-    formattedValue = format.format(value as any);
+    return format.format(value as any);
   }
   if (typeof value === 'string') {
-    const span = document.createElement('span');
-    const sanitizedString = dompurify.sanitize(formattedValue as string);
-    span.innerHTML = sanitizedString;
-
-    return String(span.textContent || span.innerText);
+    return value.replace(htmlTagRegex, '');
   }
 
-  return String(formattedValue);
+  return String(value);
 }
 
 type columnWidthMetaDataType = {
