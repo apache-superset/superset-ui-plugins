@@ -1,4 +1,6 @@
 import { ChartProps } from '@superset-ui/chart';
+import { WordCloudEncoding } from './Encoder';
+import { Props } from './WordCloud';
 
 function transformData(data: ChartProps['queryData'][], formData: ChartProps['formData']) {
   const { metric, series } = formData;
@@ -11,16 +13,36 @@ function transformData(data: ChartProps['queryData'][], formData: ChartProps['fo
   return transformedData;
 }
 
-export default function transformProps(chartProps: ChartProps) {
+export default function transformProps(chartProps: ChartProps): Props {
   const { width, height, formData, queryData } = chartProps;
   const { colorScheme, rotation, sizeTo } = formData;
 
+  const encoding: Partial<WordCloudEncoding> = {
+    color: {
+      field: 'text',
+      scale: {
+        scheme: colorScheme,
+      },
+      type: 'nominal',
+    },
+    size: {
+      field: 'size',
+      scale: {
+        range: [0, sizeTo],
+        zero: true,
+      },
+      type: 'quantitative',
+    },
+    text: {
+      field: 'text',
+    },
+  };
+
   return {
-    colorScheme,
     data: transformData(queryData.data, formData),
+    encoding,
     height,
     rotation,
-    sizeRange: [0, sizeTo],
     width,
   };
 }
