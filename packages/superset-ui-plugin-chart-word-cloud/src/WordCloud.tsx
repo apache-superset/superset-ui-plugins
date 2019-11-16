@@ -84,7 +84,7 @@ export default class WordCloud extends React.PureComponent<WordCloudProps, State
       .rotate(ROTATION[rotation] || ROTATION.flat)
       .font('Helvetica')
       .fontWeight('bold')
-      .fontSize(d => encoder.channels.size.encodeDatum(d) as number)
+      .fontSize(d => encoder.channels.size.encodeDatum(d, 0))
       .on('end', this.setWords)
       .start();
   }
@@ -104,7 +104,7 @@ export default class WordCloud extends React.PureComponent<WordCloudProps, State
               fontSize={`${w.size}px`}
               fontWeight="bold"
               fontFamily="Helvetica"
-              fill={encoder.channels.color.encodeDatum(w) as string}
+              fill={encoder.channels.color.encodeValue(w.text) as string}
               textAnchor="middle"
               transform={`translate(${w.x}, ${w.y}) rotate(${w.rotate})`}
             >
