@@ -1,5 +1,6 @@
 import React from 'react';
 import cloudLayout, { Word } from 'd3-cloud';
+import { PlainObject } from 'encodable/lib/types/Data';
 import { WordCloudEncoding, wordCloudEncoderFactory } from './Encoder';
 
 const ROTATION = {
@@ -10,11 +11,6 @@ const ROTATION = {
   square: () => Math.floor(Math.random() * 2) * 90,
 };
 
-interface Datum {
-  size: number;
-  text: string;
-}
-
 /**
  * These props should be stored when saving the chart.
  */
@@ -24,7 +20,7 @@ export interface WordCloudVisualProps {
 }
 
 export interface WordCloudProps extends WordCloudVisualProps {
-  data: Datum[];
+  data: PlainObject[];
   height: number;
   width: number;
 }
@@ -76,7 +72,7 @@ export default class WordCloud extends React.PureComponent<WordCloudProps, State
     const encoder = this.createEncoder(encoding);
     encoder.channels.size.setDomainFromDataset(data);
 
-    cloudLayout<Datum>()
+    cloudLayout()
       .size([width, height])
       .words(data)
       /* eslint-disable-next-line no-magic-numbers */
