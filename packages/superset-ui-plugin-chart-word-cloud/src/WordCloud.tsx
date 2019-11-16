@@ -104,7 +104,7 @@ export default class WordCloud extends React.PureComponent<WordCloudProps, State
               fontSize={`${w.size}px`}
               fontWeight="bold"
               fontFamily="Helvetica"
-              fill={encoder.channels.color.encodeValue(w.text) as string}
+              fill={encoder.channels.color.encodeValue(w.text, '')}
               textAnchor="middle"
               transform={`translate(${w.x}, ${w.y}) rotate(${w.rotate})`}
             >
