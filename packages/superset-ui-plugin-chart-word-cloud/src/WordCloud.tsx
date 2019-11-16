@@ -15,8 +15,8 @@ const ROTATION = {
  * These props should be stored when saving the chart.
  */
 export interface WordCloudVisualProps {
-  encoding: Partial<WordCloudEncoding>;
-  rotation: keyof typeof ROTATION;
+  encoding?: Partial<WordCloudEncoding>;
+  rotation?: keyof typeof ROTATION;
 }
 
 export interface WordCloudProps extends WordCloudVisualProps {
@@ -29,13 +29,23 @@ interface State {
   words: Word[];
 }
 
-export default class WordCloud extends React.PureComponent<WordCloudProps, State> {
+const defaultProps = {
+  encoding: {},
+  rotation: 'flat',
+};
+
+export default class WordCloud extends React.PureComponent<
+  WordCloudProps & typeof defaultProps,
+  State
+> {
   isMounted: boolean = false;
   state: State = {
     words: [],
   };
 
   createEncoder = wordCloudEncoderFactory.createSelector();
+
+  static defaultProps = defaultProps;
 
   componentDidMount() {
     this.isMounted = true;
@@ -78,6 +88,7 @@ export default class WordCloud extends React.PureComponent<WordCloudProps, State
       /* eslint-disable-next-line no-magic-numbers */
       .padding(5)
       .rotate(ROTATION[rotation] || ROTATION.flat)
+      .text(d => encoder.channels.text.getValueFromDatum(d))
       .font('Helvetica')
       .fontWeight('bold')
       .fontSize(d => encoder.channels.size.encodeDatum(d, 0))
