@@ -28,7 +28,7 @@ export default function transformProps(chartProps: ChartProps): WordCloudProps {
       },
       type: 'nominal',
     },
-    size:
+    fontSize:
       typeof metricLabel === 'undefined'
         ? undefined
         : {

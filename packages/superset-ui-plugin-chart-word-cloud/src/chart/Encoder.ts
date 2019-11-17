@@ -3,7 +3,9 @@ import { DeriveEncoding } from 'encodable/lib/types/Encoding';
 
 type WordCloudEncodingConfig = {
   color: ['Color', string];
-  size: ['Numeric', number];
+  fontFamily: ['Category', string];
+  fontSize: ['Numeric', number];
+  fontWeight: ['Category', string | number];
   text: ['Text', string];
 };
 
@@ -11,12 +13,16 @@ type WordCloudEncodingConfig = {
 export const wordCloudEncoderFactory = createEncoderFactory<WordCloudEncodingConfig>({
   channelTypes: {
     color: 'Color',
-    size: 'Numeric',
+    fontFamily: 'Category',
+    fontSize: 'Numeric',
+    fontWeight: 'Category',
     text: 'Text',
   },
   defaultEncoding: {
     color: { value: 'black' },
-    size: { value: 20 },
+    fontFamily: { value: 'Helvetica' },
+    fontSize: { value: 20 },
+    fontWeight: { value: 'bold' },
     text: { value: '' },
   },
 });

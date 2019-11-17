@@ -15,13 +15,9 @@ export default [
         formData={{
           encoding: {
             color: {
-              field: 'name',
-              scale: {
-                range: ['red', 'green'],
-              },
-              type: 'nominal',
+              value: '#0097e6',
             },
-            size: {
+            fontSize: {
               field: 'sum__num',
               scale: {
                 range: [0, 70],
@@ -40,6 +36,86 @@ export default [
       />
     ),
     storyName: 'Basic',
+    storyPath: 'plugin-chart-word-cloud|WordCloudChartPlugin',
+  },
+  {
+    renderStory: () => (
+      <SuperChart
+        chartType="word-cloud2"
+        width={400}
+        height={400}
+        queryData={{ data }}
+        formData={{
+          encoding: {
+            color: {
+              field: 'name.length',
+              scale: {
+                range: ['#fbc531', '#c23616'],
+                type: 'linear',
+                zero: false,
+              },
+              type: 'quantitative',
+            },
+            fontSize: {
+              field: 'sum__num',
+              scale: {
+                range: [0, 70],
+                zero: true,
+              },
+              type: 'quantitative',
+            },
+            text: {
+              field: 'name',
+            },
+          },
+          metric: 'sum__num',
+          rotation: select('Rotation', ['square', 'flat', 'random'], 'flat'),
+          series: 'name',
+        }}
+      />
+    ),
+    storyName: 'encodes color by word length',
+    storyPath: 'plugin-chart-word-cloud|WordCloudChartPlugin',
+  },
+  {
+    renderStory: () => (
+      <SuperChart
+        chartType="word-cloud2"
+        width={400}
+        height={400}
+        queryData={{ data }}
+        formData={{
+          encoding: {
+            color: {
+              value: '#8c7ae6',
+            },
+            fontFamily: {
+              field: 'name[0]',
+              scale: {
+                range: ['Helvetica', 'Monaco'],
+                type: 'ordinal',
+              },
+              type: 'nominal',
+            },
+            fontSize: {
+              field: 'sum__num',
+              scale: {
+                range: [0, 70],
+                zero: true,
+              },
+              type: 'quantitative',
+            },
+            text: {
+              field: 'name',
+            },
+          },
+          metric: 'sum__num',
+          rotation: select('Rotation', ['square', 'flat', 'random'], 'flat'),
+          series: 'name',
+        }}
+      />
+    ),
+    storyName: 'encodes font family by first letter',
     storyPath: 'plugin-chart-word-cloud|WordCloudChartPlugin',
   },
   {

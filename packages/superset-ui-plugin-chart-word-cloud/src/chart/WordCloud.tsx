@@ -82,7 +82,7 @@ export default class WordCloud extends React.PureComponent<
     const { data, width, height, rotation, encoding } = this.props;
 
     const encoder = this.createEncoder(encoding);
-    encoder.channels.size.setDomainFromDataset(data);
+    encoder.channels.fontSize.setDomainFromDataset(data);
 
     cloudLayout()
       .size([width, height])
@@ -91,9 +91,9 @@ export default class WordCloud extends React.PureComponent<
       .padding(5)
       .rotate(ROTATION[rotation] || ROTATION.flat)
       .text(d => encoder.channels.text.getValueFromDatum(d))
-      .font('Helvetica')
-      .fontWeight('bold')
-      .fontSize(d => encoder.channels.size.encodeDatum(d, 0))
+      .font(d => encoder.channels.fontFamily.encodeDatum(d, 'Helvetica'))
+      .fontWeight(d => encoder.channels.fontWeight.encodeDatum(d, 'normal'))
+      .fontSize(d => encoder.channels.fontSize.encodeDatum(d, 0))
       .on('end', this.setWords)
       .start();
   }
@@ -103,6 +103,7 @@ export default class WordCloud extends React.PureComponent<
     const { words } = this.state;
 
     const encoder = this.createEncoder(encoding);
+    encoder.channels.color.setDomainFromDataset(words);
 
     return (
       <svg width={width} height={height}>
@@ -113,7 +114,7 @@ export default class WordCloud extends React.PureComponent<
               fontSize={`${w.size}px`}
               fontWeight={w.weight}
               fontFamily={w.font}
-              fill={encoder.channels.color.encodeValue(w.text, '')}
+              fill={encoder.channels.color.encodeDatum(w, '')}
               textAnchor="middle"
               transform={`translate(${w.x}, ${w.y}) rotate(${w.rotate})`}
             >
