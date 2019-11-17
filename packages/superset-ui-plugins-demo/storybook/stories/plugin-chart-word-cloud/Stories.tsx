@@ -8,7 +8,44 @@ export default [
   {
     renderStory: () => (
       <SuperChart
-        chartType="word-cloud"
+        chartType="word-cloud2"
+        width={400}
+        height={400}
+        queryData={{ data }}
+        formData={{
+          encoding: {
+            color: {
+              field: 'name',
+              scale: {
+                range: ['red', 'green'],
+              },
+              type: 'nominal',
+            },
+            size: {
+              field: 'sum__num',
+              scale: {
+                range: [0, 70],
+                zero: true,
+              },
+              type: 'quantitative',
+            },
+            text: {
+              field: 'name',
+            },
+          },
+          metric: 'sum__num',
+          rotation: select('Rotation', ['square', 'flat', 'random'], 'square'),
+          series: 'name',
+        }}
+      />
+    ),
+    storyName: 'Basic',
+    storyPath: 'plugin-chart-word-cloud|WordCloudChartPlugin',
+  },
+  {
+    renderStory: () => (
+      <SuperChart
+        chartType="legacy-word-cloud2"
         width={400}
         height={400}
         queryData={{ data }}
@@ -22,7 +59,7 @@ export default [
         }}
       />
     ),
-    storyName: 'Basic',
+    storyName: 'Legacy',
     storyPath: 'plugin-chart-word-cloud|WordCloudChartPlugin',
   },
 ];
