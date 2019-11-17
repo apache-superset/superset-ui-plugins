@@ -3,7 +3,7 @@ import cloudLayout, { Word } from 'd3-cloud';
 import { PlainObject } from 'encodable/lib/types/Data';
 import { WordCloudEncoding, wordCloudEncoderFactory } from './Encoder';
 
-const ROTATION = {
+export const ROTATION = {
   flat: () => 0,
   /* eslint-disable-next-line no-magic-numbers */
   random: () => Math.floor(Math.random() * 6 - 3) * 30,
@@ -11,12 +11,14 @@ const ROTATION = {
   square: () => Math.floor(Math.random() * 2) * 90,
 };
 
+export type RotationType = keyof typeof ROTATION;
+
 /**
  * These props should be stored when saving the chart.
  */
 export interface WordCloudVisualProps {
   encoding?: Partial<WordCloudEncoding>;
-  rotation?: keyof typeof ROTATION;
+  rotation?: RotationType;
 }
 
 export interface WordCloudProps extends WordCloudVisualProps {
