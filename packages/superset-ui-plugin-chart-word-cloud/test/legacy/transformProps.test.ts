@@ -34,7 +34,7 @@ describe('WordCloud tranformProps', () => {
           },
           type: 'nominal',
         },
-        size: {
+        fontSize: {
           field: 'sum__num',
           scale: {
             range: [0, 70],
