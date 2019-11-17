@@ -34,7 +34,7 @@ export default [
             },
           },
           metric: 'sum__num',
-          rotation: select('Rotation', ['square', 'flat', 'random'], 'square'),
+          rotation: select('Rotation', ['square', 'flat', 'random'], 'flat'),
           series: 'name',
         }}
       />
@@ -52,7 +52,7 @@ export default [
         formData={{
           colorScheme: 'd3Category10',
           metric: 'sum__num',
-          rotation: select('Rotation', ['square', 'flat', 'random'], 'square'),
+          rotation: select('Rotation', ['square', 'flat', 'random'], 'flat'),
           series: 'name',
           sizeFrom: '10',
           sizeTo: '70',

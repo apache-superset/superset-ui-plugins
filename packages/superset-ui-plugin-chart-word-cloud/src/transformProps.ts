@@ -1,5 +1,5 @@
 import { ChartProps } from '@superset-ui/chart';
-import { WordCloudProps } from './WordCloud';
+import { WordCloudProps } from './chart/WordCloud';
 import { WordCloudFormData } from './types';
 
 export default function transformProps(chartProps: ChartProps): WordCloudProps {

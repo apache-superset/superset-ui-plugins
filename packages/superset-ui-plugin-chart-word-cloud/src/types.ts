@@ -1,5 +1,5 @@
 import { QueryFormData } from '@superset-ui/query';
-import { WordCloudVisualProps } from './WordCloud';
+import { WordCloudVisualProps } from './chart/WordCloud';
 
 // FormData for wordcloud contains both common properties of all form data
 // and properties specific to wordcloud visualization

@@ -1,5 +1,5 @@
 import { QueryFormData } from '@superset-ui/query';
-import { RotationType } from '../WordCloud';
+import { RotationType } from '../chart/WordCloud';
 
 export type LegacyWordCloudFormData = QueryFormData & {
   colorScheme: string;
