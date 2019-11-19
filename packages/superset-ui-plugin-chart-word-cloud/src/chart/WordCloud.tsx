@@ -5,6 +5,7 @@ import { WordCloudEncoding, wordCloudEncoderFactory } from './Encoder';
 
 export const ROTATION = {
   flat: () => 0,
+  // this calculates a random rotation between -90 and 90 degrees.
   /* eslint-disable-next-line no-magic-numbers */
   random: () => Math.floor(Math.random() * 6 - 3) * 30,
   /* eslint-disable-next-line no-magic-numbers */
