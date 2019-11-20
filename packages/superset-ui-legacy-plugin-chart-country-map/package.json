@@ -9,7 +9,8 @@
   "module": "esm/index.js",
   "files": [
     "esm",
-    "lib"
+    "lib",
+    "assets"
   ],
   "repository": {
     "type": "git",
