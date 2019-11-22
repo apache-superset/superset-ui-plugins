@@ -28,7 +28,7 @@
     "access": "public"
   },
   "dependencies": {
-    "d3": "^3.5.17",
+    "d3": "^5.14.2",
     "datatables.net-bs": "^1.10.15",
     "dompurify": "^2.0.6",
     "prop-types": "^15.6.2"
