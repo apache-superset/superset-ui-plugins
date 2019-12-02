@@ -1,6 +1,6 @@
 {
   "name": "@superset-ui/legacy-preset-chart-nvd3",
-  "version": "0.11.0",
+  "version": "0.11.8",
   "description": "Superset Legacy Chart - NVD3",
   "sideEffects": [
     "*.css"
@@ -28,10 +28,10 @@
     "access": "public"
   },
   "dependencies": {
-    "@data-ui/xy-chart": "^0.0.80",
+    "@data-ui/xy-chart": "^0.0.84",
     "d3": "^3.5.17",
     "d3-tip": "^0.9.1",
-    "dompurify": "^1.0.3",
+    "dompurify": "^2.0.6",
     "fast-safe-stringify": "^2.0.6",
     "lodash": "^4.17.11",
     "mathjs": "^3.20.2",
