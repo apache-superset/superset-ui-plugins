@@ -1,6 +1,6 @@
 {
   "name": "@superset-ui/legacy-plugin-chart-histogram",
-  "version": "0.11.0",
+  "version": "0.11.8",
   "description": "Superset Legacy Chart - Histogram",
   "sideEffects": [
     "*.css"
@@ -28,11 +28,11 @@
     "access": "public"
   },
   "dependencies": {
-    "@data-ui/histogram": "^0.0.80",
-    "@data-ui/theme": "^0.0.80",
-    "@vx/legend": "^0.0.190",
-    "@vx/responsive": "^0.0.189",
-    "@vx/scale": "^0.0.190",
+    "@data-ui/histogram": "^0.0.82",
+    "@data-ui/theme": "^0.0.82",
+    "@vx/legend": "^0.0.192",
+    "@vx/responsive": "^0.0.192",
+    "@vx/scale": "^0.0.192",
     "prop-types": "^15.6.2"
   },
   "peerDependencies": {

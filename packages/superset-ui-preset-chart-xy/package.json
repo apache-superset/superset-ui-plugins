@@ -1,6 +1,6 @@
 {
   "name": "@superset-ui/preset-chart-xy",
-  "version": "0.11.1",
+  "version": "0.11.10",
   "description": "Superset Chart - XY",
   "sideEffects": [
     "*.css"
@@ -29,23 +29,23 @@
     "access": "public"
   },
   "dependencies": {
-    "@data-ui/theme": "^0.0.80",
-    "@data-ui/xy-chart": "^0.0.80",
+    "@data-ui/theme": "^0.0.84",
+    "@data-ui/xy-chart": "^0.0.84",
     "@types/d3-scale": "^2.1.1",
-    "@vx/axis": "^0.0.191",
-    "@vx/group": "^0.0.190",
-    "@vx/legend": "^0.0.190",
-    "@vx/responsive": "^0.0.189",
-    "@vx/scale": "^0.0.190",
-    "@vx/shape": "^0.0.190",
+    "@vx/axis": "^0.0.192",
+    "@vx/group": "^0.0.192",
+    "@vx/legend": "^0.0.192",
+    "@vx/responsive": "^0.0.192",
+    "@vx/scale": "^0.0.192",
+    "@vx/shape": "^0.0.192",
     "csstype": "^2.6.3",
     "d3-array": "^2.1.0",
     "d3-scale": "^3.0.0",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.2",
     "reselect": "^4.0.0",
-    "vega": "^5.2.0",
-    "vega-lite": "^3.1.0"
+    "vega": "^5.8.1",
+    "vega-lite": "^4.0.0-beta.12"
   },
   "peerDependencies": {
     "@superset-ui/chart": "^0.12.0",
