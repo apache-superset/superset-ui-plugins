@@ -800,7 +800,9 @@ function nvd3Vis(element, props) {
                     key,
                     color: a.color,
                     strokeWidth: a.width,
-                    classed: `${a.opacity} ${a.style} nv-timeseries-annotation-layer showMarkers${a.showMarkers} hideLine${a.hideLine}`,
+                    classed: `${a.opacity} ${a.style} nv-timeseries-annotation-layer showMarkers${
+                      a.showMarkers
+                    } hideLine${a.hideLine}`,
                   };
                 }),
               ),
@@ -822,6 +824,7 @@ function nvd3Vis(element, props) {
       }
 
       // render chart
+      chart.margin(margins);
       svg
         .datum(data)
         .transition()
@@ -832,10 +835,7 @@ function nvd3Vis(element, props) {
 
       // On scroll, hide (not remove) tooltips so they can reappear on hover.
       // Throttle to only 4x/second.
-      window.addEventListener(
-        'scroll',
-        throttle(() => hideTooltips(false), 250),
-      );
+      window.addEventListener('scroll', throttle(() => hideTooltips(false), 250));
 
       // The below code should be run AFTER rendering because chart is updated in call()
       if (isTimeSeries && activeAnnotationLayers.length > 0) {
