@@ -26,7 +26,7 @@ export default function transformProps(chartProps) {
     height,
     data: queryData.data,
     colorScheme,
-    metrics: [metric, secondaryMetric]
+    metrics: [metric, secondaryMetric],
   };
 
   if (chartProps.datasource && chartProps.datasource.metrics) {
@@ -36,6 +36,5 @@ export default function transformProps(chartProps) {
       }
     });
   }
-  console.warn("!!!", returnProps);
   return returnProps;
 }
