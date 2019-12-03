@@ -55,20 +55,31 @@ export default function transformProps(chartProps) {
   let percentChange = 0;
   let formattedSubheader = subheader;
   if (supportTrendLine) {
-    const sortedData = [...data].sort((a, b) => a[TIME_COLUMN] - b[TIME_COLUMN]);
+    const sortedData = [...data].sort(
+      (a, b) => a[TIME_COLUMN] - b[TIME_COLUMN],
+    );
     bigNumber = sortedData[sortedData.length - 1][metricName];
     if (compareLag > 0) {
       const compareIndex = sortedData.length - (compareLag + 1);
       if (compareIndex >= 0) {
         const compareValue = sortedData[compareIndex][metricName];
         percentChange =
-          compareValue === 0 ? 0 : (bigNumber - compareValue) / Math.abs(compareValue);
-        const formatPercentChange = getNumberFormatter(NumberFormats.PERCENT_SIGNED_1_POINT);
-        formattedSubheader = `${formatPercentChange(percentChange)} ${compareSuffix}`;
+          compareValue === 0
+            ? 0
+            : (bigNumber - compareValue) / Math.abs(compareValue);
+        const formatPercentChange = getNumberFormatter(
+          NumberFormats.PERCENT_SIGNED_1_POINT,
+        );
+        formattedSubheader = `${formatPercentChange(
+          percentChange,
+        )} ${compareSuffix}`;
       }
     }
     trendLineData = supportAndShowTrendLine
-      ? sortedData.map(point => ({ x: point[TIME_COLUMN], y: point[metricName] }))
+      ? sortedData.map(point => ({
+          x: point[TIME_COLUMN],
+          y: point[metricName],
+        }))
       : null;
   } else {
     bigNumber = data[0][metricName];
@@ -83,11 +94,11 @@ export default function transformProps(chartProps) {
   }
   let metricFormat = yAxisFormat;
   if (!yAxisFormat && chartProps.datasource && chartProps.datasource.metrics) {
-    for (let x = 0; x < chartProps.datasource.metrics.length; x++) {
-      if (chartProps.datasource.metrics[x].metric_name == metric && chartProps.datasource.metrics[x].d3format) {
-        metricFormat = chartProps.datasource.metrics[x].d3format;
+    chartProps.datasource.metrics.forEach(metric => {
+      if (metric.metric_name == metric && metric.d3format) {
+        metricFormat = metric.d3format;
       }
-    }
+    });
   }
 
   const formatValue = getNumberFormatter(metricFormat);
