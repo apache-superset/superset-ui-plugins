@@ -66,7 +66,7 @@ class LineMulti extends React.Component {
   }
 
   // eslint-disable-next-line react/no-deprecated
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     this.loadData(nextProps);
   }
 
