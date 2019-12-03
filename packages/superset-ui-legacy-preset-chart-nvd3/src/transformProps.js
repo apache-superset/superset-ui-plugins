@@ -23,15 +23,7 @@ import { formatLabel } from './utils';
 const NOOP = () => {};
 
 export default function transformProps(chartProps) {
-  const {
-    width,
-    height,
-    annotationData,
-    datasource,
-    formData,
-    hooks,
-    queryData,
-  } = chartProps;
+  const { width, height, annotationData, datasource, formData, hooks, queryData } = chartProps;
 
   const { onAddFilter = NOOP, onError = NOOP } = hooks;
 
@@ -101,10 +93,7 @@ export default function transformProps(chartProps) {
   } else if (chartProps.formData.vizType == 'dual_line') {
     yAxisFormat = grabD3Format(chartProps.formData.metric) || yAxisFormat;
     yAxis2Format = grabD3Format(chartProps.formData.metric2) || yAxis2Format;
-  } else if (
-    ['line', 'dist_bar', 'bar', 'area'].indexOf(chartProps.formData.vizType) >
-    -1
-  ) {
+  } else if (['line', 'dist_bar', 'bar', 'area'].indexOf(chartProps.formData.vizType) > -1) {
     yAxisFormat = grabD3Format(chartProps.formData.metrics[0]) || yAxisFormat;
   }
 

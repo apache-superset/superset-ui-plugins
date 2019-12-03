@@ -55,24 +55,16 @@ export default function transformProps(chartProps) {
   let percentChange = 0;
   let formattedSubheader = subheader;
   if (supportTrendLine) {
-    const sortedData = [...data].sort(
-      (a, b) => a[TIME_COLUMN] - b[TIME_COLUMN],
-    );
+    const sortedData = [...data].sort((a, b) => a[TIME_COLUMN] - b[TIME_COLUMN]);
     bigNumber = sortedData[sortedData.length - 1][metricName];
     if (compareLag > 0) {
       const compareIndex = sortedData.length - (compareLag + 1);
       if (compareIndex >= 0) {
         const compareValue = sortedData[compareIndex][metricName];
         percentChange =
-          compareValue === 0
-            ? 0
-            : (bigNumber - compareValue) / Math.abs(compareValue);
-        const formatPercentChange = getNumberFormatter(
-          NumberFormats.PERCENT_SIGNED_1_POINT,
-        );
-        formattedSubheader = `${formatPercentChange(
-          percentChange,
-        )} ${compareSuffix}`;
+          compareValue === 0 ? 0 : (bigNumber - compareValue) / Math.abs(compareValue);
+        const formatPercentChange = getNumberFormatter(NumberFormats.PERCENT_SIGNED_1_POINT);
+        formattedSubheader = `${formatPercentChange(percentChange)} ${compareSuffix}`;
       }
     }
     trendLineData = supportAndShowTrendLine
