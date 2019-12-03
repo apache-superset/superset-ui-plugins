@@ -18,14 +18,24 @@
  */
 /* eslint-disable sort-keys */
 export default function transformProps(chartProps) {
-  const { width, height, formData, queryData } = chartProps;
+  const { width, height, formData, queryData, datasource } = chartProps;
   const { colorScheme, metric, secondaryMetric } = formData;
 
-  return {
+  let returnProps = {
     width,
     height,
     data: queryData.data,
     colorScheme,
-    metrics: [metric, secondaryMetric],
+    metrics: [metric, secondaryMetric]
   };
+
+  if (chartProps.datasource && chartProps.datasource.metrics) {
+    chartProps.datasource.metrics.forEach(metric => {
+      if (metric.metric_name == formData.metric && metric.d3format) {
+        Object.assign(returnProps, { numberFormat: metric.d3format });
+      }
+    });
+  }
+  console.warn("!!!", returnProps);
+  return returnProps;
 }
