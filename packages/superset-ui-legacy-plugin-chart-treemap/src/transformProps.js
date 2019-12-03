@@ -39,6 +39,6 @@ export default function transformProps(chartProps) {
     data: queryData.data,
     colorScheme,
     numberFormat,
-    treemapRatio
+    treemapRatio,
   };
 }

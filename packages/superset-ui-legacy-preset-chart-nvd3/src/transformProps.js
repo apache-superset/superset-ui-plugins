@@ -23,7 +23,15 @@ import { formatLabel } from './utils';
 const NOOP = () => {};
 
 export default function transformProps(chartProps) {
-  const { width, height, annotationData, datasource, formData, hooks, queryData } = chartProps;
+  const {
+    width,
+    height,
+    annotationData,
+    datasource,
+    formData,
+    hooks,
+    queryData,
+  } = chartProps;
 
   const { onAddFilter = NOOP, onError = NOOP } = hooks;
 
@@ -68,11 +76,7 @@ export default function transformProps(chartProps) {
     yLogScale,
   } = formData;
 
-  let {
-    numberFormat,
-    yAxisFormat,
-    yAxis2Format,
-  } = formData;
+  let { numberFormat, yAxisFormat, yAxis2Format } = formData;
 
   const rawData = queryData.data || [];
   const data = Array.isArray(rawData)
@@ -81,28 +85,29 @@ export default function transformProps(chartProps) {
         key: formatLabel(row.key, datasource.verboseMap),
       }))
     : rawData;
-  
-  const grabD3Format = (targetMetric) => {
+
+  const grabD3Format = targetMetric => {
     let foundFormatter;
-    chartProps.datasource.metrics.forEach((metric) => {
-      if(metric.d3format && metric.metric_name === targetMetric){
+    chartProps.datasource.metrics.forEach(metric => {
+      if (metric.d3format && metric.metric_name === targetMetric) {
         foundFormatter = metric.d3format;
       }
     });
     return foundFormatter;
-  }
+  };
 
-  if (chartProps.formData.vizType == "pie") {
+  if (chartProps.formData.vizType == 'pie') {
     numberFormat = grabD3Format(chartProps.formData.metric) || numberFormat;
-  } 
-  else if (chartProps.formData.vizType == "dual_line") {
+  } else if (chartProps.formData.vizType == 'dual_line') {
     yAxisFormat = grabD3Format(chartProps.formData.metric) || yAxisFormat;
     yAxis2Format = grabD3Format(chartProps.formData.metric2) || yAxis2Format;
-  } 
-  else if(["line","dist_bar","bar","area"].indexOf(chartProps.formData.vizType) > -1){
+  } else if (
+    ['line', 'dist_bar', 'bar', 'area'].indexOf(chartProps.formData.vizType) >
+    -1
+  ) {
     yAxisFormat = grabD3Format(chartProps.formData.metrics[0]) || yAxisFormat;
   }
-  
+
   return {
     width,
     height,
