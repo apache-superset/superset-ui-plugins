@@ -21,7 +21,7 @@ export default function transformProps(chartProps) {
   const { width, height, formData, queryData, datasource } = chartProps;
   const { colorScheme, metric, secondaryMetric } = formData;
 
-  let returnProps = {
+  const returnProps = {
     width,
     height,
     data: queryData.data,
@@ -29,12 +29,13 @@ export default function transformProps(chartProps) {
     metrics: [metric, secondaryMetric],
   };
 
-  if (chartProps.datasource && chartProps.datasource.metrics) {
-    chartProps.datasource.metrics.forEach(metric => {
-      if (metric.metric_name == formData.metric && metric.d3format) {
-        Object.assign(returnProps, { numberFormat: metric.d3format });
+  if (datasource && datasource.metrics) {
+    datasource.metrics.forEach(metricEntry => {
+      if (metricEntry.metric_name === formData.metric && metricEntry.d3format) {
+        Object.assign(returnProps, { numberFormat: metricEntry.d3format });
       }
     });
   }
+
   return returnProps;
 }
