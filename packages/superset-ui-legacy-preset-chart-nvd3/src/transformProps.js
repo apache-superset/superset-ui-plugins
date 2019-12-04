@@ -85,12 +85,13 @@ export default function transformProps(chartProps) {
         foundFormatter = metric.d3format;
       }
     });
+
     return foundFormatter;
   };
 
-  if (chartProps.formData.vizType == 'pie') {
+  if (chartProps.formData.vizType === 'pie') {
     numberFormat = grabD3Format(chartProps.formData.metric) || numberFormat;
-  } else if (chartProps.formData.vizType == 'dual_line') {
+  } else if (chartProps.formData.vizType === 'dual_line') {
     yAxisFormat = grabD3Format(chartProps.formData.metric) || yAxisFormat;
     yAxis2Format = grabD3Format(chartProps.formData.metric2) || yAxis2Format;
   } else if (['line', 'dist_bar', 'bar', 'area'].indexOf(chartProps.formData.vizType) > -1) {

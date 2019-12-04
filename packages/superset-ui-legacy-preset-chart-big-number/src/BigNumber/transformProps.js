@@ -86,9 +86,9 @@ export default function transformProps(chartProps) {
   }
   let metricFormat = yAxisFormat;
   if (!yAxisFormat && chartProps.datasource && chartProps.datasource.metrics) {
-    chartProps.datasource.metrics.forEach(metric => {
-      if (metric.metric_name == metric && metric.d3format) {
-        metricFormat = metric.d3format;
+    chartProps.datasource.metrics.forEach(metricEntry => {
+      if (metricEntry.metric_name === metric && metricEntry.d3format) {
+        metricFormat = metricEntry.d3format;
       }
     });
   }
