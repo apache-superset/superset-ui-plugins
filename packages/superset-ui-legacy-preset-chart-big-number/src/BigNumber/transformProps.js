@@ -36,8 +36,8 @@ export default function transformProps(chartProps) {
     startYAxisAtZero,
     subheader = '',
     vizType,
-    yAxisFormat,
   } = formData;
+  let { yAxisFormat } = formData;
   const { data } = queryData;
 
   let mainColor;
@@ -84,16 +84,16 @@ export default function transformProps(chartProps) {
   } else if (percentChange < 0) {
     className = 'negative';
   }
-  let metricFormat = yAxisFormat;
+
   if (!yAxisFormat && chartProps.datasource && chartProps.datasource.metrics) {
     chartProps.datasource.metrics.forEach(metricEntry => {
       if (metricEntry.metric_name === metric && metricEntry.d3format) {
-        metricFormat = metricEntry.d3format;
+        yAxisFormat = metricEntry.d3format;
       }
     });
   }
 
-  const formatValue = getNumberFormatter(metricFormat);
+  const formatValue = getNumberFormatter(yAxisFormat);
 
   return {
     width,
