@@ -22,6 +22,17 @@ import { formatLabel } from './utils';
 
 const NOOP = () => {};
 
+const grabD3Format = (chartProps, targetMetric) => {
+  let foundFormatter;
+  chartProps.datasource.metrics.forEach(metric => {
+    if (metric.d3format && metric.metric_name === targetMetric) {
+      foundFormatter = metric.d3format;
+    }
+  });
+
+  return foundFormatter;
+};
+
 export default function transformProps(chartProps) {
   const { width, height, annotationData, datasource, formData, hooks, queryData } = chartProps;
 
@@ -78,24 +89,13 @@ export default function transformProps(chartProps) {
       }))
     : rawData;
 
-  const grabD3Format = targetMetric => {
-    let foundFormatter;
-    chartProps.datasource.metrics.forEach(metric => {
-      if (metric.d3format && metric.metric_name === targetMetric) {
-        foundFormatter = metric.d3format;
-      }
-    });
-
-    return foundFormatter;
-  };
-
   if (chartProps.formData.vizType === 'pie') {
-    numberFormat = grabD3Format(chartProps.formData.metric) || numberFormat;
+    numberFormat = grabD3Format(chartProps, chartProps.formData.metric) || numberFormat;
   } else if (chartProps.formData.vizType === 'dual_line') {
-    yAxisFormat = grabD3Format(chartProps.formData.metric) || yAxisFormat;
-    yAxis2Format = grabD3Format(chartProps.formData.metric2) || yAxis2Format;
+    yAxisFormat = grabD3Format(chartProps, chartProps.formData.metric) || yAxisFormat;
+    yAxis2Format = grabD3Format(chartProps, chartProps.formData.metric2) || yAxis2Format;
   } else if (['line', 'dist_bar', 'bar', 'area'].indexOf(chartProps.formData.vizType) > -1) {
-    yAxisFormat = grabD3Format(chartProps.formData.metrics[0]) || yAxisFormat;
+    yAxisFormat = grabD3Format(chartProps, chartProps.formData.metrics[0]) || yAxisFormat;
   }
 
   return {
