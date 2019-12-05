@@ -90,12 +90,12 @@ export default function transformProps(chartProps) {
     : rawData;
 
   if (chartProps.formData.vizType === 'pie') {
-    numberFormat = grabD3Format(chartProps, chartProps.formData.metric) || numberFormat;
+    numberFormat = numberFormat || grabD3Format(chartProps, chartProps.formData.metric);
   } else if (chartProps.formData.vizType === 'dual_line') {
-    yAxisFormat = grabD3Format(chartProps, chartProps.formData.metric) || yAxisFormat;
-    yAxis2Format = grabD3Format(chartProps, chartProps.formData.metric2) || yAxis2Format;
+    yAxisFormat = yAxisFormat || grabD3Format(chartProps, chartProps.formData.metric);
+    yAxis2Format = yAxis2Format || grabD3Format(chartProps, chartProps.formData.metric2);
   } else if (['line', 'dist_bar', 'bar', 'area'].indexOf(chartProps.formData.vizType) > -1) {
-    yAxisFormat = grabD3Format(chartProps, chartProps.formData.metrics[0]) || yAxisFormat;
+    yAxisFormat = yAxisFormat || grabD3Format(chartProps, chartProps.formData.metrics[0]);
   }
 
   return {
