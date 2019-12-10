@@ -30,11 +30,12 @@ export default function transformProps(chartProps) {
   };
 
   if (datasource && datasource.metrics) {
-    datasource.metrics.forEach(metricEntry => {
-      if (metricEntry.metric_name === formData.metric && metricEntry.d3format) {
-        Object.assign(returnProps, { numberFormat: metricEntry.d3format });
-      }
-    });
+    const metricWithFormat = datasource.metrics.find(
+      ({ metric_name: metricName, d3format }) => metricName === formData.metric && d3format,
+    );
+    if (metricWithFormat) {
+      Object.assign(returnProps, { numberFormat: metricWithFormat.d3format });
+    }
   }
 
   return returnProps;
