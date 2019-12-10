@@ -70,9 +70,9 @@ class LineMulti extends React.Component {
 
   shouldComponentUpdate(nextProps) {
     const { rawFormData } = this.props;
-    const { rawFormData: nextrawFormData } = nextProps;
+    const { rawFormData: nextRawFormData } = nextProps;
     const { queryData } = this.state;
-    if (!queryData || !isEqual(rawFormData, nextrawFormData)) {
+    if (!queryData || !isEqual(rawFormData, nextRawFormData)) {
       return true;
     }
 
