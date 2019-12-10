@@ -98,9 +98,7 @@ function Sunburst(element, props) {
     .innerRadius(d => Math.sqrt(d.y))
     .outerRadius(d => Math.sqrt(d.y + d.dy));
 
-  const formatNum = numberFormat
-    ? getNumberFormatter(numberFormat)
-    : getNumberFormatter(NumberFormats.SI_3_DIGIT);
+  const formatNum = getNumberFormatter(numberFormat || NumberFormats.SI_3_DIGIT);
   const formatPerc = getNumberFormatter(NumberFormats.PERCENT_3_POINT);
 
   container.select('svg').remove();
