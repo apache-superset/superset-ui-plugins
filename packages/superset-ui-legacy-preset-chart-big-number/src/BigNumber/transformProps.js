@@ -82,7 +82,18 @@ export default function transformProps(chartProps) {
     className = 'negative';
   }
 
-  const formatValue = getNumberFormatter(yAxisFormat);
+  // SUP-146
+  let metricFormat = yAxisFormat;
+  if (!yAxisFormat) {
+    for (let x = 0; x < chartProps.datasource.metrics.length; x++) {
+      if (chartProps.datasource.metrics[x].metric_name == metric) {
+        metricFormat = chartProps.datasource.metrics[x].d3format;
+      }
+    }
+  }
+
+  const formatValue = getNumberFormatter(metricFormat);
+  // End SUP-146
 
   return {
     width,

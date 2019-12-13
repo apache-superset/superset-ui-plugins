@@ -79,6 +79,36 @@ export default function transformProps(chartProps) {
       }))
     : rawData;
 
+  // SUP-146
+  let d3NumberFormat;
+  let d3YAxisFormat;
+  let d3YAxis2Format;
+  if (chartProps.formData.vizType == "pie") {
+      for (let x = 0; x < chartProps.datasource.metrics.length; x++) {
+          if (chartProps.datasource.metrics[x].metric_name == chartProps.formData.metric) {
+              d3NumberFormat = chartProps.datasource.metrics[x].d3format;
+              break;
+          }
+      }
+  } else if (chartProps.formData.vizType == "dual_line") {
+      for (let x = 0; x < chartProps.datasource.metrics.length; x++) {
+          if (chartProps.datasource.metrics[x].metric_name == chartProps.formData.metric) {
+              d3YAxisFormat = chartProps.datasource.metrics[x].d3format;
+          } else if (chartProps.datasource.metrics[x].metric_name == chartProps.formData.metric2) {
+              d3YAxis2Format = chartProps.datasource.metrics[x].d3format;
+          }
+      }
+  } else if (chartProps.formData.vizType == "line" ||chartProps.formData.vizType == "dist_bar" ||
+             chartProps.formData.vizType == "bar" || chartProps.formData.vizType == "area") {
+      for (let x = 0; x < chartProps.datasource.metrics.length; x++) {
+          if (chartProps.datasource.metrics[x].metric_name == chartProps.formData.metrics[0]) {
+              d3YAxisFormat = chartProps.datasource.metrics[x].d3format;
+              break;
+          }
+      }
+  }
+  //End SUP-146
+
   return {
     width,
     height,
@@ -98,7 +128,7 @@ export default function transformProps(chartProps) {
     leftMargin,
     lineInterpolation,
     maxBubbleSize: parseInt(maxBubbleSize, 10),
-    numberFormat,
+    numberFormat: d3NumberFormat ? d3NumberFormat : numberFormat,
     onBrushEnd: isTruthy(sendTimeRange)
       ? timeRange => {
           onAddFilter('__time_range', timeRange, false, true);
@@ -123,8 +153,8 @@ export default function transformProps(chartProps) {
     xField: x,
     xIsLogScale: xLogScale,
     xTicksLayout,
-    yAxisFormat,
-    yAxis2Format,
+    yAxisFormat: d3YAxisFormat ? d3YAxisFormat : yAxisFormat,
+    yAxis2Format: d3YAxis2Format ? d3YAxis2Format : yAxis2Format,
     yAxisBounds,
     yAxisLabel,
     yAxisShowMinMax: yAxisShowminmax,
