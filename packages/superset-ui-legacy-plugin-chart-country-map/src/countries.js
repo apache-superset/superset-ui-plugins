@@ -8,6 +8,7 @@ import egypt from 'file-loader!./countries/egypt.geojson';
 import france from 'file-loader!./countries/france.geojson';
 import germany from 'file-loader!./countries/germany.geojson';
 import india from 'file-loader!./countries/india.geojson';
+import iran from 'file-loader!./countries/iran.geojson';
 import italy from 'file-loader!./countries/italy.geojson';
 import japan from 'file-loader!./countries/japan.geojson';
 import korea from 'file-loader!./countries/korea.geojson';
