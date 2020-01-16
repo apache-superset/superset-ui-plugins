@@ -61,7 +61,7 @@ function PivotTable(element, props) {
     $(this)[0].textContent = verboseMap[s] || s;
   };
   $container.find('thead tr:first th').each(replaceCell);
-  $container.find('thead tr th:first-child').each(replaceCell);
+  $container.find('thead tr th').each(replaceCell);
 
   // jQuery hack to format number
   $container.find('tbody tr').each(function eachRow() {
