@@ -254,7 +254,7 @@ function Sunburst(element, props) {
     // Then highlight only those that are an ancestor of the current segment.
     arcs
       .selectAll('path')
-      .filter(node => sequenceArray.indexOf(node) >= 0)
+      .filter(node => sequenceArray.includes(node))
       .style('opacity', 1)
       .style('stroke', '#aaa');
 
@@ -291,11 +291,10 @@ function Sunburst(element, props) {
     };
 
     // each record [groupby1val, groupby2val, (<string> or 0)n, m1, m2]
-    for (let i = 0; i < rows.length; i++) {
-      const row = rows[i];
+    for (const row of rows) {
       const m1 = Number(row[row.length - 2]);
       const m2 = Number(row[row.length - 1]);
-      const levels = row.slice(0, row.length - 2);
+      const levels = row.slice(0, -2);
       if (Number.isNaN(m1)) {
         // e.g. if this is a header row
         continue;
@@ -312,8 +311,8 @@ function Sunburst(element, props) {
         if (!isLeafNode) {
           // Not yet at the end of the sequence; move down the tree.
           let foundChild = false;
-          for (let k = 0; k < children.length; k++) {
-            currChild = children[k];
+          for (const element of children) {
+            currChild = element;
             if (currChild.name === nodeName && currChild.level === level) {
               // must match name AND level
               childNode = currChild;

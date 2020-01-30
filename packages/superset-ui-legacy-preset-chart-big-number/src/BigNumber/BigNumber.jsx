@@ -128,7 +128,7 @@ class BigNumberVis extends React.PureComponent {
     const text = formatBigNumber(bigNumber);
 
     const container = this.createTemporaryContainer();
-    document.body.appendChild(container);
+    document.body.append(container);
     const fontSize = computeMaxFontSize({
       text,
       maxWidth: Math.floor(width),
@@ -156,7 +156,7 @@ class BigNumberVis extends React.PureComponent {
     let fontSize = 0;
     if (subheader) {
       const container = this.createTemporaryContainer();
-      document.body.appendChild(container);
+      document.body.append(container);
       fontSize = computeMaxFontSize({
         text: subheader,
         maxWidth: Math.floor(width),
@@ -192,6 +192,7 @@ class BigNumberVis extends React.PureComponent {
 
     return (
       <XYChart
+        snapTooltipToDataX
         ariaLabel={`Big number visualization ${subheader}`}
         xScale={{ type: 'timeUtc' }}
         yScale={{
@@ -202,16 +203,15 @@ class BigNumberVis extends React.PureComponent {
         height={maxHeight}
         margin={CHART_MARGIN}
         renderTooltip={renderTooltip}
-        snapTooltipToDataX
       >
         <LinearGradient id={this.gradientId} from={mainColor} to="#fff" />
         <AreaSeries data={trendLineData} fill={`url(#${this.gradientId})`} stroke={mainColor} />
         <CrossHair
+          fullHeight
           stroke={mainColor}
           circleFill={mainColor}
           circleStroke="#fff"
           showHorizontalLine={false}
-          fullHeight
           strokeDasharray="5,2"
         />
       </XYChart>

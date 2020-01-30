@@ -32,13 +32,21 @@ export interface XYChartLayoutConfig {
 
 export default class XYChartLayout {
   chartWidth: number;
+
   chartHeight: number;
+
   containerWidth: number;
+
   containerHeight: number;
+
   margin: Margin;
+
   xEncoder: ChannelEncoder<XFieldDef>;
+
   xLayout?: AxisLayout;
+
   yEncoder: ChannelEncoder<YFieldDef>;
+
   yLayout?: AxisLayout;
 
   // eslint-disable-next-line complexity
@@ -65,7 +73,7 @@ export default class XYChartLayout {
     if (typeof yEncoder.axis !== 'undefined') {
       this.yLayout = yEncoder.axis.computeLayout({
         axisWidth: Math.max(height - margin.top - margin.bottom),
-        tickSize: yEncoder.axis.config.tickSize || yTickSize,
+        tickSize: yEncoder.axis.config.tickSize ?? yTickSize,
         tickTextStyle: yTickTextStyle,
       });
     }
@@ -78,7 +86,7 @@ export default class XYChartLayout {
       this.xLayout = xEncoder.axis.computeLayout({
         axisWidth: innerWidth,
         labelAngle: this.recommendXLabelAngle(xEncoder.axis.config.orient as 'top' | 'bottom'),
-        tickSize: xEncoder.axis.config.tickSize || xTickSize,
+        tickSize: xEncoder.axis.config.tickSize ?? xTickSize,
         tickTextStyle: xTickTextStyle,
       });
     }

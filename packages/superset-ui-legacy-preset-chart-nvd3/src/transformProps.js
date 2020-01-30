@@ -94,7 +94,7 @@ export default function transformProps(chartProps) {
   } else if (chartProps.formData.vizType === 'dual_line') {
     yAxisFormat = yAxisFormat || grabD3Format(chartProps, chartProps.formData.metric);
     yAxis2Format = yAxis2Format || grabD3Format(chartProps, chartProps.formData.metric2);
-  } else if (['line', 'dist_bar', 'bar', 'area'].indexOf(chartProps.formData.vizType) > -1) {
+  } else if (['line', 'dist_bar', 'bar', 'area'].includes(chartProps.formData.vizType)) {
     yAxisFormat = yAxisFormat || grabD3Format(chartProps, chartProps.formData.metrics[0]);
   }
 

@@ -78,7 +78,7 @@ function Sankey(element, props) {
   let nodes = {};
   // Compute the distinct nodes from the links.
   const links = data.map(row => {
-    const link = Object.assign({}, row);
+    const link = { ...row };
     link.source = nodes[link.source] || (nodes[link.source] = { name: link.source });
     link.target = nodes[link.target] || (nodes[link.target] = { name: link.target });
     link.value = Number(link.value);
@@ -174,7 +174,7 @@ function Sankey(element, props) {
         .drag()
         .origin(d => d)
         .on('dragstart', function dragStart() {
-          this.parentNode.appendChild(this);
+          this.parentNode.append(this);
         })
         .on('drag', dragmove),
     );

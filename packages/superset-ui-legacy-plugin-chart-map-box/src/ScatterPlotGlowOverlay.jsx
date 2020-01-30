@@ -62,10 +62,11 @@ const computeClusterLabel = (properties, aggregation) => {
     return Math.round(100 * mean) / 100;
   }
   const squaredSum = properties.get('squaredSum');
-  const variance = squaredSum / count - Math.pow(sum / count, 2);
+  const variance = squaredSum / count - (sum / count) ** 2;
   if (aggregation === 'var') {
     return Math.round(100 * variance) / 100;
-  } else if (aggregation === 'stdev') {
+  }
+  if (aggregation === 'stdev') {
     return Math.round(100 * Math.sqrt(variance)) / 100;
   }
 
@@ -151,7 +152,7 @@ class ScatterPlotGlowOverlay extends React.PureComponent {
           ctx.beginPath();
           if (location.get('properties').get('cluster')) {
             let clusterLabel = clusterLabelMap[i];
-            const scaledRadius = roundDecimal(Math.pow(clusterLabel / maxLabel, 0.5) * radius, 1);
+            const scaledRadius = roundDecimal((clusterLabel / maxLabel) ** 0.5 * radius, 1);
             const fontHeight = roundDecimal(scaledRadius * 0.5, 1);
             const [x, y] = pixelRounded;
             const gradient = ctx.createRadialGradient(x, y, scaledRadius, x, y, 0);

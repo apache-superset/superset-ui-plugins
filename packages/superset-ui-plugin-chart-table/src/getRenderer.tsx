@@ -87,7 +87,7 @@ export default function getRenderer({
   return ({ keyName, row }: RendererProps) => {
     const value = row.rowData.data[keyName];
     const cell = { key: keyName as string, value };
-    const handleClick = isMetric ? NOOP : useMemo(() => handleCellSelected(cell), [keyName, value]);
+    const handleClick = isMetric ? NOOP : useMemo(() => handleCellSelected(cell), [cell]);
 
     let Parent;
     if (isMetric) {

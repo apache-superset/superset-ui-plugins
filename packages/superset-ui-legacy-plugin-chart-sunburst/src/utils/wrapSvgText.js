@@ -29,8 +29,8 @@ export default function wrapSvgText(text, width, adjustedY) {
       .attr('dy', `${dy}em`);
 
     let didWrap = false;
-    for (let i = 0; i < words.length; i++) {
-      word = words[i];
+    for (const element of words) {
+      word = element;
       line.push(word);
       tspan.text(line.join(' '));
       if (tspan.node().getComputedTextLength() > width) {

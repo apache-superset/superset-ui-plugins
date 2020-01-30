@@ -137,9 +137,9 @@ function Treemap(element, props) {
       .selectAll('tspan')
       .data(d =>
         d.data.name
-          .substring(d.data.name.lastIndexOf('.') + 1)
+          .slice(Math.max(0, d.data.name.lastIndexOf('.') + 1))
           .split(/(?=[A-Z][^A-Z])/g)
-          .concat(`\xa0${formatNumber(d.value)}`),
+          .concat(`\u00A0{formatNumber(d.value)}`),
       )
       .enter()
       .append('tspan')
@@ -152,7 +152,7 @@ function Treemap(element, props) {
       .selectAll('tspan')
       .data(d =>
         d.data.name
-          .substring(d.data.name.lastIndexOf('.') + 1)
+          .slice(Math.max(0, d.data.name.lastIndexOf('.') + 1))
           .split(/(?=[A-Z][^A-Z])/g)
           .concat(formatNumber(d.value)),
       )

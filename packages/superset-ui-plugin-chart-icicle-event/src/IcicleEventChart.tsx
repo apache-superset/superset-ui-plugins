@@ -129,7 +129,7 @@ export default class IcicleEventChart extends Component<Props> {
       .attr('width', d => rectWidth(isVertical, boxMargin, d))
       .attr('height', d => rectHeight(isVertical, boxMargin, d))
       .attr('rx', rounding)
-      .attr('fill', d => color(d.data.name || ''))
+      .attr('fill', d => color(d.data.name ?? ''))
       .style('cursor', 'pointer');
 
     // Create container for each rectangle to append content (name of event)

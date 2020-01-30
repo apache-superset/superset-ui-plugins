@@ -45,7 +45,9 @@ export interface AxisLayout {
 
 export default class AxisAgent<Def extends ChannelDef> {
   private readonly channelEncoder: ChannelEncoder<Def>;
+
   private readonly format?: (value: any) => string;
+
   readonly config: CoreAxis;
 
   constructor(channelEncoder: ChannelEncoder<Def>) {
@@ -63,7 +65,7 @@ export default class AxisAgent<Def extends ChannelDef> {
   }
 
   getFormat() {
-    return this.format || this.channelEncoder.formatValue;
+    return this.format ?? this.channelEncoder.formatValue;
   }
 
   hasTitle() {
@@ -75,7 +77,8 @@ export default class AxisAgent<Def extends ChannelDef> {
 
     if (title === undefined || title === true) {
       return this.channelEncoder.getTitle();
-    } else if (title === false || title === '') {
+    }
+    if (title === false || title === '') {
       return '';
     }
 

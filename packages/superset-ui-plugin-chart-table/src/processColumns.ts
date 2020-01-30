@@ -28,8 +28,8 @@ function processColumns(
 
   metrics.forEach(metric => {
     const arr = [];
-    for (let i = 0; i < records.length; i += 1) {
-      arr.push(records[i][metric]);
+    for (const element of records) {
+      arr.push(element[metric]);
     }
 
     dataArray[metric] = arr;
@@ -42,9 +42,9 @@ function processColumns(
     [key: string]: number;
   } = {};
 
-  for (let i = 0; i < metrics.length; i += 1) {
-    maxes[metrics[i]] = Math.max(...dataArray[metrics[i]]);
-    mins[metrics[i]] = Math.min(...dataArray[metrics[i]]);
+  for (const element of metrics) {
+    maxes[element] = Math.max(...dataArray[element]);
+    mins[element] = Math.min(...dataArray[element]);
   }
 
   const formatPercent = getNumberFormatter(NumberFormats.PERCENT_3_POINT);
@@ -52,7 +52,7 @@ function processColumns(
 
   const processedColumns = columns.map((key: string) => {
     let label = verboseMap[key];
-    const formatString = columnFormats && columnFormats[key];
+    const formatString = columnFormats?.[key];
     let formatFunction: NumberFormatter | TimeFormatter | undefined;
     let type: 'string' | 'metric' = 'string';
 
@@ -64,7 +64,7 @@ function processColumns(
       [key: string]: any;
     } = {};
 
-    if (metrics.indexOf(key) >= 0) {
+    if (metrics.includes(key)) {
       formatFunction = getNumberFormatter(formatString);
       type = 'metric';
       extraField.maxValue = maxes[key];
@@ -74,7 +74,7 @@ function processColumns(
     // Handle verbose names for percents
     if (!label) {
       if (key.length > 0 && key[0] === '%') {
-        const cleanedKey = key.substring(1);
+        const cleanedKey = key.slice(1);
         label = `% ${verboseMap[cleanedKey] || cleanedKey}`;
         formatFunction = formatPercent;
       } else {

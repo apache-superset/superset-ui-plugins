@@ -178,11 +178,11 @@ class HorizonRow extends React.PureComponent {
       <div className={`horizon-row ${className}`}>
         <span className="title">{title}</span>
         <canvas
-          width={width}
-          height={height}
           ref={c => {
             this.canvas = c;
           }}
+          width={width}
+          height={height}
         />
       </div>
     );

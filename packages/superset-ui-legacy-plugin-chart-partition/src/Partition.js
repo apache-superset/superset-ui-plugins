@@ -30,7 +30,7 @@ import './Partition.css';
 // return an array of nodes in breadth-first order
 function init(root) {
   const flat = [];
-  const dy = 1.0 / (root.height + 1);
+  const dy = 1 / (root.height + 1);
   let prev = null;
   root.each(n => {
     n.y = dy * n.depth;
@@ -108,7 +108,7 @@ function Icicle(element, props) {
 
   // Chart options
   const chartType = timeSeriesOption;
-  const hasTime = ['adv_anal', 'time_series'].indexOf(chartType) >= 0;
+  const hasTime = ['adv_anal', 'time_series'].includes(chartType);
   const format = getNumberFormatter(numberFormat);
   const timeFormat = getTimeFormatter(dateTimeFormat);
   const colorFn = CategoricalColorNamespace.getScale(colorScheme);
@@ -143,7 +143,7 @@ function Icicle(element, props) {
     const root = hierarchy(datum);
 
     function hasDateNode(n) {
-      return metrics.indexOf(n.data.name) >= 0 && hasTime;
+      return metrics.includes(n.data.name) && hasTime;
     }
 
     // node.name is the metric/group name

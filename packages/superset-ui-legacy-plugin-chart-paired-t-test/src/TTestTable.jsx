@@ -109,8 +109,8 @@ class TTestTable extends React.Component {
     // Compute the lift value between two time series
     let sumValues = 0;
     let sumControl = 0;
-    for (let i = 0; i < values.length; i++) {
-      sumValues += values[i].y;
+    for (const [i, element] of values.entries()) {
+      sumValues += element.y;
       sumControl += control[i].y;
     }
 
@@ -124,8 +124,8 @@ class TTestTable extends React.Component {
     let diffSum = 0;
     let diffSqSum = 0;
     let finiteCount = 0;
-    for (let i = 0; i < values.length; i++) {
-      const diff = control[i].y - values[i].y;
+    for (const [i, element] of values.entries()) {
+      const diff = control[i].y - element.y;
       /* eslint-disable-next-line */
       if (isFinite(diff)) {
         finiteCount++;
@@ -138,7 +138,7 @@ class TTestTable extends React.Component {
     );
     try {
       return (2 * new dist.Studentt(finiteCount - 1).cdf(tvalue)).toFixed(pValPrec); // two-sided test
-    } catch (err) {
+    } catch (error) {
       return NaN;
     }
   }
@@ -223,8 +223,8 @@ class TTestTable extends React.Component {
       return (
         <Tr
           key={i}
-          onClick={this.computeTTest.bind(this, i)}
           className={i === control ? 'control' : ''}
+          onClick={this.computeTTest.bind(this, i)}
         >
           {values}
         </Tr>

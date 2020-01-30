@@ -32,14 +32,14 @@ export function findDepth(node: IcicleEventNode, depth: number = 0): number {
 
   const maxDepth = d3Max(node.children.map(child => findDepth(child, depth + 1)));
 
-  return maxDepth || depth;
+  return maxDepth ?? depth;
 }
 
 export function hierarchySort(
   a: HierarchyNode<IcicleEventNode>,
   b: HierarchyNode<IcicleEventNode>,
 ): number {
-  if (a && a.value && b && b.value) {
+  if (a?.value && b && b.value) {
     return b.value - a.value || b.height - a.height;
   }
 

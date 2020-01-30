@@ -19,7 +19,9 @@ export default abstract class AbstractEncoder<
   Options extends BaseOptions = BaseOptions
 > {
   readonly spec: FullSpec<Encoding, Options>;
+
   readonly channelTypes: ChannelTypes;
+
   readonly channels: AllChannelEncoders<Encoding>;
 
   readonly legends: {

@@ -58,7 +58,7 @@ export default function transformProps(chartProps) {
     });
     opts.map = prop => ({
       sum: prop.metric,
-      squaredSum: Math.pow(prop.metric, 2),
+      squaredSum: prop.metric ** 2,
       min: prop.metric,
       max: prop.metric,
     });

@@ -42,6 +42,7 @@ export default class WordCloud extends React.PureComponent<
   State
 > {
   isMounted: boolean = false;
+
   state: State = {
     words: [],
   };

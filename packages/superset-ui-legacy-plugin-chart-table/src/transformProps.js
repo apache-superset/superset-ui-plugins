@@ -41,7 +41,7 @@ export default function transformProps(chartProps) {
     // Handle verbose names for percents
     if (!label) {
       if (key[0] === '%') {
-        const cleanedKey = key.substring(1);
+        const cleanedKey = key.slice(1);
         label = `% ${verboseMap[cleanedKey] || cleanedKey}`;
       } else {
         label = key;

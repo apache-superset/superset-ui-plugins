@@ -81,7 +81,8 @@ export function deriveScaleTypeFromDataTypeAndChannelType(
 ): ScaleType | undefined {
   if (typeof dataType === 'undefined') {
     return undefined;
-  } else if (dataType === 'nominal' || dataType === 'ordinal') {
+  }
+  if (dataType === 'nominal' || dataType === 'ordinal') {
     switch (channelType) {
       // For positional (x and y) ordinal and ordinal fields,
       // "point" is the default scale type for all marks

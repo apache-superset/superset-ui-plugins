@@ -269,7 +269,7 @@ function nvd3Vis(element, props) {
   container.style.height = `${maxHeight}px`;
 
   function isVizTypes(types) {
-    return types.indexOf(vizType) >= 0;
+    return types.includes(vizType);
   }
 
   const drawGraph = function drawGraph() {
@@ -378,7 +378,7 @@ function nvd3Vis(element, props) {
         chart.labelThreshold(0.05);
         chart.cornerRadius(true);
 
-        if (['key', 'value', 'percent'].indexOf(pieLabelType) >= 0) {
+        if (['key', 'value', 'percent'].includes(pieLabelType)) {
           chart.labelType(pieLabelType);
         } else if (pieLabelType === 'key_value') {
           chart.labelType(d => `${d.data.x}: ${numberFormatter(d.data.y)}`);
@@ -510,7 +510,7 @@ function nvd3Vis(element, props) {
       if (isXAxisString) {
         chart.xAxis.tickFormat(d =>
           d.length > MAX_NO_CHARACTERS_IN_LABEL
-            ? `${d.substring(0, MAX_NO_CHARACTERS_IN_LABEL)}…`
+            ? `${d.slice(0, Math.max(0, MAX_NO_CHARACTERS_IN_LABEL))}…`
             : d,
         );
       } else {

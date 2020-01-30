@@ -127,6 +127,7 @@ export default class LineChart extends PureComponent<Props> {
   private createMargin = createMarginSelector();
 
   static defaultProps = defaultProps;
+
   constructor(props: Props) {
     super(props);
 
@@ -234,26 +235,28 @@ export default class LineChart extends PureComponent<Props> {
           tooltipData: any;
         }) => (
           <XYChart
+            showYGrid
+            snapTooltipToDataX
             width={chartDim.width}
             height={chartDim.height}
             ariaLabel="LineChart"
             eventTrigger="container"
             margin={layout.margin}
-            onMouseMove={onMouseMove}
-            onMouseLeave={onMouseLeave}
             renderTooltip={null}
-            showYGrid
-            snapTooltipToDataX
             theme={theme}
             tooltipData={tooltipData}
             xScale={convertScaleToDataUIScale(channels.x.scale!.config)}
             yScale={convertScaleToDataUIScale(channels.y.scale!.config)}
+            onMouseMove={onMouseMove}
+            onMouseLeave={onMouseLeave}
           >
             {layout.renderXAxis()}
             {layout.renderYAxis()}
             {this.renderSeries(allSeries)}
             <CrossHair
               fullHeight
+              showCircle
+              showMultipleCircles
               strokeDasharray=""
               showHorizontalLine={false}
               circleFill={(d: SeriesValue) =>
@@ -265,8 +268,6 @@ export default class LineChart extends PureComponent<Props> {
               }
               circleStyles={CIRCLE_STYLE}
               stroke="#ccc"
-              showCircle
-              showMultipleCircles
             />
           </XYChart>
         )}

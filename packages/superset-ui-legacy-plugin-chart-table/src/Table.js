@@ -96,20 +96,20 @@ function TableVis(element, props) {
 
   function col(c) {
     const arr = [];
-    for (let i = 0; i < data.length; i += 1) {
-      arr.push(data[i][c]);
+    for (const element of data) {
+      arr.push(element[c]);
     }
 
     return arr;
   }
   const maxes = {};
   const mins = {};
-  for (let i = 0; i < metrics.length; i += 1) {
+  for (const element of metrics) {
     if (alignPositiveNegative) {
-      maxes[metrics[i]] = d3.max(col(metrics[i]).map(Math.abs));
+      maxes[element] = d3.max(col(element).map(Math.abs));
     } else {
-      maxes[metrics[i]] = d3.max(col(metrics[i]));
-      mins[metrics[i]] = d3.min(col(metrics[i]));
+      maxes[element] = d3.max(col(element));
+      mins[element] = d3.min(col(element));
     }
   }
 
@@ -146,7 +146,7 @@ function TableVis(element, props) {
       columns.map(({ key, format }) => {
         const val = row[key];
         let html;
-        const isMetric = metrics.indexOf(key) >= 0;
+        const isMetric = metrics.includes(key);
         if (key === '__timestamp') {
           html = tsFormatter(val);
         }
@@ -213,7 +213,7 @@ function TableVis(element, props) {
     })
     .attr('data-sort', d => (d.isMetric ? d.val : null))
     // Check if the dashboard currently has a filter for each row
-    .classed('filtered', d => filters && filters[d.col] && filters[d.col].indexOf(d.val) >= 0)
+    .classed('filtered', d => filters && filters[d.col] && filters[d.col].includes(d.val))
     .on('click', function(d) {
       if (!d.isMetric && tableFilter) {
         const td = d3.select(this);
@@ -259,7 +259,7 @@ function TableVis(element, props) {
     const keys = columns.map(c => c.key);
     const index = keys.indexOf(sortBy);
     datatable.column(index).order(orderDesc ? 'desc' : 'asc');
-    if (metrics.indexOf(sortBy) < 0) {
+    if (!metrics.includes(sortBy)) {
       // Hiding the sortBy column if not in the metrics list
       datatable.column(index).visible(false);
     }

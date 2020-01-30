@@ -248,7 +248,7 @@ function Rose(element, props) {
         arcId++;
         innerRadius = outerRadius;
       }
-      const labelArc = Object.assign({}, arcSt.data[i * numGroups]);
+      const labelArc = { ...arcSt.data[i * numGroups] };
       labelArc.outerRadius = maxRadius + 20;
       labelArc.innerRadius = maxRadius + 15;
       arcSt.labels.push(labelArc);
