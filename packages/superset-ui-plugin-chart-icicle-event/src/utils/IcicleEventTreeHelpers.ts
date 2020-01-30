@@ -23,7 +23,7 @@ import {
   hierarchy as d3Hierarchy,
   partition as d3Partition,
 } from 'd3-hierarchy';
-import { IcicleEventNode } from '../../types/IcicleEventNode';
+import { IcicleEventNode } from '../IcicleEventNode';
 
 export function findDepth(node: IcicleEventNode, depth: number = 0): number {
   if (!node.children) {

@@ -19,7 +19,7 @@
 import React, { Component, createRef } from 'react';
 import { HierarchyRectangularNode } from 'd3-hierarchy';
 import { BaseType, select as d3Select } from 'd3-selection';
-import { IcicleEventNode } from '../types/IcicleEventNode';
+import { IcicleEventNode } from './IcicleEventNode';
 import { x0, y0, rectWidth, rectHeight } from './utils/RenderedIcicleAccessors';
 
 interface Props {
