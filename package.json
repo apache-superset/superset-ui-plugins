@@ -123,7 +123,15 @@
       "timers": "real",
       "setupFilesAfterEnv": [
         "@airbnb/config-jest/enzyme"
-      ]
+      ],
+      "coverageThreshold": {
+        "global": {
+          "branches": 1,
+          "functions": 1,
+          "lines": 1,
+          "statements": 1
+        }
+      }
     },
     "eslint": {
       "overrides": [

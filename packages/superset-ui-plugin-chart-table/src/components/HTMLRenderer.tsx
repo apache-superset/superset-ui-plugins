@@ -13,5 +13,6 @@ export default function HTMLRenderer({ value }: { value: string }) {
     );
   }
 
-  return value;
+  // eslint-disable-next-line react/jsx-no-useless-fragment
+  return <>{value}</>;
 }
