@@ -1,5 +1,3 @@
-/* eslint-disable sort-keys, no-magic-numbers, complexity */
-
 import React from 'react';
 import { BoxPlotSeries, XYChart } from '@data-ui/xy-chart';
 import { chartTheme, ChartTheme } from '@data-ui/theme';

@@ -73,7 +73,6 @@ export interface ScaleTypeToD3ScaleType<Output> {
   [ScaleType.BAND]: ScaleBand<{ toString(): string }>;
 }
 
-// eslint-disable-next-line complexity
 export function deriveScaleTypeFromDataTypeAndChannelType(
   dataType: Type | undefined,
   channelType: ChannelType,
@@ -129,7 +128,6 @@ export function deriveScaleTypeFromDataTypeAndChannelType(
   return undefined;
 }
 
-// eslint-disable-next-line complexity
 function createScaleFromType<Output>(type: ScaleType) {
   switch (type) {
     case ScaleType.LINEAR:
@@ -165,7 +163,6 @@ function createScaleFromType<Output>(type: ScaleType) {
   }
 }
 
-// eslint-disable-next-line complexity
 function createScale<Output extends Value>(
   channelType: ChannelType,
   scaleType: ScaleType,

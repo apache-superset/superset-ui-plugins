@@ -1,4 +1,3 @@
-/* eslint-disable sort-keys, no-magic-numbers, complexity */
 import React, { PureComponent } from 'react';
 import { XYChart, PointSeries } from '@data-ui/xy-chart';
 import { chartTheme, ChartTheme } from '@data-ui/theme';

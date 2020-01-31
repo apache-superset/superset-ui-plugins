@@ -141,7 +141,6 @@ export default abstract class AbstractEncoder<
             return domain.map((value: ChannelInput) => ({
               field,
               value,
-              // eslint-disable-next-line sort-keys
               encodedValues: channelNames.reduce(
                 (prev: Partial<Record<keyof Encoding, Value | undefined>>, curr) => {
                   const map = prev;

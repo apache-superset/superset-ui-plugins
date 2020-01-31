@@ -1,4 +1,3 @@
-/* eslint-disable no-magic-numbers */
 import { CSSProperties } from 'react';
 import { getTextDimension, Margin, Dimension } from '@superset-ui/dimension';
 import { CategoricalColorScale } from '@superset-ui/color';
@@ -106,7 +105,6 @@ export default class AxisAgent<Def extends ChannelDef> {
     return [];
   }
 
-  // eslint-disable-next-line complexity
   computeLayout({
     axisTitleHeight = 20,
     axisWidth,

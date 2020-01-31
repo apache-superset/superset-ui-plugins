@@ -1,5 +1,3 @@
-/* eslint-disable sort-keys, no-magic-numbers */
-
 import React, { ReactNode, CSSProperties } from 'react';
 import { XAxis, YAxis } from '@data-ui/xy-chart';
 import { Margin, mergeMargin, Dimension } from '@superset-ui/dimension';
@@ -49,7 +47,6 @@ export default class XYChartLayout {
 
   yLayout?: AxisLayout;
 
-  // eslint-disable-next-line complexity
   constructor(config: XYChartLayoutConfig) {
     const {
       width,

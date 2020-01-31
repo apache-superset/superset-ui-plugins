@@ -1,5 +1,3 @@
-/* eslint-disable sort-keys, no-magic-numbers, complexity */
-
 import React, { PureComponent } from 'react';
 import { kebabCase, groupBy, flatMap, uniqueId, values } from 'lodash';
 import {
@@ -134,6 +132,7 @@ export default class LineChart extends PureComponent<Props> {
     this.renderChart = this.renderChart.bind(this);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   renderSeries(allSeries: Series[]) {
     const filledSeries = flatMap(
       allSeries

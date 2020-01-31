@@ -17,7 +17,7 @@
  * under the License.
  */
 /* eslint-disable no-param-reassign, react/sort-prop-types */
-/* eslint-disable no-plusplus, no-continue */
+/* eslint-disable no-plusplus */
 import d3 from 'd3';
 import PropTypes from 'prop-types';
 import { CategoricalColorNamespace } from '@superset-ui/color';

@@ -16,7 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-/* eslint-disable sort-keys, complexity, no-magic-numbers, no-continue, no-plusplus, no-bitwise */
+/* eslint-disable no-continue, no-plusplus, no-bitwise */
+/* eslint-disable react/jsx-sort-default-props */
+/* eslint-disable react/sort-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { extent as d3Extent } from 'd3-array';
