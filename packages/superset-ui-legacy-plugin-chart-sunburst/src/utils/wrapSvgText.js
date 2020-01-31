@@ -1,4 +1,4 @@
-/* eslint-disable babel/no-invalid-this, no-plusplus */
+/* eslint-disable no-plusplus */
 
 /*
   Utility function that takes a d3 svg:text selection and a max width, and splits the
@@ -29,7 +29,7 @@ export default function wrapSvgText(text, width, adjustedY) {
       .attr('dy', `${dy}em`);
 
     let didWrap = false;
-    for (const element of words) {
+    words.forEach(element => {
       word = element;
       line.push(word);
       tspan.text(line.join(' '));
@@ -46,7 +46,8 @@ export default function wrapSvgText(text, width, adjustedY) {
           .text(word);
         didWrap = true;
       }
-    }
+    });
+
     if (!didWrap && typeof adjustedY !== 'undefined') {
       tspan.attr('y', adjustedY);
     }

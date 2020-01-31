@@ -16,7 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-/* eslint-disable no-magic-numbers, no-plusplus, react/no-array-index-key, react/jsx-no-bind */
+/* eslint-disable no-plusplus, react/no-array-index-key, react/jsx-no-bind */
 import dist from 'distributions';
 import React from 'react';
 import { Table, Tr, Td, Thead, Th } from 'reactable-arc';
@@ -109,10 +109,10 @@ class TTestTable extends React.Component {
     // Compute the lift value between two time series
     let sumValues = 0;
     let sumControl = 0;
-    for (const [i, element] of values.entries()) {
+    values.entries().forEach(([i, element]) => {
       sumValues += element.y;
       sumControl += control[i].y;
-    }
+    });
 
     return (((sumValues - sumControl) / sumControl) * 100).toFixed(liftValPrec);
   }
@@ -124,7 +124,7 @@ class TTestTable extends React.Component {
     let diffSum = 0;
     let diffSqSum = 0;
     let finiteCount = 0;
-    for (const [i, element] of values.entries()) {
+    values.entries().forEach(([i, element]) => {
       const diff = control[i].y - element.y;
       /* eslint-disable-next-line */
       if (isFinite(diff)) {
@@ -132,7 +132,7 @@ class TTestTable extends React.Component {
         diffSum += diff;
         diffSqSum += diff * diff;
       }
-    }
+    });
     const tvalue = -Math.abs(
       diffSum * Math.sqrt((finiteCount - 1) / (finiteCount * diffSqSum - diffSum * diffSum)),
     );

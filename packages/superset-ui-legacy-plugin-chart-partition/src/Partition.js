@@ -1,3 +1,4 @@
+/* eslint-disable react/sort-prop-types */
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -17,7 +18,7 @@
  * under the License.
  */
 /* eslint no-param-reassign: [2, {"props": false}] */
-/* eslint-disable sort-keys, no-magic-numbers, babel/no-invalid-this, no-plusplus */
+/* eslint-disable no-plusplus */
 import d3 from 'd3';
 import PropTypes from 'prop-types';
 import { hierarchy } from 'd3-hierarchy';

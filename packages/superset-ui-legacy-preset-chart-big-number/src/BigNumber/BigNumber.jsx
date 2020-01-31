@@ -16,7 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-/* eslint-disable sort-keys, react/forbid-prop-types */
+/* eslint-disable react/forbid-prop-types */
+/* eslint-disable react/jsx-sort-default-props */
+/* eslint-disable react/sort-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import shortid from 'shortid';
@@ -42,7 +44,6 @@ const PROPORTION = {
 
 export function renderTooltipFactory(formatValue) {
   function renderTooltip({ datum }) {
-    // eslint-disable-line
     const { x: rawDate, y: rawValue } = datum;
     const formattedDate = smartDateVerboseFormatter(rawDate);
     const value = formatValue(rawValue);

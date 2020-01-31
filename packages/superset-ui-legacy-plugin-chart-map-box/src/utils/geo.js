@@ -1,4 +1,3 @@
-/* eslint-disable no-restricted-properties, no-magic-numbers */
 import roundDecimal from './roundDecimal';
 
 export const EARTH_CIRCUMFERENCE_KM = 40075.16;

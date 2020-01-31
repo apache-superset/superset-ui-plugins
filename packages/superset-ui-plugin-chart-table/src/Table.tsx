@@ -329,7 +329,6 @@ export default withStyles(({ unit }) => ({
   },
   searchBox: {
     marginLeft: unit,
-    // eslint-disable-next-line no-magic-numbers
     width: 25 * unit,
   },
 }))(TableVis);

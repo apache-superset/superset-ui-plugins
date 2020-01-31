@@ -16,9 +16,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-/* eslint-disable sort-keys, no-magic-numbers, complexity, func-names */
-/* eslint-disable babel/no-invalid-this, babel/new-cap, no-negated-condition */
-/* eslint-disable prefer-destructuring, react/forbid-prop-types */
+/* eslint-disable func-names, no-negated-condition */
+/* eslint-disable prefer-destructuring */
+/* eslint-disable react/sort-prop-types */
 import d3 from 'd3';
 import PropTypes from 'prop-types';
 import dt from 'datatables.net-bs/js/dataTables.bootstrap';
@@ -96,22 +96,22 @@ function TableVis(element, props) {
 
   function col(c) {
     const arr = [];
-    for (const element of data) {
-      arr.push(element[c]);
-    }
+    data.forEach(row => {
+      arr.push(row[c]);
+    });
 
     return arr;
   }
   const maxes = {};
   const mins = {};
-  for (const element of metrics) {
+  metrics.forEach(metric => {
     if (alignPositiveNegative) {
-      maxes[element] = d3.max(col(element).map(Math.abs));
+      maxes[metric] = d3.max(col(metric).map(Math.abs));
     } else {
-      maxes[element] = d3.max(col(element));
-      mins[element] = d3.min(col(element));
+      maxes[metric] = d3.max(col(metric));
+      mins[metric] = d3.min(col(metric));
     }
-  }
+  });
 
   const tsFormatter = getTimeFormatter(tableTimestampFormat);
 

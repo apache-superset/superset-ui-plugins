@@ -1,5 +1,3 @@
-/* eslint-disable no-restricted-properties, no-magic-numbers */
-
 export default function roundDecimal(number, precision) {
   let roundedNumber;
   let p = precision;

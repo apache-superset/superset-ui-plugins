@@ -16,9 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-/* eslint-disable sort-keys, no-magic-numbers, react/forbid-prop-types */
-/* eslint-disable react/require-default-props, complexity, prefer-destructuring */
-/* eslint-disable no-restricted-properties */
+/* eslint-disable react/require-default-props */
 import Immutable from 'immutable';
 import PropTypes from 'prop-types';
 import React from 'react';
