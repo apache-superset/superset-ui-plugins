@@ -17,7 +17,7 @@
     "lint": "nimbus eslint",
     "lint:fix": "yarn lint --fix",
     "prettier": "nimbus prettier",
-    "test": "yarn type && yarn jest",
+    "test": "yarn type:dts && yarn jest",
     "test:watch": "yarn lint:fix && yarn jest --watch",
     "type:dts": "nimbus typescript --build --reference-workspaces",
     "prepare-release": "git checkout master && git pull --rebase origin master && lerna bootstrap && yarn install && yarn test",
