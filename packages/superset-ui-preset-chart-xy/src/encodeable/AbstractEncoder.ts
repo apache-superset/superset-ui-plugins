@@ -93,6 +93,7 @@ export default abstract class AbstractEncoder<
   /**
    * subclass can override this
    */
+  // eslint-disable-next-line class-methods-use-this
   createFullSpec(spec: PartialSpec<Encoding, Options>, defaultEncoding?: Encoding) {
     if (typeof defaultEncoding === 'undefined') {
       return spec as FullSpec<Encoding, Options>;

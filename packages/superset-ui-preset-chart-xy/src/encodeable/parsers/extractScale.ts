@@ -218,6 +218,7 @@ function getScaleTypeCategory(scaleType: ScaleType) {
     return 'discretizing';
   }
 
+  // eslint-disable-next-line no-console
   console.warn(`Unknown scaleType ${scaleType}`);
 
   return undefined;
