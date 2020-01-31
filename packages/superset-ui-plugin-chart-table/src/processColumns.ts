@@ -27,10 +27,10 @@ function processColumns(
   } = {};
 
   metrics.forEach(metric => {
-    const arr = [];
-    for (const element of records) {
-      arr.push(element[metric]);
-    }
+    const arr: any[] = [];
+    records.forEach(record => {
+      arr.push(record[metric]);
+    });
 
     dataArray[metric] = arr;
   });
@@ -42,10 +42,10 @@ function processColumns(
     [key: string]: number;
   } = {};
 
-  for (const element of metrics) {
-    maxes[element] = Math.max(...dataArray[element]);
-    mins[element] = Math.min(...dataArray[element]);
-  }
+  metrics.forEach(metric => {
+    maxes[metric] = Math.max(...dataArray[metric]);
+    mins[metric] = Math.min(...dataArray[metric]);
+  });
 
   const formatPercent = getNumberFormatter(NumberFormats.PERCENT_3_POINT);
   const tsFormatter = getTimeFormatter(tableTimestampFormat);
