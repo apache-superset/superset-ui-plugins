@@ -109,8 +109,8 @@ class TTestTable extends React.Component {
     // Compute the lift value between two time series
     let sumValues = 0;
     let sumControl = 0;
-    values.entries().forEach(([i, element]) => {
-      sumValues += element.y;
+    values.forEach((value, i) => {
+      sumValues += value.y;
       sumControl += control[i].y;
     });
 
@@ -124,8 +124,8 @@ class TTestTable extends React.Component {
     let diffSum = 0;
     let diffSqSum = 0;
     let finiteCount = 0;
-    values.entries().forEach(([i, element]) => {
-      const diff = control[i].y - element.y;
+    values.forEach((value, i) => {
+      const diff = control[i].y - value.y;
       /* eslint-disable-next-line */
       if (isFinite(diff)) {
         finiteCount++;
