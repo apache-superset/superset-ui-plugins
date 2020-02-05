@@ -306,24 +306,11 @@ function Sunburst(element, props) {
         // If the next node has the name '0', it will
         const isLeafNode = level >= levels.length - 1 || levels[level + 1] === 0;
         let childNode;
-        let currChild;
 
         if (!isLeafNode) {
-          // Not yet at the end of the sequence; move down the tree.
-          let foundChild = false;
+          childNode = children.find(child => child.name === nodeName && child.level === level);
 
-          // eslint-disable-next-line unicorn/no-for-loop
-          for (let i = 0; i < children.length; i++) {
-            currChild = children[i];
-            if (currChild.name === nodeName && currChild.level === level) {
-              // must match name AND level
-              childNode = currChild;
-              foundChild = true;
-              break;
-            }
-          }
-          // If we don't already have a child node for this branch, create it.
-          if (!foundChild) {
+          if (!childNode) {
             childNode = {
               name: nodeName,
               children: [],
