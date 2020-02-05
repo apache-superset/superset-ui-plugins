@@ -151,6 +151,7 @@
           "files": "*.{js,jsx,ts,tsx}",
           "rules": {
             "react/jsx-no-literals": "off",
+            "prefer-exponentiation-operator": "off",
             "@typescript-eslint/no-explicit-any": ["warn", { "fixToUnknown": false }]
           }
         }

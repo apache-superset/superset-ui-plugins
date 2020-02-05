@@ -150,7 +150,8 @@ class ScatterPlotGlowOverlay extends React.PureComponent {
           ctx.beginPath();
           if (location.get('properties').get('cluster')) {
             let clusterLabel = clusterLabelMap[i];
-            const scaledRadius = roundDecimal((clusterLabel / maxLabel) ** 0.5 * radius, 1);
+            // eslint-disable-next-line no-restricted-properties, unicorn/prefer-exponentiation-operator
+            const scaledRadius = roundDecimal(Math.pow(clusterLabel / maxLabel, 0.5) * radius, 1);
             const fontHeight = roundDecimal(scaledRadius * 0.5, 1);
             const [x, y] = pixelRounded;
             const gradient = ctx.createRadialGradient(x, y, scaledRadius, x, y, 0);
