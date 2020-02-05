@@ -39,7 +39,7 @@ export function hierarchySort(
   a: HierarchyNode<IcicleEventNode>,
   b: HierarchyNode<IcicleEventNode>,
 ): number {
-  if (a?.value && b && b.value) {
+  if (a?.value && b?.value) {
     return b.value - a.value || b.height - a.height;
   }
 
