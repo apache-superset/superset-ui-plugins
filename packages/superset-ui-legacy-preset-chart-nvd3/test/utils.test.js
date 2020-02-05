@@ -1,3 +1,4 @@
+/* eslint-disable unicorn/no-zero-fractions */
 /**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
@@ -29,12 +30,12 @@ const DATA = [
     key: ['East Asia & Pacific'],
     values: [
       {
-        x: -315619200000,
-        y: 1031863394,
+        x: -315619200000.0,
+        y: 1031863394.0,
       },
       {
-        x: -283996800000,
-        y: 1034767718,
+        x: -283996800000.0,
+        y: 1034767718.0,
       },
     ],
   },
@@ -42,12 +43,12 @@ const DATA = [
     key: ['South Asia'],
     values: [
       {
-        x: -315619200000,
-        y: 572036107,
+        x: -315619200000.0,
+        y: 572036107.0,
       },
       {
-        x: -283996800000,
-        y: 584143236,
+        x: -283996800000.0,
+        y: 584143236.0,
       },
     ],
   },
@@ -55,12 +56,12 @@ const DATA = [
     key: ['Europe & Central Asia'],
     values: [
       {
-        x: -315619200000,
-        y: 660881033,
+        x: -315619200000.0,
+        y: 660881033.0,
       },
       {
-        x: -283996800000,
-        y: 668526708,
+        x: -283996800000.0,
+        y: 668526708.0,
       },
     ],
   },
@@ -72,12 +73,12 @@ const DATA_WITH_DISABLED_SERIES = [
     key: ['East Asia & Pacific'],
     values: [
       {
-        x: -315619200000,
-        y: 1031863394,
+        x: -315619200000.0,
+        y: 1031863394.0,
       },
       {
-        x: -283996800000,
-        y: 1034767718,
+        x: -283996800000.0,
+        y: 1034767718.0,
       },
     ],
   },
@@ -86,12 +87,12 @@ const DATA_WITH_DISABLED_SERIES = [
     key: ['South Asia'],
     values: [
       {
-        x: -315619200000,
-        y: 572036107,
+        x: -315619200000.0,
+        y: 572036107.0,
       },
       {
-        x: -283996800000,
-        y: 584143236,
+        x: -283996800000.0,
+        y: 584143236.0,
       },
     ],
   },
@@ -99,12 +100,12 @@ const DATA_WITH_DISABLED_SERIES = [
     key: ['Europe & Central Asia'],
     values: [
       {
-        x: -315619200000,
-        y: 660881033,
+        x: -315619200000.0,
+        y: 660881033.0,
       },
       {
-        x: -283996800000,
-        y: 668526708,
+        x: -283996800000.0,
+        y: 668526708.0,
       },
     ],
   },
@@ -165,11 +166,11 @@ describe('nvd3/utils', () => {
     });
 
     it('works with all series enabled', () => {
-      expect(computeYDomain(DATA)).toEqual([572036107, 1034767718]);
+      expect(computeYDomain(DATA)).toEqual([572036107.0, 1034767718.0]);
     });
 
     it('works with some series disabled', () => {
-      expect(computeYDomain(DATA_WITH_DISABLED_SERIES)).toEqual([660881033, 668526708]);
+      expect(computeYDomain(DATA_WITH_DISABLED_SERIES)).toEqual([660881033.0, 668526708.0]);
     });
   });
 
@@ -179,11 +180,11 @@ describe('nvd3/utils', () => {
     });
 
     it('works with all series enabled', () => {
-      expect(computeStackedYDomain(DATA)).toEqual([0, 2287437662]);
+      expect(computeStackedYDomain(DATA)).toEqual([0, 2287437662.0]);
     });
 
     it('works with some series disabled', () => {
-      expect(computeStackedYDomain(DATA_WITH_DISABLED_SERIES)).toEqual([0, 668526708]);
+      expect(computeStackedYDomain(DATA_WITH_DISABLED_SERIES)).toEqual([0, 668526708.0]);
     });
   });
 });
