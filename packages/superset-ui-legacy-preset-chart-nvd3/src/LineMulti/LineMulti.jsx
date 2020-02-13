@@ -77,7 +77,6 @@ class LineMulti extends React.Component {
     }
 
     return false;
-    // return false;
   }
 
   componentDidUpdate() {
