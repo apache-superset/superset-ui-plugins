@@ -20,16 +20,16 @@ export default function DefaultLegendItem<Config extends EncodingConfig>({
           <circle
             fill={
               // @ts-ignore
-              item.encodedValues.color ||
-              // @ts-ignore
-              item.encodedValues.stroke ||
-              // @ts-ignore
-              item.encodedValues.fill ||
-              '#ccc'
+              (item.output.color ||
+                // @ts-ignore
+                item.output.stroke ||
+                // @ts-ignore
+                item.output.fill ||
+                '#ccc') as string
             }
             stroke={
               // @ts-ignore
-              item.encodedValues.stroke || 'none'
+              (item.output.stroke || 'none') as string
             }
             r={MARK_SIZE / 2}
             cx={MARK_SIZE / 2}
