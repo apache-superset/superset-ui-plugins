@@ -4,14 +4,19 @@ import { chartTheme, ChartTheme } from '@data-ui/theme';
 import { Margin, Dimension } from '@superset-ui/dimension';
 import { WithLegend } from '@superset-ui/chart-composition';
 import DefaultTooltipRenderer from './DefaultTooltipRenderer';
-import { BoxPlotEncoding, BoxPlotEncoder, boxPlotEncoderFactory } from './Encoder';
+import {
+  BoxPlotEncodingConfig,
+  BoxPlotEncoding,
+  BoxPlotEncoder,
+  boxPlotEncoderFactory,
+} from './Encoder';
 import { Dataset, PlainObject } from '../encodeable/types/Data';
 import createMarginSelector, { DEFAULT_MARGIN } from '../utils/selectors/createMarginSelector';
 import { BoxPlotDataRow } from './types';
 import convertScaleToDataUIScale from '../utils/convertScaleToDataUIScaleShape';
-import createXYChartLayoutWithTheme from '../utils/createXYChartLayoutWithTheme';
-import createRenderLegend from '../components/legend/createRenderLegend';
-import { LegendHooks } from '../components/legend/types';
+import createXYChartLayoutWithTheme from '../utils2/createXYChartLayoutWithTheme';
+import createRenderLegend from '../components/legend2/createRenderLegend';
+import { LegendHooks } from '../components/legend2/types';
 import { isFieldDef } from '../encodeable/types/ChannelDef';
 
 export interface TooltipProps {
@@ -30,7 +35,7 @@ const defaultProps = {
 
 export type HookProps = {
   TooltipRenderer?: React.ComponentType<TooltipProps>;
-} & LegendHooks<BoxPlotEncoder>;
+} & LegendHooks<BoxPlotEncodingConfig>;
 
 type Props = {
   className?: string;

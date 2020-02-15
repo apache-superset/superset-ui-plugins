@@ -8327,10 +8327,10 @@ encodable@^0.2.0:
     vega "^5.9.1"
     vega-lite "~4.1.0"
 
-encodable@^0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/encodable/-/encodable-0.2.3.tgz#c6f969df1bbc0466862369d063307d06bf2a7133"
-  integrity sha512-6H4l6V3gEmwujiKWIzpT0TBz/yvURYeVobtA0ydUstOEm6OY2GAefupn6ySmb4f5ZNzA43AcZynSYxtvt8Y73A==
+encodable@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/encodable/-/encodable-0.2.6.tgz#5ecb7097764fc88fb6640fa284b73a5f141b2f5b"
+  integrity sha512-HQEaLGm6e/Z+u5zOh9/7DfDpn8FeMbmSVsgA6lbBuIE+SKd7og5Z6aELvK3HCkL/G8V6XBKwawqNG+qsB7GAew==
   dependencies:
     "@types/d3-array" "^2.0.0"
     "@types/d3-interpolate" "^1.3.1"

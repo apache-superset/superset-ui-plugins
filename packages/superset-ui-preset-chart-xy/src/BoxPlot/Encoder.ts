@@ -1,7 +1,7 @@
 import { createEncoderFactory, Encoder } from 'encodable';
 import { DeriveEncoding } from 'encodable/lib/types/Encoding';
 
-type BoxPlotEncodingConfig = {
+export type BoxPlotEncodingConfig = {
   x: ['XBand', number];
   y: ['YBand', number];
   color: ['Color', string];
