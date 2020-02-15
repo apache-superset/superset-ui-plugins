@@ -4,47 +4,47 @@ import { chartTheme, ChartTheme } from '@data-ui/theme';
 import { Margin, Dimension } from '@superset-ui/dimension';
 import { WithLegend } from '@superset-ui/chart-composition';
 import DefaultTooltipRenderer from './DefaultTooltipRenderer';
-import Encoder, { Encoding } from './Encoder';
+import { BoxPlotEncoding, BoxPlotEncoder, boxPlotEncoderFactory } from './Encoder';
 import { Dataset, PlainObject } from '../encodeable/types/Data';
-import { PartialSpec } from '../encodeable/types/Specification';
 import createMarginSelector, { DEFAULT_MARGIN } from '../utils/selectors/createMarginSelector';
 import { BoxPlotDataRow } from './types';
 import convertScaleToDataUIScale from '../utils/convertScaleToDataUIScaleShape';
 import createXYChartLayoutWithTheme from '../utils/createXYChartLayoutWithTheme';
-import createEncoderSelector from '../encodeable/createEncoderSelector';
 import createRenderLegend from '../components/legend/createRenderLegend';
 import { LegendHooks } from '../components/legend/types';
+import { isFieldDef } from '../encodeable/types/ChannelDef';
 
 export interface TooltipProps {
   datum: BoxPlotDataRow;
   color: string;
-  encoder: Encoder;
+  encoder: BoxPlotEncoder;
 }
 
 const defaultProps = {
   className: '',
   margin: DEFAULT_MARGIN,
+  encoding: {},
   theme: chartTheme,
   TooltipRenderer: DefaultTooltipRenderer,
 } as const;
 
 export type HookProps = {
   TooltipRenderer?: React.ComponentType<TooltipProps>;
-} & LegendHooks<Encoder>;
+} & LegendHooks<BoxPlotEncoder>;
 
 type Props = {
   className?: string;
   width: string | number;
   height: string | number;
   margin?: Margin;
+  encoding?: Partial<BoxPlotEncoding>;
   data: Dataset;
   theme?: ChartTheme;
-} & PartialSpec<Encoding> &
-  HookProps &
+} & HookProps &
   Readonly<typeof defaultProps>;
 
 export default class BoxPlot extends React.PureComponent<Props> {
-  private createEncoder = createEncoderSelector(Encoder);
+  private createEncoder = boxPlotEncoderFactory.createSelector();
 
   private createMargin = createMarginSelector();
 
@@ -58,20 +58,14 @@ export default class BoxPlot extends React.PureComponent<Props> {
 
   renderChart(dim: Dimension) {
     const { width, height } = dim;
-    const { data, margin, theme, TooltipRenderer } = this.props;
-    const encoder = this.createEncoder(this.props);
+    const { data, margin, theme, TooltipRenderer, encoding } = this.props;
+    const encoder = this.createEncoder(encoding);
     const { channels } = encoder;
 
-    const isHorizontal = channels.y.definition.type === 'nominal';
+    const isHorizontal =
+      isFieldDef(channels.y.definition) && channels.y.definition.type === 'nominal';
 
-    if (typeof channels.x.scale !== 'undefined') {
-      const xDomain = channels.x.getDomain(data);
-      channels.x.scale.setDomain(xDomain);
-    }
-    if (typeof channels.y.scale !== 'undefined') {
-      const yDomain = channels.y.getDomain(data);
-      channels.y.scale.setDomain(yDomain);
-    }
+    encoder.setDomainFromDataset(data);
 
     const layout = createXYChartLayoutWithTheme({
       width,
@@ -82,45 +76,48 @@ export default class BoxPlot extends React.PureComponent<Props> {
       yEncoder: channels.y,
     });
 
-    return layout.renderChartWithFrame((chartDim: Dimension) => (
-      <XYChart
-        showYGrid
-        width={chartDim.width}
-        height={chartDim.height}
-        ariaLabel="BoxPlot"
-        margin={layout.margin}
-        renderTooltip={({ datum, color }: { datum: BoxPlotDataRow; color: string }) => (
-          <TooltipRenderer datum={datum} color={color} encoder={encoder} />
-        )}
-        theme={theme}
-        xScale={convertScaleToDataUIScale(channels.x.scale!.config)}
-        yScale={convertScaleToDataUIScale(channels.y.scale!.config)}
-      >
-        {layout.renderXAxis()}
-        {layout.renderYAxis()}
-        <BoxPlotSeries
-          key={channels.x.definition.field}
-          animated
-          data={
-            isHorizontal
-              ? data.map(row => ({ ...row, y: channels.y.get(row) }))
-              : data.map(row => ({ ...row, x: channels.x.get(row) }))
-          }
-          fill={(datum: PlainObject) => channels.color.encode(datum, '#55acee')}
-          fillOpacity={0.4}
-          stroke={(datum: PlainObject) => channels.color.encode(datum)}
-          strokeWidth={1}
-          widthRatio={0.6}
-          horizontal={channels.y.definition.type === 'nominal'}
-        />
-      </XYChart>
-    ));
+    return (
+      channels.x.definition.scale !== false &&
+      layout.renderChartWithFrame((chartDim: Dimension) => (
+        <XYChart
+          showYGrid
+          width={chartDim.width}
+          height={chartDim.height}
+          ariaLabel="BoxPlot"
+          margin={layout.margin}
+          renderTooltip={({ datum, color }: { datum: BoxPlotDataRow; color: string }) => (
+            <TooltipRenderer datum={datum} color={color} encoder={encoder} />
+          )}
+          theme={theme}
+          xScale={convertScaleToDataUIScale(channels.x.definition.scale as any)}
+          yScale={convertScaleToDataUIScale(channels.y.definition.scale as any)}
+        >
+          {layout.renderXAxis()}
+          {layout.renderYAxis()}
+          <BoxPlotSeries
+            key={isFieldDef(channels.x.definition) ? channels.x.definition.field : ''}
+            animated
+            data={
+              isHorizontal
+                ? data.map(row => ({ ...row, y: channels.y.getValueFromDatum(row) }))
+                : data.map(row => ({ ...row, x: channels.x.getValueFromDatum(row) }))
+            }
+            fill={(datum: PlainObject) => channels.color.encodeDatum(datum, '#55acee')}
+            fillOpacity={0.4}
+            stroke={(datum: PlainObject) => channels.color.encodeDatum(datum)}
+            strokeWidth={1}
+            widthRatio={0.6}
+            horizontal={isHorizontal}
+          />
+        </XYChart>
+      ))
+    );
   }
 
   render() {
-    const { className, data, width, height } = this.props;
+    const { className, data, encoding, width, height } = this.props;
 
-    const encoder = this.createEncoder(this.props);
+    const encoder = this.createEncoder(encoding);
 
     return (
       <WithLegend
