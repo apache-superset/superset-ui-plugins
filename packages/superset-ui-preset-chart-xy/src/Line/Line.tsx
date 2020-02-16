@@ -16,7 +16,7 @@ import Encoder, { Encoding, ChannelOutput } from './Encoder';
 import { Dataset, PlainObject } from '../encodeable/types/Data';
 import { PartialSpec } from '../encodeable/types/Specification';
 import DefaultTooltipRenderer from './DefaultTooltipRenderer';
-import createMarginSelector, { DEFAULT_MARGIN } from '../utils/selectors/createMarginSelector';
+import createMarginSelector, { DEFAULT_MARGIN } from '../utils2/createMarginSelector';
 import convertScaleToDataUIScale from '../utils/convertScaleToDataUIScaleShape';
 import createXYChartLayoutWithTheme from '../utils/createXYChartLayoutWithTheme';
 import createEncoderSelector from '../encodeable/createEncoderSelector';

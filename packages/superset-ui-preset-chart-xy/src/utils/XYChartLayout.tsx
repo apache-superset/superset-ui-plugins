@@ -2,7 +2,7 @@ import React, { ReactNode, CSSProperties } from 'react';
 import { XAxis, YAxis } from '@data-ui/xy-chart';
 import { Margin, mergeMargin, Dimension } from '@superset-ui/dimension';
 import { ChartFrame } from '@superset-ui/chart-composition';
-import createTickComponent from './createTickComponent';
+import createTickComponent from '../utils2/createTickComponent';
 import ChannelEncoder from '../encodeable/ChannelEncoder';
 import { XFieldDef, YFieldDef } from '../encodeable/types/ChannelDef';
 import { PlainObject } from '../encodeable/types/Data';

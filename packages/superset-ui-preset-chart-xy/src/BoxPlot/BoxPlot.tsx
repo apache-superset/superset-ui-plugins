@@ -11,7 +11,7 @@ import {
   boxPlotEncoderFactory,
 } from './Encoder';
 import { Dataset, PlainObject } from '../encodeable/types/Data';
-import createMarginSelector, { DEFAULT_MARGIN } from '../utils/selectors/createMarginSelector';
+import createMarginSelector, { DEFAULT_MARGIN } from '../utils2/createMarginSelector';
 import { BoxPlotDataRow } from './types';
 import convertScaleToDataUIScale from '../utils/convertScaleToDataUIScaleShape';
 import createXYChartLayoutWithTheme from '../utils2/createXYChartLayoutWithTheme';

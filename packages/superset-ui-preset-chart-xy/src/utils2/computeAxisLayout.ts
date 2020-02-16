@@ -53,8 +53,10 @@ export default function computeAxisLayout<Def extends ChannelDef<Output>, Output
 
   // cheap heuristic, can improve
   const widthPerTick = axisWidth / tickLabels.length;
-  const strategyForLabelOverlap =
-    maxWidth <= widthPerTick ? labelOverlap : ({ strategy: 'flat' } as const);
+  const isLabelOverlap = maxWidth > widthPerTick;
+  const labelAngleIfOverlap = labelOverlap.strategy === 'rotate' ? labelOverlap.labelAngle : 0;
+  const labelAngleAfterOverlapCheck = isLabelOverlap ? labelAngleIfOverlap : 0;
+  const finalLabelAngle = labelAngle === 0 ? labelAngleAfterOverlapCheck : labelAngle;
 
   const spaceForAxisTitle = axis.hasTitle() ? labelPadding + axisTitleHeight : 0;
   let tickTextAnchor;
@@ -63,16 +65,18 @@ export default function computeAxisLayout<Def extends ChannelDef<Output>, Output
     tickSize + gapBetweenTickAndTickLabel + spaceForAxisTitle + gapBetweenAxisLabelAndBorder;
 
   if (axis.channelEncoder.isX()) {
-    if (strategyForLabelOverlap.strategy === 'flat') {
+    if (finalLabelAngle === 0) {
       const labelHeight = tickLabelDimensions.length > 0 ? tickLabelDimensions[0].height : 0;
       labelOffset = labelHeight + labelPadding;
       requiredMargin += labelHeight;
-    } else if (strategyForLabelOverlap.strategy === 'rotate') {
-      const labelHeight = Math.ceil(Math.abs(maxWidth * Math.sin((labelAngle * Math.PI) / 180)));
+    } else {
+      const labelHeight = Math.ceil(
+        Math.abs(maxWidth * Math.sin((finalLabelAngle * Math.PI) / 180)),
+      );
       labelOffset = labelHeight + labelPadding;
       requiredMargin += labelHeight;
       tickTextAnchor =
-        (orient === 'top' && labelAngle > 0) || (orient === 'bottom' && labelAngle < 0)
+        (orient === 'top' && finalLabelAngle > 0) || (orient === 'bottom' && finalLabelAngle < 0)
           ? 'end'
           : 'start';
     }
@@ -84,10 +88,10 @@ export default function computeAxisLayout<Def extends ChannelDef<Output>, Output
 
   return {
     axisWidth,
-    labelAngle: strategyForLabelOverlap.strategy === 'flat' ? 0 : labelAngle,
+    labelAngle: finalLabelAngle,
     labelFlush: axis.config.labelFlush,
     labelOffset,
-    labelOverlap: strategyForLabelOverlap.strategy,
+    labelOverlap: isLabelOverlap ? labelOverlap.strategy : 'flat',
     minMargin: {
       [orient]: Math.ceil(requiredMargin),
     },

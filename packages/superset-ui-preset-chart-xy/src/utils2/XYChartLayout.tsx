@@ -7,7 +7,7 @@ import { PlainObject } from 'encodable/lib/types/Data';
 import { XFieldDef, YFieldDef } from 'encodable/lib/types/ChannelDef';
 import { Value } from 'encodable/lib/types/VegaLite';
 import { DEFAULT_LABEL_ANGLE } from '../utils/constants';
-import createTickComponent from '../utils/createTickComponent';
+import createTickComponent from './createTickComponent';
 import { AxisLayout } from '../encodeable/AxisAgent';
 import computeAxisLayout from './computeAxisLayout';
 
