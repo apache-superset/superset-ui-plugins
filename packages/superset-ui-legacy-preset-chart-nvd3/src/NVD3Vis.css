@@ -166,9 +166,9 @@
 
 .d3-tip.nv-event-annotation-layer-table::after {
   content: '\25BC';
-  font-size: 22px;
+  font-size: 14px;
   color: #484848;
   position: absolute;
-  bottom: -23px;
-  left: 84px;
+  bottom: -14px;
+  left: 94px;
 }
