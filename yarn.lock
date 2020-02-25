@@ -4101,7 +4101,15 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@16.9.19", "@types/react@^16.3.0", "@types/react@^16.7.17", "@types/react@^16.8.8", "@types/react@^16.9.0":
+"@types/react@*", "@types/react@^16.3.0", "@types/react@^16.7.17", "@types/react@^16.8.8", "@types/react@^16.9.0":
+  version "16.9.22"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.22.tgz#f0288c92d94e93c4b43e3f5633edf788b2c040ae"
+  integrity sha512-7OSt4EGiLvy0h5R7X+r0c7S739TCU/LvWbkNOrm10lUwNHe7XPz5OLhLOSZeCkqO9JSCly1NkYJ7ODTUqVnHJQ==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^2.2.0"
+
+"@types/react@16.9.19":
   version "16.9.19"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.19.tgz#c842aa83ea490007d29938146ff2e4d9e4360c40"
   integrity sha512-LJV97//H+zqKWMms0kvxaKYJDG05U2TtQB3chRLF8MPNs+MQh/H1aGlyDUxjaHvu08EAGerdX2z4LTBc7ns77A==
@@ -4438,16 +4446,6 @@
   integrity sha512-RnDdRoy0YI5hokk+YWXc8t39Kp51i4BdCpiwkDJU4YypGycTYnDFjicam6jigUmZ/6wyMirDf/aQboWviFLt2Q==
   dependencies:
     classnames "^2.2.5"
-
-"@vx/group@0.0.193":
-  version "0.0.193"
-  resolved "https://registry.yarnpkg.com/@vx/group/-/group-0.0.193.tgz#b492e9e4d7dc31a002094ec95220cff5ec3ec0ea"
-  integrity sha512-MNJDPgTN0PK8UiV+8XPvZqokYtswH+mfSQMHZXnANfg14jAIfVMeW/TRfDX9FRK2SVI8aOJmMXYOfNVL3y7ewA==
-  dependencies:
-    "@types/classnames" "^2.2.9"
-    "@types/react" "*"
-    classnames "^2.2.5"
-    prop-types "^15.6.2"
 
 "@vx/group@0.0.194", "@vx/group@^0.0.194":
   version "0.0.194"
