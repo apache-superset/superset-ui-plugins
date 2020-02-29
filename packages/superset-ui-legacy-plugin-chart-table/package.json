@@ -1,6 +1,6 @@
 {
   "name": "@superset-ui/legacy-plugin-chart-table",
-  "version": "0.11.15",
+  "version": "0.12.0",
   "description": "Superset Legacy Chart - Table",
   "sideEffects": [
     "*.css"
@@ -28,12 +28,13 @@
     "access": "public"
   },
   "dependencies": {
-    "d3": "^3.5.17",
-    "datatables.net-bs": "^1.10.15",
-    "dompurify": "^2.0.6",
-    "prop-types": "^15.6.2"
+    "@types/datatables.net": "^1.10.18",
+    "datatables.net-bs": "^1.10.20",
+    "dompurify": "^2.0.8"
   },
   "peerDependencies": {
+    "jquery": "^3.4.1",
+    "react": "^16.8.0",
     "@superset-ui/chart": "^0.12.0",
     "@superset-ui/number-format": "^0.12.0",
     "@superset-ui/time-format": "^0.12.0",

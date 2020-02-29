@@ -16,26 +16,64 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-export default function transformProps(chartProps) {
-  const { height, datasource, initialValues, formData, hooks, queryData } = chartProps;
-  const { onAddFilter = () => {} } = hooks;
+import { ChartProps } from '@superset-ui/chart';
+import { QueryFormDataMetric } from '@superset-ui/query';
+
+interface DataRecord {
+  [key: string]: unknown;
+}
+
+interface DataColumnMeta {
+  key: string;
+  label: string;
+  format?: string;
+}
+
+export interface DataTableProps {
+  // Each object is { field1: value1, field2: value2 }
+  data: DataRecord[];
+  height: number;
+  alignPositiveNegative: boolean;
+  colorPositiveNegative: boolean;
+  columns: DataColumnMeta[];
+  metrics: DataColumnMeta[];
+  percentMetrics: DataColumnMeta[];
+  includeSearch: boolean;
+  orderDesc: boolean;
+  pageLength: number;
+  tableTimestampFormat: string;
+  // TODO: add filters back or clean up
+  // filters: object;
+  // onAddFilter?: (key: string, value: number[]) => void;
+  // onRemoveFilter?: (key: string, value: number[]) => void;
+  // tableFilter: boolean;
+  // timeseriesLimitMetric: string | object;
+}
+
+const consolidateMetricShape = (metric: QueryFormDataMetric) => {
+  if (typeof metric === 'string') return { key: metric, label: metric };
+  return metric;
+};
+
+export default function transformProps(chartProps: ChartProps): DataTableProps {
+  const { height, datasource, formData, queryData } = chartProps;
 
   const {
     alignPn,
     colorPn,
     includeSearch,
-    metrics,
     orderDesc,
     pageLength,
-    percentMetrics,
-    tableFilter,
+    metrics: metrics_,
+    percentMetrics: percentMetrics_,
     tableTimestampFormat,
-    timeseriesLimitMetric,
   } = formData;
   const { columnFormats, verboseMap } = datasource;
   const { records, columns } = queryData.data;
+  const metrics = metrics_.map(consolidateMetricShape);
+  const percentMetrics = percentMetrics_.map(consolidateMetricShape);
 
-  const processedColumns = columns.map(key => {
+  const processedColumns = columns.map((key: string) => {
     let label = verboseMap[key];
     // Handle verbose names for percents
     if (!label) {
@@ -60,15 +98,11 @@ export default function transformProps(chartProps) {
     alignPositiveNegative: alignPn,
     colorPositiveNegative: colorPn,
     columns: processedColumns,
-    filters: initialValues,
-    includeSearch,
     metrics,
-    onAddFilter,
+    percentMetrics,
+    includeSearch,
     orderDesc,
     pageLength: pageLength && parseInt(pageLength, 10),
-    percentMetrics,
-    tableFilter,
     tableTimestampFormat,
-    timeseriesLimitMetric,
   };
 }
