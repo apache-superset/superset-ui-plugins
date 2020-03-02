@@ -21,7 +21,6 @@ import React, { useEffect, createRef } from 'react';
 import { getNumberFormatter, NumberFormats } from '@superset-ui/number-format';
 import { getTimeFormatter } from '@superset-ui/time-format';
 import { DataTableProps } from './transformProps';
-import dompurify from 'dompurify';
 
 // initialize datatables.net
 import $ from 'jquery';
@@ -79,18 +78,19 @@ export default function ReactDataTable(props: DataTableProps) {
     // Removing metrics (aggregates) that are strings
     .filter(m => typeof (data[0] as any)[m] === 'number');
 
-  // collect min/max for numbers, used later for rendering bars
   const maxes: { [key: string]: number } = {};
   const mins: { [key: string]: number } = {};
+  const isMetric = (key: string) => metrics.includes(key);
 
   // Specify options for each data table columns
   // Ref: https://datatables.net/reference/option/columns
-  const columnOptions = columns.map(({ key, format, label }) => {
-    const isMetric = metrics.includes(key);
+  const columnOptions = columns.map(({ key, label }) => {
     const vals = data.map(row => row[key]);
-    let className = isMetric ? 'dt-metric' : '';
+    const keyIsMetric = isMetric(key);
+    let className = keyIsMetric ? 'dt-metric' : '';
 
-    if (isMetric) {
+    // collect min/max for for rendering bars
+    if (keyIsMetric) {
       const nums = vals as number[];
       if (alignPositiveNegative) {
         maxes[key] = Math.max(...nums.map(Math.abs));
@@ -100,42 +100,16 @@ export default function ReactDataTable(props: DataTableProps) {
       }
     }
 
-    // Ref: https://datatables.net/reference/option/columns.render
-    const renderCell = (val: unknown, type: string | undefined) => {
-      // format values only for display and search
-      if (type === 'display' || type === 'search') {
-        if (key === '__timestamp') {
-          return formatTimestamp(val);
-        }
-        if (typeof val === 'string') {
-          return dompurify.sanitize(val);
-        }
-        if (isMetric) {
-          // default format '' will return human readable numbers (e.g. 50M, 33k)
-          return getNumberFormatter(format || '')(val as number);
-        }
-        if (key[0] === '%') {
-          return formatPercent(val);
-        }
-      }
-      return val;
-    };
-
     return {
       key,
-      format,
-      isMetric,
       className,
       title: label,
-      data: key,
-      render: renderCell,
     };
   });
 
   const viewportHeight = Math.min(height, window.innerHeight);
   const pageLengthChoices = [10, 25, 40, 50, 75, 100, 150, 200];
   const options = {
-    data,
     aaSorting: [], // initial sorting order, reset to [] to use backend ordering
     autoWidth: false,
     columns: columnOptions,
@@ -177,20 +151,26 @@ export default function ReactDataTable(props: DataTableProps) {
    * and adjust the pagination size (which is not configurable via DataTables API).
    */
   function drawCallback(this: DataTables.JQueryDataTables) {
-    const table = this.api();
-    const metricCols = table.columns('.dt-metric', { page: 'current' });
-    const cellData = metricCols.data();
-    metricCols.every(function(colIdx, _, colIterIdx) {
-      const key = columnOptions[colIdx].data;
-      this.nodes().each((item, i) => {
-        const val = cellData[colIterIdx][i];
-        $(item)
-          .attr('title', val)
-          .css('background-image', cellBar(key, val));
-      });
-    });
-    // force smaller pagination
+    // force smaller pagination, because datatables-bs hard-corded pagination styles
     $('.pagination', rootElem.current as HTMLElement).addClass('pagination-sm');
+  }
+
+  /**
+   * Formatted text for cell value
+   */
+  function cellText(key: string, format: string | undefined, val: unknown) {
+    if (key === '__timestamp') {
+      return formatTimestamp(val);
+    } else if (typeof val === 'string') {
+      // It's fine to return raw value react will handles HTML escaping
+      return val;
+    } else if (isMetric(key)) {
+      // default format '' will return human readable numbers (e.g. 50M, 33k)
+      return getNumberFormatter(format || '')(val as number);
+    } else if (key[0] === '%') {
+      return formatPercent(val);
+    }
+    return val;
   }
 
   /**
@@ -223,7 +203,36 @@ export default function ReactDataTable(props: DataTableProps) {
 
   return (
     <div className="superset-legacy-chart-table" ref={rootElem}>
-      <table className="table table-striped table-condensed table-hover dataTable"></table>
+      <table className="table table-striped table-condensed table-hover dataTable">
+        <thead>
+          <tr>
+            {columns.map(col => (
+              <th key={col.key}>{col.label}</th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((record, i) => (
+            <tr key={i}>
+              {columns.map(({ key, format }) => {
+                const val = record[key];
+                return (
+                  <td
+                    key={key}
+                    data-sort={val}
+                    className={isMetric(key) ? 'text-right' : ''}
+                    style={{
+                      backgroundImage: typeof val === 'number' ? cellBar(key, val) : undefined,
+                    }}
+                  >
+                    {cellText(key, format, val)}
+                  </td>
+                );
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

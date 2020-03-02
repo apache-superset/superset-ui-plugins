@@ -29,8 +29,7 @@
   },
   "dependencies": {
     "@types/datatables.net": "^1.10.18",
-    "datatables.net-bs": "^1.10.20",
-    "dompurify": "^2.0.8"
+    "datatables.net-bs": "^1.10.20"
   },
   "peerDependencies": {
     "jquery": "^3.4.1",
