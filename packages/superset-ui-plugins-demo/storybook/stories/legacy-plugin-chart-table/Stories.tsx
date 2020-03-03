@@ -35,7 +35,7 @@ function paginated(props: SuperChartProps, pageSize = 50) {
  * @param pageSize number of records perpage
  * @param targetSize the target total number of records
  */
-function loadData(props: SuperChartProps, pageSize = 50, targetSize = 3042) {
+function loadData(props: SuperChartProps, pageSize = 50, targetSize = 10042) {
   if (!props.queryData) return props;
   const data = props.queryData && props.queryData.data;
   if (data.records.length > 0) {

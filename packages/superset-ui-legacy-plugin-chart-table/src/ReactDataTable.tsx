@@ -29,17 +29,15 @@ import dt from 'datatables.net-bs/js/dataTables.bootstrap';
 import 'datatables.net-bs/css/dataTables.bootstrap.css';
 import './Table.css';
 
-// depending on how the modules are imported, `dt` may be a CommonJS init function,
+// Depending on how the modules are imported, `dt` may be a CommonJS init function,
 // or the DataTable class itself. In case it is the former, we'd need to tell it
-//where is jQuery.
+// where is jQuery.
 if (!dt.$) {
   dt(window, $);
 }
 
-const RE_HTML_TAG = /<.*>/; // a dead simple regexp to find html tag
+const htmlTagRegex = /<[^>]+>/; // a dead simple regexp to detect potential HTML tags
 const { PERCENT_3_POINT } = NumberFormats;
-
-// const NOOP = () => { };
 
 export default function ReactDataTable(props: DataTableProps) {
   const {
@@ -71,8 +69,8 @@ export default function ReactDataTable(props: DataTableProps) {
 
   const maxes: { [key: string]: number } = {};
   const mins: { [key: string]: number } = {};
-  // a fater way of determine whether a key is a metric
-  // might be called by each cell
+  // a faster way to determine whether a key is a metric
+  // will be called by each cell
   const isMetric = (key: string) => maxes.hasOwnProperty(key);
 
   // collect min/max for rendering bars
@@ -132,7 +130,7 @@ export default function ReactDataTable(props: DataTableProps) {
     $root.find('.dataTables_scrollBody').css('max-height', scrollBodyHeight);
 
     return () => {
-      // there may be weird lifecycle issue, so we put destroy in try/catch
+      // there may be weird lifecycle issues, so put destroy in try/catch
       try {
         dataTable.destroy();
         // reset height
@@ -144,8 +142,7 @@ export default function ReactDataTable(props: DataTableProps) {
   });
 
   /**
-   * Adjust styles after rendering the table, mostly for adding bars for metrics
-   * and adjust the pagination size (which is not configurable via DataTables API).
+   * Adjust styles after rendering the table
    */
   function drawCallback(this: DataTables.JQueryDataTables) {
     const root = rootElem.current as HTMLElement;
@@ -156,7 +153,7 @@ export default function ReactDataTable(props: DataTableProps) {
   }
 
   /**
-   * Formatted text for cell value
+   * Format text for cell value
    */
   function cellText(key: string, format: string | undefined, val: unknown) {
     if (key === '__timestamp') {
@@ -222,7 +219,7 @@ export default function ReactDataTable(props: DataTableProps) {
                 const val = record[key];
                 const keyIsMetric = isMetric(key);
                 const text = cellText(key, format, val);
-                const isHtml = !keyIsMetric && RE_HTML_TAG.test(text);
+                const isHtml = !keyIsMetric && htmlTagRegex.test(text);
                 return (
                   <td
                     key={key}
