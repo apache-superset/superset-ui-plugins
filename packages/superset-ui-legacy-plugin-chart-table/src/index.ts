@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+/// <reference path="../types/external.d.ts" />
 import { t } from '@superset-ui/translation';
 import { ChartMetadata, ChartPlugin } from '@superset-ui/chart';
 import transformProps from './transformProps';

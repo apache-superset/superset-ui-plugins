@@ -18,9 +18,10 @@
  */
 import { t } from '@superset-ui/translation';
 import React, { useEffect, createRef } from 'react';
-import { getNumberFormatter, NumberFormats } from '@superset-ui/number-format';
+import { formatNumber, getNumberFormatter, NumberFormats } from '@superset-ui/number-format';
 import { getTimeFormatter } from '@superset-ui/time-format';
 import { DataTableProps } from './transformProps';
+import { filterXSS } from 'xss';
 
 // initialize datatables.net
 import $ from 'jquery';
@@ -35,18 +36,8 @@ if (!dt.$) {
   dt(window, $);
 }
 
+const RE_HTML_TAG = /<.*>/; // a dead simple regexp to find html tag
 const formatPercent = getNumberFormatter(NumberFormats.PERCENT_3_POINT);
-
-const adjustTableHeight = ($root: any, height: number) => {
-  const headHeight = $root.find('.dataTables_scrollHead').height();
-  const filterHeight = $root.find('.dataTables_filter').height() || 0;
-  const pageLengthHeight = $root.find('.dataTables_length').height() || 0;
-  let paginationHeight = $root.find('.dataTables_paginate').height() || 0;
-  const controlsHeight = pageLengthHeight > filterHeight ? pageLengthHeight : filterHeight;
-  $root
-    .find('.dataTables_scrollBody')
-    .css('max-height', height - headHeight - controlsHeight - paginationHeight);
-};
 
 // const NOOP = () => { };
 
@@ -80,17 +71,14 @@ export default function ReactDataTable(props: DataTableProps) {
 
   const maxes: { [key: string]: number } = {};
   const mins: { [key: string]: number } = {};
-  const isMetric = (key: string) => metrics.includes(key);
+  // a fater way of determine whether a key is a metric
+  // might be called by each cell
+  const isMetric = (key: string) => maxes.hasOwnProperty(key);
 
-  // Specify options for each data table columns
-  // Ref: https://datatables.net/reference/option/columns
-  const columnOptions = columns.map(({ key, label }) => {
+  // collect min/max for rendering bars
+  columns.forEach(({ key }) => {
     const vals = data.map(row => row[key]);
-    const keyIsMetric = isMetric(key);
-    let className = keyIsMetric ? 'dt-metric' : '';
-
-    // collect min/max for for rendering bars
-    if (keyIsMetric) {
+    if (metrics.includes(key)) {
       const nums = vals as number[];
       if (alignPositiveNegative) {
         maxes[key] = Math.max(...nums.map(Math.abs));
@@ -99,21 +87,15 @@ export default function ReactDataTable(props: DataTableProps) {
         mins[key] = Math.min(...nums);
       }
     }
-
-    return {
-      key,
-      className,
-      title: label,
-    };
   });
 
   const viewportHeight = Math.min(height, window.innerHeight);
   const pageLengthChoices = [10, 25, 40, 50, 75, 100, 150, 200];
+  const hasPagination = pageLength > 0;
   const options = {
     aaSorting: [], // initial sorting order, reset to [] to use backend ordering
     autoWidth: false,
-    columns: columnOptions,
-    paging: pageLength > 0,
+    paging: hasPagination,
     pagingType: 'first_last_numbers',
     pageLength,
     lengthMenu: [
@@ -135,14 +117,29 @@ export default function ReactDataTable(props: DataTableProps) {
     scrollX: true,
     drawCallback,
   };
+
   const rootElem = createRef<HTMLDivElement>();
 
   useEffect(() => {
-    const $container = $(rootElem.current as HTMLElement);
-    const dataTable = $container.find('.dataTable').DataTable(options);
-    adjustTableHeight($container.find('.dataTables_wrapper'), viewportHeight);
+    const $root = $(rootElem.current as HTMLElement);
+    const dataTable = $root.find('table').DataTable(options);
+
+    // adjust table height
+    const scrollHeadHeight = 34;
+    const paginationHeight = hasPagination ? 35 : 0;
+    const searchBarHeight = hasPagination || includeSearch ? 35 : 0;
+    const scrollBodyHeight = viewportHeight - scrollHeadHeight - paginationHeight - searchBarHeight;
+    $root.find('.dataTables_scrollBody').css('max-height', scrollBodyHeight);
+
     return () => {
-      dataTable.destroy();
+      // there may be weird lifecycle issue, so we put destroy in try/catch
+      try {
+        dataTable.destroy();
+        // reset height
+        $root.find('.dataTables_scrollBody').css('max-height', '');
+      } catch (error) {
+        // pass
+      }
     };
   });
 
@@ -151,8 +148,11 @@ export default function ReactDataTable(props: DataTableProps) {
    * and adjust the pagination size (which is not configurable via DataTables API).
    */
   function drawCallback(this: DataTables.JQueryDataTables) {
+    const root = rootElem.current as HTMLElement;
     // force smaller pagination, because datatables-bs hard-corded pagination styles
-    $('.pagination', rootElem.current as HTMLElement).addClass('pagination-sm');
+    $('.pagination', root).addClass('pagination-sm');
+    // display tr rows on current page
+    $('tr', root).css('display', '');
   }
 
   /**
@@ -162,11 +162,10 @@ export default function ReactDataTable(props: DataTableProps) {
     if (key === '__timestamp') {
       return formatTimestamp(val);
     } else if (typeof val === 'string') {
-      // It's fine to return raw value react will handles HTML escaping
-      return val;
+      return filterXSS(val, { stripIgnoreTag: true });
     } else if (isMetric(key)) {
       // default format '' will return human readable numbers (e.g. 50M, 33k)
-      return getNumberFormatter(format || '')(val as number);
+      return formatNumber(format || '', val as number);
     } else if (key[0] === '%') {
       return formatPercent(val);
     }
@@ -203,29 +202,39 @@ export default function ReactDataTable(props: DataTableProps) {
 
   return (
     <div className="superset-legacy-chart-table" ref={rootElem}>
-      <table className="table table-striped table-condensed table-hover dataTable">
+      <table className="table table-striped table-condensed table-hover">
         <thead>
           <tr>
             {columns.map(col => (
-              <th key={col.key}>{col.label}</th>
+              // by default all columns will have sorting
+              <th className="sorting" key={col.key} title={col.label}>
+                {col.label}
+              </th>
             ))}
           </tr>
         </thead>
         <tbody>
           {data.map((record, i) => (
-            <tr key={i}>
+            // hide rows after first page makes the initial render faster (less layout computation)
+            <tr key={i} style={{ display: pageLength > 0 && i >= pageLength ? 'none' : undefined }}>
               {columns.map(({ key, format }) => {
                 const val = record[key];
+                const keyIsMetric = isMetric(key);
+                const text = cellText(key, format, val);
+                const isHtml = !keyIsMetric && RE_HTML_TAG.test(text);
                 return (
                   <td
                     key={key}
                     data-sort={val}
-                    className={isMetric(key) ? 'text-right' : ''}
+                    className={keyIsMetric ? 'text-right' : ''}
                     style={{
                       backgroundImage: typeof val === 'number' ? cellBar(key, val) : undefined,
                     }}
+                    title={val as string}
+                    // only set innerHTML for actual html content, this saves time
+                    dangerouslySetInnerHTML={isHtml ? { __html: text } : undefined}
                   >
-                    {cellText(key, format, val)}
+                    {isHtml ? null : text}
                   </td>
                 );
               })}

@@ -1,29 +1,41 @@
 /* eslint-disable no-magic-numbers */
-import React from 'react';
+import React, { useState } from 'react';
 import { SuperChart } from '@superset-ui/chart';
 import { Props as SuperChartProps } from '@superset-ui/chart/lib/components/SuperChart';
 import data from './data';
 import birthNames from './birth_names.json';
 
+// must have explicit import for Storyboard build watch to work
+// import TableChartPlugin from '../../../../superset-ui-legacy-plugin-chart-table/src';
+// new TableChartPlugin().configure({ key: 'dev_table' }).register();
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-function paginated(props: SuperChartProps, pageSize = 100) {
+function paginated(props: SuperChartProps, pageSize = 50) {
   if (props.formData) {
-    props.formData.page_length = pageSize;
+    props.formData = {
+      ...props.formData,
+      page_length: pageSize,
+    };
   }
   if (props.queryData?.form_data) {
-    props.queryData.form_data.page_length = pageSize;
+    props.queryData.form_data = {
+      ...props.queryData.form_data,
+      page_length: pageSize,
+    };
   }
-  return props;
+  return {
+    ...props,
+  };
 }
 
 /**
- * Duplicate query data records until reaching specified size
+ * Load sample data for testing
  * @param props the original props passed to SuperChart
  * @param pageSize number of records perpage
  * @param targetSize the target total number of records
  */
-function duplicated(props: SuperChartProps, pageSize = 50, targetSize = 5042) {
+function loadData(props: SuperChartProps, pageSize = 50, targetSize = 3042) {
   if (!props.queryData) return props;
   const data = props.queryData && props.queryData.data;
   if (data.records.length > 0) {
@@ -32,7 +44,8 @@ function duplicated(props: SuperChartProps, pageSize = 50, targetSize = 5042) {
       data.records = records.concat(records).slice(0, targetSize);
     }
   }
-  return paginated(props);
+  props.height = window.innerHeight - 130;
+  return paginated(props, pageSize);
 }
 
 export default [
@@ -70,9 +83,37 @@ export default [
   },
   {
     renderStory() {
-      return <SuperChart {...duplicated(birthNames)} chartType="table" />;
+      const [chartProps, setChartProps] = useState(loadData(birthNames));
+      const updatePageSize = (size: number) => {
+        setChartProps(paginated(chartProps, size));
+      };
+      return (
+        <div className="superset-body">
+          <div className="panel">
+            <div className="panel-heading form-inline">
+              Initial page size:{' '}
+              <div className="btn-group">
+                {[10, 25, 40, 50, 100, -1].map(pageSize => {
+                  return (
+                    <button
+                      key={pageSize}
+                      className="btn btn-default"
+                      onClick={() => updatePageSize(pageSize)}
+                    >
+                      {pageSize > 0 ? pageSize : 'All'}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+            <div className="panel-body">
+              <SuperChart {...chartProps} chartType="table" />
+            </div>
+          </div>
+        </div>
+      );
     },
-    storyName: 'Big Chart',
+    storyName: 'Big Table',
     storyPath: 'legacy-|plugin-chart-table|TableChartPlugin',
   },
 ];

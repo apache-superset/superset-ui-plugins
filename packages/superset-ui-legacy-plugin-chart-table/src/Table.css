@@ -18,8 +18,6 @@
  */
 .superset-legacy-chart-table {
   margin: 0px auto;
-  background: transparent;
-  background-color: white;
 }
 .superset-legacy-chart-table table {
   width: 100%;
@@ -27,8 +25,11 @@
 .superset-legacy-chart-table .dt-metric {
   text-align: right;
 }
+.superset-legacy-chart-table div.dataTables_wrapper div.dataTables_paginate {
+  line-height: 0;
+}
 .superset-legacy-chart-table div.dataTables_wrapper div.dataTables_paginate ul.pagination {
-  margin-top: 0.3em;
+  margin-top: 0.5em;
 }
 
 .superset-legacy-chart-table thead th.sorting:after,

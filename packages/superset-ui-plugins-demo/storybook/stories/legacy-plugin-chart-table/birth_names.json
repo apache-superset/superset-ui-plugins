@@ -1,7 +1,7 @@
 {
   "disableErrorBoundary": true,
   "id": "chart-id-60",
-  "className": "table",
+  "className": "superset-chart-table",
   "chartType": "table",
   "width": 932,
   "height": 1135,
@@ -444,16 +444,16 @@
           "%pct_boys": 0.0007479431563201197
         },
         {
-          "name": "Christopher",
+          "name": "<a href=\"http://www.google.com\" target=\"_blank\">Christopher (test link)</a>",
           "state": "other",
           "gender": "boy",
           "total": 803544,
           "SUM(sum_boys)": 803544,
-          "SUM(sum_girls)": 0,
+          "SUM(sum_girls)": -300000,
           "%pct_boys": 0.0007479431563201197
         },
         {
-          "name": "James",
+          "name": "<a href=\"javascript:alert(1);\" target=\"_blank\">James (test javascript link)</a>",
           "state": "other",
           "gender": "boy",
           "total": 749616,
