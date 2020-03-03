@@ -18,7 +18,7 @@
  */
 import { t } from '@superset-ui/translation';
 import React, { useEffect, createRef } from 'react';
-import { formatNumber, getNumberFormatter, NumberFormats } from '@superset-ui/number-format';
+import { formatNumber, NumberFormats } from '@superset-ui/number-format';
 import { getTimeFormatter } from '@superset-ui/time-format';
 import { DataTableProps } from './transformProps';
 import { filterXSS } from 'xss';
@@ -37,7 +37,7 @@ if (!dt.$) {
 }
 
 const RE_HTML_TAG = /<.*>/; // a dead simple regexp to find html tag
-const formatPercent = getNumberFormatter(NumberFormats.PERCENT_3_POINT);
+const { PERCENT_3_POINT } = NumberFormats;
 
 // const NOOP = () => { };
 
@@ -167,7 +167,8 @@ export default function ReactDataTable(props: DataTableProps) {
       // default format '' will return human readable numbers (e.g. 50M, 33k)
       return formatNumber(format || '', val as number);
     } else if (key[0] === '%') {
-      return formatPercent(val);
+      // in case percent metric can specify percent format in the future
+      return formatNumber(format || PERCENT_3_POINT, val as number);
     }
     return val;
   }
