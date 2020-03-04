@@ -37,7 +37,7 @@ if (!dt.$) {
   dt(window, $);
 }
 
-const { PERCENT_3_POINT, SMART_NUMBER } = NumberFormats;
+const { PERCENT_3_POINT } = NumberFormats;
 const isProbablyHTML = (text: string) => /<[^>]+>/.test(text);
 
 export default function ReactDataTable(props: DataTableProps) {
@@ -120,7 +120,7 @@ export default function ReactDataTable(props: DataTableProps) {
     }
     if (metricsSet.has(key)) {
       // default format '' will return human readable numbers (e.g. 50M, 33k)
-      return formatNumber(format || SMART_NUMBER, val as number);
+      return formatNumber(format, val as number);
     }
     return val;
   }
