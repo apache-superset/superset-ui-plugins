@@ -3226,10 +3226,10 @@
   resolved "https://registry.yarnpkg.com/@superset-ui/dimension/-/dimension-0.12.8.tgz#a054d2188b20a289dbe3c50876c020c7b6d00c1f"
   integrity sha512-1GZkV2MICNb/JWrIE47KCZQZTOt8CRvodvluZrWV70KAhrDkT/FuBfZkPfbx5OiNutrq+02lnrjRWfjEThQ69Q==
 
-"@superset-ui/number-format@0.12.8":
-  version "0.12.8"
-  resolved "https://registry.yarnpkg.com/@superset-ui/number-format/-/number-format-0.12.8.tgz#90ca425b58e05e5f62e48c1c2100f55cdb17e233"
-  integrity sha512-svMDEIZcpiJzttGI97qHJ4NJwTCGwyEJCdsdVREgHJoIfqnvooTcVj03Y1YYyyVTZSpep1ywnXi/QRwJZCDDDQ==
+"@superset-ui/number-format@0.12.10":
+  version "0.12.10"
+  resolved "https://registry.yarnpkg.com/@superset-ui/number-format/-/number-format-0.12.10.tgz#be1567d9b66fd81e25ee73bd9cc332bf698ceaf1"
+  integrity sha512-VH9HHz6CC7AR1jKSFTocTFEfa0Zk4e3ZV1nzHYp1S+lwL5mFUWE+eWoJagu7O9bvvH5dVmBZVg82YOXFz/X1zQ==
   dependencies:
     "@types/d3-format" "^1.3.0"
     d3-format "^1.3.2"
@@ -3241,9 +3241,9 @@
   integrity sha512-ZqYhyMM6DccApQFzsMZ49yC/n3c1d+PBiWdHnNZl7JpYmQT1WpwP/RiSvafO8mQjbObpc2gwFwk90VTlnZZbUg==
 
 "@superset-ui/superset-ui@^0.12.5":
-  version "0.12.8"
-  resolved "https://registry.yarnpkg.com/@superset-ui/superset-ui/-/superset-ui-0.12.8.tgz#f235c0f27d31d0b9daf48f11ad2c43aca70a4741"
-  integrity sha512-BV5i5/HX8gG8mbOXIouKEAS/kPEEisNagOJFJjT4eD/LGYo5do62FF5diIVU8M+N6IWUpAT7JebQPKv+Xg2v8w==
+  version "0.12.10"
+  resolved "https://registry.yarnpkg.com/@superset-ui/superset-ui/-/superset-ui-0.12.10.tgz#26c72d489b3b640db5d7668808b89094d278ce87"
+  integrity sha512-S2HyEB9pOgVpkGcPBizNEKcj7N/l/FPgRPBYp5yrDcT83erjxQddvoPOhfkePYXHpfRJIM4P+xc9CKjrDr2pWA==
   dependencies:
     "@superset-ui/chart" "0.12.8"
     "@superset-ui/chart-composition" "0.12.8"
@@ -3251,15 +3251,15 @@
     "@superset-ui/connection" "0.12.8"
     "@superset-ui/core" "0.12.8"
     "@superset-ui/dimension" "0.12.8"
-    "@superset-ui/number-format" "0.12.8"
+    "@superset-ui/number-format" "0.12.10"
     "@superset-ui/query" "0.12.8"
-    "@superset-ui/time-format" "0.12.8"
+    "@superset-ui/time-format" "0.12.10"
     "@superset-ui/translation" "0.12.8"
 
-"@superset-ui/time-format@0.12.8":
-  version "0.12.8"
-  resolved "https://registry.yarnpkg.com/@superset-ui/time-format/-/time-format-0.12.8.tgz#19fde3b2605efd949fe5b140f972bfa9d062f1d3"
-  integrity sha512-ORnsvzBi/kTVOLXwrWBzxkp8ec8DSf2W0v/z0VtnGCEJ2M408VA4fQt6oTQWj3l/wRu8A7FbC1O88NSV6b0ZcA==
+"@superset-ui/time-format@0.12.10":
+  version "0.12.10"
+  resolved "https://registry.yarnpkg.com/@superset-ui/time-format/-/time-format-0.12.10.tgz#e269a2e8573b14c5140236ad576c243c02d40691"
+  integrity sha512-VJQWkhbRFrPV08EprEyTeZf6S1qd29taHHDi9Ei081Q0zQDX5uvvoUPiFEpsRdPC3lDxah93Csja4kBRL7kHow==
   dependencies:
     "@types/d3-time" "^1.0.9"
     "@types/d3-time-format" "^2.1.0"
