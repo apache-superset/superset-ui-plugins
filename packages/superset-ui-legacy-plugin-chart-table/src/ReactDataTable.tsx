@@ -64,17 +64,18 @@ export default function ReactDataTable(props: DataTableProps) {
   const formatTimestamp = getTimeFormatter(tableTimestampFormat);
   const metrics = (aggMetrics || [])
     .concat(percentMetrics || [])
-    .map(m => m.label)
-    // Removing metrics (aggregates) that are strings
+    // actual records must be of numeric types as well
     .filter(m => typeof data[0][m] === 'number');
 
-  const maxes: { [key: string]: number } = {};
-  const mins: { [key: string]: number } = {};
-  // a faster way to determine whether a key is a metric
-  // will be called by each cell
-  const isMetric = (key: string) => Object.prototype.hasOwnProperty.call(maxes, key);
+  // check whethere a key is a metric
+  const metricsLookup = new Set(aggMetrics);
+  const percentMetricsLookup = new Set(percentMetrics);
+  const isMetric = (key: string) => metricsLookup.has(key);
+  const isPercentMetric = (key: string) => percentMetricsLookup.has(key);
 
   // collect min/max for rendering bars
+  const maxes: { [key: string]: number } = {};
+  const mins: { [key: string]: number } = {};
   columns.forEach(({ key }) => {
     const vals = data.map(row => row[key]);
     if (metrics.includes(key)) {
@@ -115,13 +116,13 @@ export default function ReactDataTable(props: DataTableProps) {
     if (typeof val === 'string') {
       return filterXSS(val, { stripIgnoreTag: true });
     }
+    if (isPercentMetric(key)) {
+      // in case percent metric can specify percent format in the future
+      return formatNumber(format || PERCENT_3_POINT, val as number);
+    }
     if (isMetric(key)) {
       // default format '' will return human readable numbers (e.g. 50M, 33k)
       return formatNumber(format || '', val as number);
-    }
-    if (key[0] === '%') {
-      // in case percent metric can specify percent format in the future
-      return formatNumber(format || PERCENT_3_POINT, val as number);
     }
     return val;
   }
@@ -234,9 +235,9 @@ export default function ReactDataTable(props: DataTableProps) {
                     data-sort={val}
                     className={keyIsMetric ? 'text-right' : ''}
                     style={{
-                      backgroundImage: typeof val === 'number' ? cellBar(key, val) : undefined,
+                      backgroundImage: keyIsMetric ? cellBar(key, val as number) : undefined,
                     }}
-                    title={val as string}
+                    title={keyIsMetric ? (val as string) : ''}
                   >
                     {isHtml ? null : text}
                   </td>

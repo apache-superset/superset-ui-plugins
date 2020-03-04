@@ -24,7 +24,9 @@ interface DataRecord {
 }
 
 interface DataColumnMeta {
+  // `key` is what is called `label` in the input props
   key: string;
+  // `label` is verbose column name used for rendering
   label: string;
   format?: string;
 }
@@ -36,8 +38,8 @@ export interface DataTableProps {
   alignPositiveNegative: boolean;
   colorPositiveNegative: boolean;
   columns: DataColumnMeta[];
-  metrics: DataColumnMeta[];
-  percentMetrics: DataColumnMeta[];
+  metrics: string[];
+  percentMetrics: string[];
   includeSearch: boolean;
   orderDesc: boolean;
   pageLength: number;
@@ -50,9 +52,15 @@ export interface DataTableProps {
   // timeseriesLimitMetric: string | object;
 }
 
+/**
+ * Consolidate list of metrics to string, identified by its unique identifier
+ */
 const consolidateMetricShape = (metric: QueryFormDataMetric) => {
-  if (typeof metric === 'string') return { key: metric, label: metric };
-  return metric;
+  if (typeof metric === 'string') return metric;
+  // even thought `metric.optionName` is more unique, but it's not used
+  // anywhere else in the input data and cannot be used to access data value
+  // from the records, therefore we map `label` to `key` for the chart
+  return metric.label;
 };
 
 export default function transformProps(chartProps: ChartProps): DataTableProps {
@@ -69,37 +77,33 @@ export default function transformProps(chartProps: ChartProps): DataTableProps {
     tableTimestampFormat,
   } = formData;
   const { columnFormats, verboseMap } = datasource;
-  const { records, columns } = queryData.data;
+  const { records, columns: columns_ } = queryData.data;
   const metrics = metrics_.map(consolidateMetricShape);
-  const percentMetrics = percentMetrics_.map(consolidateMetricShape);
+  // percent metrics always starts with a '%' sign.
+  const percentMetrics = percentMetrics_.map(consolidateMetricShape).map((x: string) => `%${x}`);
+  const columns = columns_.map((key: string) => {
+    let label = verboseMap[key] || key;
 
-  const processedColumns = columns.map((key: string) => {
-    let label = verboseMap[key];
-    // Handle verbose names for percents
-    if (!label) {
-      if (key[0] === '%') {
-        const cleanedKey = key.slice(1);
-        label = `% ${verboseMap[cleanedKey] || cleanedKey}`;
-      } else {
-        label = key;
-      }
+    // make sure there is a " " after "%" for percent metrics
+    if (label[0] === '%' && label[1] !== ' ') {
+      label = `% ${label.slice(1)}`;
     }
 
     return {
       key,
       label,
-      format: columnFormats && columnFormats[key],
+      format: columnFormats?.[key],
     };
   });
 
   return {
     height,
     data: records,
-    alignPositiveNegative: alignPn,
-    colorPositiveNegative: colorPn,
-    columns: processedColumns,
+    columns,
     metrics,
     percentMetrics,
+    alignPositiveNegative: alignPn,
+    colorPositiveNegative: colorPn,
     includeSearch,
     orderDesc,
     pageLength: pageLength && parseInt(pageLength, 10),
