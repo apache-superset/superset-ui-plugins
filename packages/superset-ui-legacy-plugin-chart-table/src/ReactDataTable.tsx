@@ -20,7 +20,6 @@ import { t } from '@superset-ui/translation';
 import React, { useEffect, createRef } from 'react';
 import { formatNumber, NumberFormats } from '@superset-ui/number-format';
 import { getTimeFormatter } from '@superset-ui/time-format';
-import { DataTableProps } from './transformProps';
 import { filterXSS } from 'xss';
 
 // initialize datatables.net
@@ -29,6 +28,8 @@ import dt from 'datatables.net-bs/js/dataTables.bootstrap';
 import 'datatables.net-bs/css/dataTables.bootstrap.css';
 import './Table.css';
 
+import { DataTableProps } from './transformProps';
+
 // Depending on how the modules are imported, `dt` may be a CommonJS init function,
 // or the DataTable class itself. In case it is the former, we'd need to tell it
 // where is jQuery.
@@ -36,8 +37,8 @@ if (!dt.$) {
   dt(window, $);
 }
 
-const htmlTagRegex = /<[^>]+>/; // a dead simple regexp to detect potential HTML tags
 const { PERCENT_3_POINT } = NumberFormats;
+const isPontiallyHTML = (text: string) => /<[^>]+>/.test(text);
 
 export default function ReactDataTable(props: DataTableProps) {
   const {
@@ -65,13 +66,13 @@ export default function ReactDataTable(props: DataTableProps) {
     .concat(percentMetrics || [])
     .map(m => m.label)
     // Removing metrics (aggregates) that are strings
-    .filter(m => typeof (data[0] as any)[m] === 'number');
+    .filter(m => typeof data[0][m] === 'number');
 
   const maxes: { [key: string]: number } = {};
   const mins: { [key: string]: number } = {};
   // a faster way to determine whether a key is a metric
   // will be called by each cell
-  const isMetric = (key: string) => maxes.hasOwnProperty(key);
+  const isMetric = (key: string) => Object.prototype.hasOwnProperty.call(maxes, key);
 
   // collect min/max for rendering bars
   columns.forEach(({ key }) => {
@@ -90,56 +91,8 @@ export default function ReactDataTable(props: DataTableProps) {
   const viewportHeight = Math.min(height, window.innerHeight);
   const pageLengthChoices = [10, 25, 40, 50, 75, 100, 150, 200];
   const hasPagination = pageLength > 0;
-  const options = {
-    aaSorting: [], // initial sorting order, reset to [] to use backend ordering
-    autoWidth: false,
-    paging: hasPagination,
-    pagingType: 'first_last_numbers',
-    pageLength,
-    lengthMenu: [
-      [...pageLengthChoices, -1],
-      [...pageLengthChoices, t('All')],
-    ],
-    searching: includeSearch,
-    language: {
-      paginate: {
-        first: t('First'),
-        last: t('Last'),
-        previous: t('Previous'),
-        next: t('Next'),
-      },
-    },
-    bInfo: false,
-    scrollY: `${viewportHeight}px`,
-    scrollCollapse: true,
-    scrollX: true,
-    drawCallback,
-  };
 
   const rootElem = createRef<HTMLDivElement>();
-
-  useEffect(() => {
-    const $root = $(rootElem.current as HTMLElement);
-    const dataTable = $root.find('table').DataTable(options);
-
-    // adjust table height
-    const scrollHeadHeight = 34;
-    const paginationHeight = hasPagination ? 35 : 0;
-    const searchBarHeight = hasPagination || includeSearch ? 35 : 0;
-    const scrollBodyHeight = viewportHeight - scrollHeadHeight - paginationHeight - searchBarHeight;
-    $root.find('.dataTables_scrollBody').css('max-height', scrollBodyHeight);
-
-    return () => {
-      // there may be weird lifecycle issues, so put destroy in try/catch
-      try {
-        dataTable.destroy();
-        // reset height
-        $root.find('.dataTables_scrollBody').css('max-height', '');
-      } catch (error) {
-        // pass
-      }
-    };
-  });
 
   /**
    * Adjust styles after rendering the table
@@ -158,12 +111,15 @@ export default function ReactDataTable(props: DataTableProps) {
   function cellText(key: string, format: string | undefined, val: unknown) {
     if (key === '__timestamp') {
       return formatTimestamp(val);
-    } else if (typeof val === 'string') {
+    }
+    if (typeof val === 'string') {
       return filterXSS(val, { stripIgnoreTag: true });
-    } else if (isMetric(key)) {
+    }
+    if (isMetric(key)) {
       // default format '' will return human readable numbers (e.g. 50M, 33k)
       return formatNumber(format || '', val as number);
-    } else if (key[0] === '%') {
+    }
+    if (key[0] === '%') {
       // in case percent metric can specify percent format in the future
       return formatNumber(format || PERCENT_3_POINT, val as number);
     }
@@ -198,14 +154,63 @@ export default function ReactDataTable(props: DataTableProps) {
     );
   }
 
+  const options = {
+    aaSorting: [], // initial sorting order, reset to [] to use backend ordering
+    autoWidth: false,
+    paging: hasPagination,
+    pagingType: 'first_last_numbers',
+    pageLength,
+    lengthMenu: [
+      [...pageLengthChoices, -1],
+      [...pageLengthChoices, t('All')],
+    ],
+    searching: includeSearch,
+    language: {
+      paginate: {
+        first: t('First'),
+        last: t('Last'),
+        previous: t('Previous'),
+        next: t('Next'),
+      },
+    },
+    bInfo: false,
+    scrollY: `${viewportHeight}px`,
+    scrollCollapse: true,
+    scrollX: true,
+    drawCallback,
+  };
+
+  useEffect(() => {
+    const $root = $(rootElem.current as HTMLElement);
+    const dataTable = $root.find('table').DataTable(options);
+
+    // adjust table height
+    const scrollHeadHeight = 34;
+    const paginationHeight = hasPagination ? 35 : 0;
+    const searchBarHeight = hasPagination || includeSearch ? 35 : 0;
+    const scrollBodyHeight = viewportHeight - scrollHeadHeight - paginationHeight - searchBarHeight;
+    $root.find('.dataTables_scrollBody').css('max-height', scrollBodyHeight);
+
+    return () => {
+      // there may be weird lifecycle issues, so put destroy in try/catch
+      try {
+        dataTable.destroy();
+        // reset height
+        $root.find('.dataTables_scrollBody').css('max-height', '');
+      } catch (error) {
+        // pass
+      }
+    };
+  });
+
   return (
-    <div className="superset-legacy-chart-table" ref={rootElem}>
+    <div ref={rootElem} className="superset-legacy-chart-table">
       <table className="table table-striped table-condensed table-hover">
         <thead>
           <tr>
             {columns.map(col => (
               // by default all columns will have sorting
-              <th className="sorting" key={col.key} title={col.label}>
+              <th key={col.key} className="sorting" title={col.label}>
                 {col.label}
               </th>
             ))}
@@ -214,23 +219,24 @@ export default function ReactDataTable(props: DataTableProps) {
         <tbody>
           {data.map((record, i) => (
             // hide rows after first page makes the initial render faster (less layout computation)
+            // eslint-disable-next-line react/no-array-index-key
             <tr key={i} style={{ display: pageLength > 0 && i >= pageLength ? 'none' : undefined }}>
               {columns.map(({ key, format }) => {
                 const val = record[key];
                 const keyIsMetric = isMetric(key);
                 const text = cellText(key, format, val);
-                const isHtml = !keyIsMetric && htmlTagRegex.test(text);
+                const isHtml = !keyIsMetric && isPontiallyHTML(text);
                 return (
                   <td
                     key={key}
+                    // only set innerHTML for actual html content, this saves time
+                    dangerouslySetInnerHTML={isHtml ? { __html: text } : undefined}
                     data-sort={val}
                     className={keyIsMetric ? 'text-right' : ''}
                     style={{
                       backgroundImage: typeof val === 'number' ? cellBar(key, val) : undefined,
                     }}
                     title={val as string}
-                    // only set innerHTML for actual html content, this saves time
-                    dangerouslySetInnerHTML={isHtml ? { __html: text } : undefined}
                   >
                     {isHtml ? null : text}
                   </td>

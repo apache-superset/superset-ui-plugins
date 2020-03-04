@@ -5,10 +5,6 @@ import { Props as SuperChartProps } from '@superset-ui/chart/lib/components/Supe
 import data from './data';
 import birthNames from './birth_names.json';
 
-// must have explicit import for Storyboard build watch to work
-// import TableChartPlugin from '../../../../superset-ui-legacy-plugin-chart-table/src';
-// new TableChartPlugin().configure({ key: 'dev_table' }).register();
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function paginated(props: SuperChartProps, pageSize = 50) {

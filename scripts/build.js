@@ -12,13 +12,14 @@ const run = (cmd, async = false) => {
   const [p, ...args] = cmd.split(' ');
   const runner = async ? spawn : spawnSync;
   runner(p, args, { stdio: 'inherit' });
-}
+};
 
-if (!glob) {
-  run('yarn build');
-} else {
+if (glob) {
+  run(`nimbus prettier --check --workspaces=\"@superset-ui/${glob}"`);
   run(`nimbus babel --clean --workspaces=\"@superset-ui/${glob}"`);
   run(`nimbus babel --clean --workspaces=\"@superset-ui/${glob}" --esm`);
   run(`nimbus typescript --build --workspaces=\"@superset-ui/${glob}"`);
   require('./buildAssets');
+} else {
+  run('yarn build');
 }
