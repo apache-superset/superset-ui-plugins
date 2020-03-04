@@ -37,8 +37,8 @@ if (!dt.$) {
   dt(window, $);
 }
 
-const { PERCENT_3_POINT } = NumberFormats;
-const isPontiallyHTML = (text: string) => /<[^>]+>/.test(text);
+const { PERCENT_3_POINT, SMART_NUMBER } = NumberFormats;
+const isProbablyHTML = (text: string) => /<[^>]+>/.test(text);
 
 export default function ReactDataTable(props: DataTableProps) {
   const {
@@ -68,10 +68,8 @@ export default function ReactDataTable(props: DataTableProps) {
     .filter(m => typeof data[0][m] === 'number');
 
   // check whethere a key is a metric
-  const metricsLookup = new Set(aggMetrics);
-  const percentMetricsLookup = new Set(percentMetrics);
-  const isMetric = (key: string) => metricsLookup.has(key);
-  const isPercentMetric = (key: string) => percentMetricsLookup.has(key);
+  const metricsSet = new Set(aggMetrics);
+  const percentMetricsSet = new Set(percentMetrics);
 
   // collect min/max for rendering bars
   const maxes: { [key: string]: number } = {};
@@ -116,13 +114,13 @@ export default function ReactDataTable(props: DataTableProps) {
     if (typeof val === 'string') {
       return filterXSS(val, { stripIgnoreTag: true });
     }
-    if (isPercentMetric(key)) {
+    if (percentMetricsSet.has(key)) {
       // in case percent metric can specify percent format in the future
       return formatNumber(format || PERCENT_3_POINT, val as number);
     }
-    if (isMetric(key)) {
+    if (metricsSet.has(key)) {
       // default format '' will return human readable numbers (e.g. 50M, 33k)
-      return formatNumber(format || '', val as number);
+      return formatNumber(format || SMART_NUMBER, val as number);
     }
     return val;
   }
@@ -224,9 +222,9 @@ export default function ReactDataTable(props: DataTableProps) {
             <tr key={i} style={{ display: pageLength > 0 && i >= pageLength ? 'none' : undefined }}>
               {columns.map(({ key, format }) => {
                 const val = record[key];
-                const keyIsMetric = isMetric(key);
+                const keyIsMetric = metricsSet.has(key);
                 const text = cellText(key, format, val);
-                const isHtml = !keyIsMetric && isPontiallyHTML(text);
+                const isHtml = !keyIsMetric && isProbablyHTML(text);
                 return (
                   <td
                     key={key}
@@ -237,7 +235,7 @@ export default function ReactDataTable(props: DataTableProps) {
                     style={{
                       backgroundImage: keyIsMetric ? cellBar(key, val as number) : undefined,
                     }}
-                    title={keyIsMetric || isPercentMetric(key) ? (val as string) : ''}
+                    title={keyIsMetric || percentMetricsSet.has(key) ? (val as string) : ''}
                   >
                     {isHtml ? null : text}
                   </td>
