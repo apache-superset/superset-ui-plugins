@@ -57,9 +57,9 @@ export interface DataTableProps {
  */
 const consolidateMetricShape = (metric: QueryFormDataMetric) => {
   if (typeof metric === 'string') return metric;
-  // even thought `metric.optionName` is more unique, but it's not used
-  // anywhere else in the input data and cannot be used to access data value
-  // from the records, therefore we map `label` to `key` for the chart
+  // even thought `metric.optionName` is more unique, it's not used
+  // anywhere else in `queryData` and cannot be used to access `data.records`.
+  // The records are still keyed by `metric.label`.
   return metric.label;
 };
 
