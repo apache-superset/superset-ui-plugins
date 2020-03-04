@@ -237,7 +237,7 @@ export default function ReactDataTable(props: DataTableProps) {
                     style={{
                       backgroundImage: keyIsMetric ? cellBar(key, val as number) : undefined,
                     }}
-                    title={keyIsMetric ? (val as string) : ''}
+                    title={keyIsMetric || isPercentMetric(key) ? (val as string) : ''}
                   >
                     {isHtml ? null : text}
                   </td>
