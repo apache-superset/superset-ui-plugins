@@ -86,7 +86,7 @@ export default [
           metrics: ['sum__num'],
           orderDesc: true,
           pageLength: 0,
-          percentMetrics: [],
+          percentMetrics: null,
           tableFilter: false,
           tableTimestampFormat: '%Y-%m-%d %H:%M:%S',
           timeseriesLimitMetric: null,
