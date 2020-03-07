@@ -252,9 +252,9 @@ export default function ReactDataTable(props: DataTableProps) {
 
   return (
     <div
+      dangerouslySetInnerHTML={{ __html: ReactDOMServer.renderToStaticMarkup(tableElement) }}
       ref={rootElem}
       className="superset-legacy-chart-table"
-      dangerouslySetInnerHTML={{ __html: ReactDOMServer.renderToStaticMarkup(tableElement) }}
     />
   );
 }
