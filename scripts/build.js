@@ -18,7 +18,7 @@ const run = (cmd) => {
 };
 
 if (glob) {
-  run(`eslint --color --quiet packages/${glob}/{src,test}/**/*.{js,jsx,ts,tsx}`);
+  run(`nimbus eslint packages/${glob}/{src,test}`);
   run(`nimbus prettier --check --workspaces=\"@superset-ui/${glob}"`);
   run(`nimbus babel --clean --workspaces=\"@superset-ui/${glob}"`);
   run(`nimbus babel --clean --workspaces=\"@superset-ui/${glob}" --esm`);
