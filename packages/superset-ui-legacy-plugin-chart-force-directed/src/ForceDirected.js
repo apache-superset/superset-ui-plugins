@@ -38,11 +38,18 @@ const propTypes = {
 /* Modified from http://bl.ocks.org/d3noob/5141278 */
 function ForceDirected(element, props) {
   const { data, width, height, linkLength = 200, charge = -500 } = props;
+
+  let w = window.innerWidth;
+  let h = window.innerHeight;
+  const minZoom = 0.1;
+  const maxZoom = 7;
   const div = d3.select(element);
+  const zoom = d3.behavior.zoom().scaleExtent([minZoom, maxZoom]);
   div.classed('superset-legacy-chart-force-directed', true);
 
   const links = data;
   const nodes = {};
+
   // Compute the distinct nodes from the links.
   links.forEach(link => {
     link.source =
@@ -82,6 +89,9 @@ function ForceDirected(element, props) {
     nodes[targetName].total += link.value;
   });
 
+  div.selectAll('*').remove();
+  const svg = div.append('svg');
+  const g = svg.append('g');
   /* eslint-disable no-use-before-define */
   // add the curvy lines
   function tick() {
@@ -107,15 +117,22 @@ function ForceDirected(element, props) {
     .on('tick', tick)
     .start();
 
-  div.selectAll('*').remove();
-  const svg = div
-    .append('svg')
-    .attr('width', width)
-    .attr('height', height);
+  function resize() {
+    const { innerWidth, innerHeight } = window;
+    svg.attr('width', innerWidth).attr('height', innerHeight);
+
+    force
+      .size([
+        force.size()[0] + (innerWidth - w) / zoom.scale(),
+        force.size()[1] + (innerHeight - h) / zoom.scale(),
+      ])
+      .resume();
+    w = innerWidth;
+    h = innerHeight;
+  }
 
   // build the arrow.
-  svg
-    .append('svg:defs')
+  g.append('svg:defs')
     .selectAll('marker')
     .data(['end']) // Different link/path types can be defined here
     .enter()
@@ -132,7 +149,7 @@ function ForceDirected(element, props) {
 
   const edgeScale = d3.scale.linear().range([0.1, 0.5]);
   // add the links and the arrows
-  const path = svg
+  const path = g
     .append('svg:g')
     .selectAll('path')
     .data(force.links())
@@ -143,7 +160,7 @@ function ForceDirected(element, props) {
     .attr('marker-end', 'url(#end)');
 
   // define the nodes
-  const node = svg
+  const node = g
     .selectAll('.node')
     .data(force.nodes())
     .enter()
@@ -170,6 +187,9 @@ function ForceDirected(element, props) {
         .transition()
         .style('font-size', 12);
     })
+    .on('mousedown', function() {
+      d3.event.stopPropagation();
+    })
     .call(force.drag);
 
   // add the nodes
@@ -187,6 +207,11 @@ function ForceDirected(element, props) {
     .attr('x', 6)
     .attr('dy', '.35em')
     .text(d => d.name);
+  zoom.on('zoom', function() {
+    g.attr('transform', `translate(${d3.event.translate})scale(${d3.event.scale})`);
+  });
+  svg.call(zoom);
+  resize();
 }
 
 ForceDirected.displayName = 'ForceDirected';
