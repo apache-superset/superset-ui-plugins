@@ -36,22 +36,30 @@ describe('legacy-table', () => {
     });
 
     let wrap: any; // the SuperChart wraper
-    let tree: any; // helper to dive into DOM tree
 
     it('render basic data', () => {
       wrap = mount(<ReactDataTable {...transformProps(testData.basic)} />);
-      tree = wrap.render(); // returns a CheerioWrapper with jQuery-like API
+      const tree = wrap.render(); // returns a CheerioWrapper with jQuery-like API
+      const cells = tree.find('td');
       expect(tree.hasClass('superset-legacy-chart-table')).toEqual(true);
-      expect(tree.find('td[data-sort="Michael"]')).toHaveLength(1);
+      expect(cells).toHaveLength(4);
+      expect(cells.eq(0).text()).toEqual('Michael');
+      expect(cells.eq(3).attr('data-sort')).toEqual('2467');
     });
 
     it('render advanced data', () => {
       // should successfull rerender with new props
       wrap.setProps(transformProps(testData.advanced));
-      tree = wrap.render();
-      const text = tree.text();
-      expect(text).toContain('Sum of Num');
-      expect(text).toContain('12.346%');
+      const tree = wrap.render();
+      const cells = tree.find('td');
+      expect(
+        tree
+          .find('th')
+          .eq(1)
+          .text(),
+      ).toEqual('Sum of Num');
+      expect(cells.eq(2).text()).toEqual('12.346%');
+      expect(cells.eq(4).text()).toEqual('2.47k');
     });
   });
 });

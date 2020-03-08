@@ -79,7 +79,7 @@ export const basic: ChartProps = {
 /**
  * Advanced data input with
  *   - verbose map
- *   - percent metrics
+ *   - metric columns
  */
 export const advanced: ChartProps = {
   ...basic,
@@ -91,6 +91,7 @@ export const advanced: ChartProps = {
   },
   formData: {
     ...basicFormData,
+    metrics: ['sum__num'],
     percentMetrics: ['pct_nice'],
   },
   queryData: {
