@@ -27,14 +27,6 @@ describe('legacy-table', () => {
   describe('transformProps', () => {});
 
   describe('ReactDataTable', () => {
-    // Jest throw an error at `console.warn`, this disables that behavior
-    beforeAll(() => {
-      console.warn = console.log;
-    });
-    afterAll(() => {
-      console.warn = console.error;
-    });
-
     let wrap: any; // the SuperChart wraper
 
     it('render basic data', () => {
