@@ -37,10 +37,9 @@ const propTypes = {
 
 /* Modified from http://bl.ocks.org/d3noob/5141278 */
 function ForceDirected(element, props) {
-  const { data, width, height, linkLength = 200, charge = -500 } = props;
+  const { data, linkLength = 200, charge = -500 } = props;
+  let { width, height } = props;
 
-  let w = window.innerWidth;
-  let h = window.innerHeight;
   const minZoom = 0.1;
   const maxZoom = 7;
   const div = d3.select(element);
@@ -123,12 +122,12 @@ function ForceDirected(element, props) {
 
     force
       .size([
-        force.size()[0] + (innerWidth - w) / zoom.scale(),
-        force.size()[1] + (innerHeight - h) / zoom.scale(),
+        force.size()[0] + (innerWidth - width) / zoom.scale(),
+        force.size()[1] + (innerHeight - height) / zoom.scale(),
       ])
       .resume();
-    w = innerWidth;
-    h = innerHeight;
+    width = innerWidth;
+    height = innerHeight;
   }
 
   // build the arrow.
