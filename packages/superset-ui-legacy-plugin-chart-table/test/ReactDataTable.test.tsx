@@ -27,7 +27,7 @@ describe('legacy-table', () => {
   describe('transformProps', () => {});
 
   describe('ReactDataTable', () => {
-    let wrap: any; // the SuperChart wraper
+    let wrap: any; // the ReactDataTable wraper
 
     it('render basic data', () => {
       wrap = mount(<ReactDataTable {...transformProps(testData.basic)} />);
