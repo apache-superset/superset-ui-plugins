@@ -55,7 +55,7 @@ const basicChartProps = {
 /**
  * Basic data input
  */
-export const basic: ChartProps = {
+const basic: ChartProps = {
   ...basicChartProps,
   queryData: {
     data: {
@@ -81,7 +81,7 @@ export const basic: ChartProps = {
  *   - verbose map
  *   - metric columns
  */
-export const advanced: ChartProps = {
+const advanced: ChartProps = {
   ...basic,
   datasource: {
     columnFormats: {},
@@ -100,4 +100,9 @@ export const advanced: ChartProps = {
       records: [...basic.queryData.data.records],
     },
   },
+};
+
+export default {
+  basic,
+  advanced,
 };

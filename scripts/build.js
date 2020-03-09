@@ -4,6 +4,7 @@
 const { spawnSync, spawn } = require('child_process');
 
 const glob = process.argv[2];
+const extraArgs = process.argv.slice(2);
 
 process.env.PATH = `./node_modules/.bin:${process.env.PATH}`;
 
@@ -18,11 +19,14 @@ const run = (cmd) => {
 };
 
 if (glob) {
-  run(`nimbus eslint packages/${glob}/{src,test}`);
-  run(`nimbus prettier --check --workspaces=\"@superset-ui/${glob}"`);
-  run(`nimbus babel --clean --workspaces=\"@superset-ui/${glob}"`);
-  run(`nimbus babel --clean --workspaces=\"@superset-ui/${glob}" --esm`);
-  run(`nimbus typescript --build --workspaces=\"@superset-ui/${glob}"`);
+  run(`nimbus prettier packages/${glob}/{src,test}/**/*.{js,jsx,ts,tsx,css}"`);
+  // lint is slow, so not turning it on by default
+  if (extraArgs.includes('--lint')) {
+    run(`nimbus eslint packages/${glob}/{src,test}`);
+  }
+  run(`nimbus babel --clean --workspaces="@superset-ui/${glob}"`);
+  run(`nimbus babel --clean --workspaces="@superset-ui/${glob}" --esm`);
+  run(`nimbus typescript --build --workspaces="@superset-ui/${glob}"`);
   require('./buildAssets');
 } else {
   run('yarn build');

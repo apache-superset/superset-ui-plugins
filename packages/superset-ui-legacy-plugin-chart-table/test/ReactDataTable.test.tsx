@@ -20,7 +20,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import ReactDataTable from '../src/ReactDataTable';
 import transformProps from '../src/transformProps';
-import * as testData from './test_data';
+import testData from './testData';
 
 describe('legacy-table', () => {
   // Can test more prop transformation here. Not needed for now.
