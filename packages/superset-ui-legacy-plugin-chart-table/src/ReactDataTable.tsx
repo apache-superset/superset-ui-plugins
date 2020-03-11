@@ -185,9 +185,15 @@ export default function ReactDataTable(props: DataTableProps) {
     const dataTable = $root.find('table').DataTable(options);
 
     // adjust table height
-    const scrollHeadHeight = 34;
-    const paginationHeight = hasPagination ? 35 : 0;
-    const searchBarHeight = hasPagination || includeSearch ? 35 : 0;
+    const scrollHeadHeight = $root.find('.dataTables_scrollHead').height();
+    const paginationHeight = hasPagination ? $root.find('.dataTables_paginate').height() : 0;
+    const searchBarHeight =
+      hasPagination || includeSearch
+        ? $root
+            .find('.dataTables_length,.dataTables_filter')
+            .closest('.row')
+            .height()
+        : 0;
     const scrollBodyHeight = viewportHeight - scrollHeadHeight - paginationHeight - searchBarHeight;
     $root.find('.dataTables_scrollBody').css('max-height', scrollBodyHeight);
 
@@ -238,7 +244,7 @@ export default function ReactDataTable(props: DataTableProps) {
                   style={{
                     backgroundImage: keyIsMetric ? cellBar(key, val as number) : undefined,
                   }}
-                  title={keyIsMetric || percentMetricsSet.has(key) ? (val as string) : ''}
+                  title={keyIsMetric || percentMetricsSet.has(key) ? String(val) : ''}
                 >
                   {isHtml ? null : text}
                 </td>
