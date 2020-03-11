@@ -185,15 +185,13 @@ export default function ReactDataTable(props: DataTableProps) {
     const dataTable = $root.find('table').DataTable(options);
 
     // adjust table height
-    const scrollHeadHeight = $root.find('.dataTables_scrollHead').height();
-    const paginationHeight = hasPagination ? $root.find('.dataTables_paginate').height() : 0;
+    const scrollHeadHeight = $root.find('.dataTables_scrollHead').height() || 0;
+    const paginationHeight = $root.find('.dataTables_paginate').height() || 0;
     const searchBarHeight =
-      hasPagination || includeSearch
-        ? $root
-            .find('.dataTables_length,.dataTables_filter')
-            .closest('.row')
-            .height()
-        : 0;
+      $root
+        .find('.dataTables_length,.dataTables_filter')
+        .closest('.row')
+        .height() || 0;
     const scrollBodyHeight = viewportHeight - scrollHeadHeight - paginationHeight - searchBarHeight;
     $root.find('.dataTables_scrollBody').css('max-height', scrollBodyHeight);
 
