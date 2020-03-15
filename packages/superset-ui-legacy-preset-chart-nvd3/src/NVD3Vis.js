@@ -361,6 +361,7 @@ function nvd3Vis(element, props) {
       case 'line_multi':
         chart = nv.models.multiChart();
         chart.interpolate(lineInterpolation);
+        chart.xScale(d3.time.scale.utc());
         break;
 
       case 'bar':
