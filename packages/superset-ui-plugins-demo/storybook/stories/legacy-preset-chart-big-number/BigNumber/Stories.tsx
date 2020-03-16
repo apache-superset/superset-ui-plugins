@@ -3,6 +3,24 @@ import React from 'react';
 import { SuperChart } from '@superset-ui/chart';
 import testData from './data';
 
+const TIME_COLUMN = '__timestamp';
+
+const formData = {
+  colorPicker: {
+    r: 0,
+    g: 122,
+    b: 135,
+    a: 1,
+  },
+  compareLag: 1,
+  compareSuffix: 'over 10Y',
+  metric: 'sum__SP_POP_TOTL',
+  showTrendLine: true,
+  startYAxisAtZero: true,
+  vizType: 'big_number',
+  yAxisFormat: '.3s',
+};
+
 /**
  * Add null values to trendline data
  * @param data input data
@@ -24,21 +42,7 @@ export default [
         width={400}
         height={400}
         queryData={{ data: testData }}
-        formData={{
-          colorPicker: {
-            r: 0,
-            g: 122,
-            b: 135,
-            a: 1,
-          },
-          compareLag: 1,
-          compareSuffix: 'over 10Y',
-          metric: 'sum__SP_POP_TOTL',
-          showTrendLine: true,
-          startYAxisAtZero: true,
-          vizType: 'big_number',
-          yAxisFormat: '.3s',
-        }}
+        formData={formData}
       />
     ),
     storyName: 'Basic with Trendline',
@@ -51,21 +55,7 @@ export default [
         width={400}
         height={400}
         queryData={{ data: withNulls(testData, 3) }}
-        formData={{
-          colorPicker: {
-            r: 0,
-            g: 122,
-            b: 135,
-            a: 1,
-          },
-          compareLag: 1,
-          compareSuffix: 'over 10Y',
-          metric: 'sum__SP_POP_TOTL',
-          showTrendLine: true,
-          startYAxisAtZero: true,
-          vizType: 'big_number',
-          yAxisFormat: '.3s',
-        }}
+        formData={formData}
       />
     ),
     storyName: 'Null in the middle',
@@ -77,26 +67,35 @@ export default [
         chartType="big-number"
         width={400}
         height={400}
-        queryData={{ data: testData.slice(0, 9) }}
+        queryData={{
+          data: testData.slice(0, 9),
+          from_dttm: testData[testData.length - 1][TIME_COLUMN],
+          to_dttm: testData[0][TIME_COLUMN],
+        }}
+        formData={formData}
+      />
+    ),
+    storyName: 'Missing range start',
+    storyPath: 'legacy-|preset-chart-big-number|BigNumberChartPlugin',
+  },
+  {
+    renderStory: () => (
+      <SuperChart
+        chartType="big-number"
+        width={400}
+        height={400}
+        queryData={{
+          data: testData.slice(0, 9),
+          from_dttm: testData[testData.length - 1][TIME_COLUMN],
+          to_dttm: testData[0][TIME_COLUMN],
+        }}
         formData={{
-          colorPicker: {
-            r: 0,
-            g: 122,
-            b: 135,
-            a: 1,
-          },
-          timeGrainSqla: 'P0.25Y',
-          compareLag: 1,
-          compareSuffix: 'over 10Y',
-          metric: 'sum__SP_POP_TOTL',
-          showTrendLine: true,
-          startYAxisAtZero: true,
-          vizType: 'big_number',
-          yAxisFormat: '.3s',
+          ...formData,
+          alignTimeRange: false,
         }}
       />
     ),
-    storyName: 'Missing head',
+    storyName: `Missing range start (don't align)`,
     storyPath: 'legacy-|preset-chart-big-number|BigNumberChartPlugin',
   },
 ];

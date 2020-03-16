@@ -70,10 +70,20 @@ export default function transformProps(chartProps) {
     startYAxisAtZero,
     subheader = '',
     vizType,
+    alignTimeRange = false,
   } = formData;
   const granularity = formData.timeGrainSqla;
   let { yAxisFormat } = formData;
-  const { data } = queryData;
+  const { data, from_dttm: fromDatetime, to_dttm: toDatetime } = queryData;
+  const metricName = metric?.label ? metric.label : metric;
+  const compareLag = Number(compareLagInput) || 0;
+  const supportTrendLine = vizType === 'big_number';
+  const supportAndShowTrendLine = supportTrendLine && showTrendLine;
+
+  let bigNumber;
+  let trendLineData;
+  let percentChange = 0;
+  let formattedSubheader = subheader;
 
   let mainColor;
   if (colorPicker) {
@@ -81,14 +91,6 @@ export default function transformProps(chartProps) {
     mainColor = color.rgb(r, g, b).hex();
   }
 
-  let bigNumber;
-  let trendLineData;
-  const metricName = metric?.label ? metric.label : metric;
-  const compareLag = Number(compareLagInput) || 0;
-  const supportTrendLine = vizType === 'big_number';
-  const supportAndShowTrendLine = supportTrendLine && showTrendLine;
-  let percentChange = 0;
-  let formattedSubheader = subheader;
   if (supportTrendLine) {
     const sortedData = [...data].sort((a, b) => a[TIME_COLUMN] - b[TIME_COLUMN]);
     bigNumber = sortedData.length === 0 ? null : sortedData[sortedData.length - 1][metricName];
@@ -145,5 +147,8 @@ export default function transformProps(chartProps) {
     startYAxisAtZero,
     subheader: formattedSubheader,
     trendLineData,
+    fromDatetime,
+    toDatetime,
+    alignTimeRange,
   };
 }

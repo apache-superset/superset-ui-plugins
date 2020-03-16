@@ -71,11 +71,14 @@ function identity(x) {
 }
 
 const propTypes = {
+  alignTimeRange: PropTypes.bool,
   className: PropTypes.string,
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   bigNumber: PropTypes.number.isRequired,
   formatBigNumber: PropTypes.func,
+  fromDatetime: PropTypes.number,
+  toDatetime: PropTypes.number,
   headerFontSize: PropTypes.number,
   subheader: PropTypes.string,
   subheaderFontSize: PropTypes.number,
@@ -86,8 +89,11 @@ const propTypes = {
   renderTooltip: PropTypes.func,
 };
 const defaultProps = {
+  alignTimeRange: false,
   className: '',
   formatBigNumber: identity,
+  fromDatetime: null,
+  toDatetime: null,
   headerFontSize: PROPORTION.HEADER,
   subheader: '',
   subheaderFontSize: PROPORTION.SUBHEADER,
@@ -193,13 +199,21 @@ class BigNumberVis extends React.PureComponent {
       subheader,
       renderTooltip,
       startYAxisAtZero,
+      fromDatetime,
+      toDatetime,
+      alignTimeRange,
     } = this.props;
+
+    const xScale = { type: 'timeUtc' };
+    if (alignTimeRange && fromDatetime && toDatetime) {
+      xScale.domain = [fromDatetime, toDatetime];
+    }
 
     return (
       <XYChart
         snapTooltipToDataX
         ariaLabel={`Big number visualization ${subheader}`}
-        xScale={{ type: 'timeUtc' }}
+        xScale={xScale}
         yScale={{
           type: 'linear',
           includeZero: startYAxisAtZero,
