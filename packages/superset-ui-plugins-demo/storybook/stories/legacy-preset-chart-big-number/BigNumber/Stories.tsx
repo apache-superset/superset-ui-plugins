@@ -72,10 +72,13 @@ export default [
           from_dttm: testData[testData.length - 1][TIME_COLUMN],
           to_dttm: testData[0][TIME_COLUMN],
         }}
-        formData={formData}
+        formData={{
+          ...formData,
+          alignTimeRange: true,
+        }}
       />
     ),
-    storyName: 'Missing range start',
+    storyName: 'Missing range start (align time range)',
     storyPath: 'legacy-|preset-chart-big-number|BigNumberChartPlugin',
   },
   {
