@@ -17,3 +17,4 @@
  * under the License.
  */
 declare module '@data-ui/xy-chart';
+declare module '*.png';
