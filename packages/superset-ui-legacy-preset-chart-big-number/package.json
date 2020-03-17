@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@data-ui/xy-chart": "^0.0.84",
+    "@types/shortid": "0.0.29",
     "d3-color": "^1.2.3",
     "shortid": "^2.2.14"
   },
@@ -41,8 +42,5 @@
     "@superset-ui/time-format": "^0.12.0",
     "@superset-ui/translation": "^0.12.0",
     "react": "^15 || ^16"
-  },
-  "devDependencies": {
-    "@types/shortid": "0.0.29"
   }
 }
