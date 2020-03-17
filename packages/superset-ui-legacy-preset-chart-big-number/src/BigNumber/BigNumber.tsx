@@ -16,17 +16,19 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-/* eslint-disable react/forbid-prop-types */
-/* eslint-disable react/jsx-sort-default-props */
-/* eslint-disable react/sort-prop-types */
 import React from 'react';
-import PropTypes from 'prop-types';
 import shortid from 'shortid';
+import { NumberFormatFunction } from '@superset-ui/number-format/lib/types';
+import { getNumberFormatter } from '@superset-ui/number-format';
 import { XYChart, AreaSeries, CrossHair, LinearGradient } from '@data-ui/xy-chart';
 import { BRAND_COLOR } from '@superset-ui/color';
 import { computeMaxFontSize } from '@superset-ui/dimension';
 
 import './BigNumber.css';
+import { smartDateVerboseFormatter } from '@superset-ui/time-format';
+import { TimeFormatFunction } from '@superset-ui/time-format/lib/types';
+
+const defaultNumberFormatter = getNumberFormatter(undefined);
 
 const CHART_MARGIN = {
   top: 4,
@@ -41,71 +43,69 @@ const PROPORTION = {
   TRENDLINE: 0.3,
 };
 
-export function renderTooltipFactory(formatDate, formatValue) {
-  function renderTooltip({ datum }) {
-    const { x: rawDate, y: rawValue } = datum;
-    const formattedDate = formatDate(rawDate);
-    const value = formatValue(rawValue);
+type TimeSeriesDatum = {
+  x: number; // timestamp as a number
+  y: number;
+};
 
+export function renderTooltipFactory(
+  formatDate = smartDateVerboseFormatter.formatFunc,
+  formatValue = defaultNumberFormatter,
+) {
+  return function renderTooltip({ datum: { x, y } }: { datum: TimeSeriesDatum }) {
+    // even though `formatDate` supports timestamp as numbers, we need
+    // `new Date` to pass type check
     return (
       <div style={{ padding: '4px 8px' }}>
-        {formattedDate}
+        {formatDate(new Date(x))}
         <br />
-        <strong>{value}</strong>
+        <strong>{formatValue(y)}</strong>
       </div>
     );
-  }
+  };
+}
 
-  renderTooltip.propTypes = {
-    datum: PropTypes.shape({
-      x: PropTypes.instanceOf(Date),
-      y: PropTypes.number,
-    }).isRequired,
+type BigNumberVisProps = {
+  className?: string;
+  width: number;
+  height: number;
+  bigNumber: number;
+  formatNumber: NumberFormatFunction;
+  formatTime: TimeFormatFunction;
+  fromDatetime: number;
+  toDatetime: number;
+  headerFontSize: number;
+  subheader: string;
+  subheaderFontSize: number;
+  showTrendLine: boolean;
+  startYAxisAtZero: boolean;
+  trendLineData?: TimeSeriesDatum[];
+  mainColor: string;
+  renderTooltip: ({ datum }: { datum: TimeSeriesDatum }) => React.Component;
+  useFixedTimeRange: boolean;
+};
+
+class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
+  private gradientId: string;
+
+  static defaultProps = {
+    className: '',
+    formatNumber: (num: number) => String(num),
+    formatTime: smartDateVerboseFormatter.formatFunc,
+    fromDatetime: null,
+    headerFontSize: PROPORTION.HEADER,
+    mainColor: BRAND_COLOR,
+    renderTooltip: renderTooltipFactory(),
+    showTrendLine: false,
+    startYAxisAtZero: true,
+    subheader: '',
+    subheaderFontSize: PROPORTION.SUBHEADER,
+    toDatetime: null,
+    trendLineData: null,
+    useFixedTimeRange: false,
   };
 
-  return renderTooltip;
-}
-
-function identity(x) {
-  return x;
-}
-
-const propTypes = {
-  alignTimeRange: PropTypes.bool,
-  className: PropTypes.string,
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
-  bigNumber: PropTypes.number.isRequired,
-  formatBigNumber: PropTypes.func,
-  fromDatetime: PropTypes.number,
-  toDatetime: PropTypes.number,
-  headerFontSize: PropTypes.number,
-  subheader: PropTypes.string,
-  subheaderFontSize: PropTypes.number,
-  showTrendLine: PropTypes.bool,
-  startYAxisAtZero: PropTypes.bool,
-  trendLineData: PropTypes.array,
-  mainColor: PropTypes.string,
-  renderTooltip: PropTypes.func,
-};
-const defaultProps = {
-  alignTimeRange: false,
-  className: '',
-  formatBigNumber: identity,
-  fromDatetime: null,
-  toDatetime: null,
-  headerFontSize: PROPORTION.HEADER,
-  subheader: '',
-  subheaderFontSize: PROPORTION.SUBHEADER,
-  showTrendLine: false,
-  startYAxisAtZero: true,
-  trendLineData: null,
-  mainColor: BRAND_COLOR,
-  renderTooltip: renderTooltipFactory(identity, identity),
-};
-
-class BigNumberVis extends React.PureComponent {
-  constructor(props) {
+  constructor(props: BigNumberVisProps) {
     super(props);
     this.gradientId = shortid.generate();
   }
@@ -124,14 +124,14 @@ class BigNumberVis extends React.PureComponent {
     const container = document.createElement('div');
     container.className = this.getClassName();
     container.style.position = 'absolute'; // so it won't disrupt page layout
-    container.style.opacity = 0; // and not visible
+    container.style.opacity = '0'; // and not visible
 
     return container;
   }
 
-  renderHeader(maxHeight) {
-    const { bigNumber, formatBigNumber, width } = this.props;
-    const text = bigNumber === null ? 'No data' : formatBigNumber(bigNumber);
+  renderHeader(maxHeight: number) {
+    const { bigNumber, formatNumber, width } = this.props;
+    const text = bigNumber === null ? 'No data' : formatNumber(bigNumber);
 
     const container = this.createTemporaryContainer();
     document.body.append(container);
@@ -157,7 +157,7 @@ class BigNumberVis extends React.PureComponent {
     );
   }
 
-  renderSubheader(maxHeight) {
+  renderSubheader(maxHeight: number) {
     const { bigNumber, subheader, width } = this.props;
     let fontSize = 0;
 
@@ -191,7 +191,7 @@ class BigNumberVis extends React.PureComponent {
     );
   }
 
-  renderTrendline(maxHeight) {
+  renderTrendline(maxHeight: number) {
     const {
       width,
       trendLineData,
@@ -201,11 +201,15 @@ class BigNumberVis extends React.PureComponent {
       startYAxisAtZero,
       fromDatetime,
       toDatetime,
-      alignTimeRange,
+      useFixedTimeRange,
     } = this.props;
 
-    const xScale = { type: 'timeUtc' };
-    if (alignTimeRange && fromDatetime && toDatetime) {
+    // Apply a fixed tange range if a time range is specified.
+    //
+    // XYChart checks the existence of `domain` property decide whether to apply
+    // a domain or not, so it must not be `null` or `undefined`
+    const xScale: { type: string; domain?: number[] } = { type: 'timeUtc' };
+    if (useFixedTimeRange && fromDatetime && toDatetime) {
       xScale.domain = [fromDatetime, toDatetime];
     }
 
@@ -266,8 +270,5 @@ class BigNumberVis extends React.PureComponent {
     );
   }
 }
-
-BigNumberVis.propTypes = propTypes;
-BigNumberVis.defaultProps = defaultProps;
 
 export default BigNumberVis;
