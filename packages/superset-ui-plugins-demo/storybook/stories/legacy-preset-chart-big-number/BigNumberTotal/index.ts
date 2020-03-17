@@ -16,10 +16,10 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-import { BigNumberChartPlugin } from '../../../../../superset-ui-legacy-preset-chart-big-number';
-import Stories from './Stories.tsx';
+import { BigNumberTotalChartPlugin } from '../../../../../superset-ui-legacy-preset-chart-big-number/src';
+import Stories from './Stories';
 
-new BigNumberChartPlugin().configure({ key: 'big-number' }).register();
+new BigNumberTotalChartPlugin().configure({ key: 'big-number-total' }).register();
 
 export default {
   examples: [...Stories],

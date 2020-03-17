@@ -18,6 +18,7 @@
  */
 import React from 'react';
 import shortid from 'shortid';
+import { t } from '@superset-ui/translation';
 import { NumberFormatFunction } from '@superset-ui/number-format/lib/types';
 import { getNumberFormatter } from '@superset-ui/number-format';
 import { XYChart, AreaSeries, CrossHair, LinearGradient } from '@data-ui/xy-chart';
@@ -45,7 +46,7 @@ const PROPORTION = {
 
 type TimeSeriesDatum = {
   x: number; // timestamp as a number
-  y: number;
+  y: number | null;
 };
 
 export function renderTooltipFactory(
@@ -59,7 +60,7 @@ export function renderTooltipFactory(
       <div style={{ padding: '4px 8px' }}>
         {formatDate(new Date(x))}
         <br />
-        <strong>{formatValue(y)}</strong>
+        <strong>{y === null ? t('N/A') : formatValue(y)}</strong>
       </div>
     );
   };
@@ -86,7 +87,7 @@ type BigNumberVisProps = {
 };
 
 class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
-  private gradientId: string;
+  private gradientId: string = shortid.generate();
 
   static defaultProps = {
     className: '',
@@ -104,11 +105,6 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
     trendLineData: null,
     useFixedTimeRange: false,
   };
-
-  constructor(props: BigNumberVisProps) {
-    super(props);
-    this.gradientId = shortid.generate();
-  }
 
   getClassName() {
     const { className, showTrendLine } = this.props;
@@ -204,13 +200,26 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
       useFixedTimeRange,
     } = this.props;
 
-    // Apply a fixed tange range if a time range is specified.
+    // Apply a fixed X range if a time range is specified.
     //
     // XYChart checks the existence of `domain` property decide whether to apply
     // a domain or not, so it must not be `null` or `undefined`
     const xScale: { type: string; domain?: number[] } = { type: 'timeUtc' };
-    if (useFixedTimeRange && fromDatetime && toDatetime) {
-      xScale.domain = [fromDatetime, toDatetime];
+    const tooltipData = trendLineData?.sort(datum => datum.x);
+    if (tooltipData && useFixedTimeRange && fromDatetime && toDatetime) {
+      // xScale.domain = [fromDatetime, toDatetime];
+      if (tooltipData[0].x > fromDatetime) {
+        tooltipData.unshift({
+          x: fromDatetime,
+          y: null,
+        });
+      }
+      if (tooltipData[tooltipData.length - 1].x < toDatetime) {
+        tooltipData.unshift({
+          x: toDatetime,
+          y: null,
+        });
+      }
     }
 
     return (
@@ -226,9 +235,10 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
         height={maxHeight}
         margin={CHART_MARGIN}
         renderTooltip={renderTooltip}
+        eventTrigger="container"
       >
         <LinearGradient id={this.gradientId} from={mainColor} to="#fff" />
-        <AreaSeries data={trendLineData} fill={`url(#${this.gradientId})`} stroke={mainColor} />
+        <AreaSeries data={tooltipData} fill={`url(#${this.gradientId})`} stroke={mainColor} />
         <CrossHair
           fullHeight
           stroke={mainColor}
