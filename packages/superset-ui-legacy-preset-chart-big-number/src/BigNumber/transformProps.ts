@@ -59,7 +59,9 @@ export default function transformProps(chartProps: ChartProps) {
 
   if (supportTrendLine) {
     const sortedData = [...data].sort((a, b) => a[TIME_COLUMN] - b[TIME_COLUMN]);
+
     bigNumber = sortedData.length === 0 ? null : sortedData[sortedData.length - 1][metricName];
+
     if (compareLag > 0) {
       const compareIndex = sortedData.length - (compareLag + 1);
       if (compareIndex >= 0) {
@@ -70,6 +72,7 @@ export default function transformProps(chartProps: ChartProps) {
         formattedSubheader = `${formatPercentChange(percentChange)} ${compareSuffix}`;
       }
     }
+
     trendLineData = supportAndShowTrendLine
       ? sortedData.map(point => ({
           x: point[TIME_COLUMN],

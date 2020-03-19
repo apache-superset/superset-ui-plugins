@@ -51,7 +51,7 @@ type TimeSeriesDatum = {
 
 export function renderTooltipFactory(
   formatDate = smartDateVerboseFormatter.formatFunc,
-  formatValue = defaultNumberFormatter,
+  formatValue = defaultNumberFormatter.formatFunc,
 ) {
   return function renderTooltip({ datum: { x, y } }: { datum: TimeSeriesDatum }) {
     // even though `formatDate` supports timestamp as numbers, we need
@@ -82,7 +82,6 @@ type BigNumberVisProps = {
   startYAxisAtZero: boolean;
   trendLineData?: TimeSeriesDatum[];
   mainColor: string;
-  renderTooltip: ({ datum }: { datum: TimeSeriesDatum }) => React.Component;
   useFixedTimeRange: boolean;
 };
 
@@ -96,7 +95,6 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
     fromDatetime: null,
     headerFontSize: PROPORTION.HEADER,
     mainColor: BRAND_COLOR,
-    renderTooltip: renderTooltipFactory(),
     showTrendLine: false,
     startYAxisAtZero: true,
     subheader: '',
@@ -193,11 +191,12 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
       trendLineData,
       mainColor,
       subheader,
-      renderTooltip,
       startYAxisAtZero,
       fromDatetime,
       toDatetime,
       useFixedTimeRange,
+      formatNumber,
+      formatTime,
     } = this.props;
 
     // Apply a fixed X range if a time range is specified.
@@ -234,7 +233,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
         width={Math.floor(width)}
         height={maxHeight}
         margin={CHART_MARGIN}
-        renderTooltip={renderTooltip}
+        renderTooltip={renderTooltipFactory(formatTime, formatNumber)}
         eventTrigger="container"
       >
         <LinearGradient id={this.gradientId} from={mainColor} to="#fff" />
