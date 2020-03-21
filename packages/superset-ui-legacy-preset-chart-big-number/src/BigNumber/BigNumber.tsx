@@ -19,15 +19,15 @@
 import React from 'react';
 import shortid from 'shortid';
 import { t } from '@superset-ui/translation';
-import { NumberFormatFunction } from '@superset-ui/number-format/lib/types';
 import { getNumberFormatter } from '@superset-ui/number-format';
 import { XYChart, AreaSeries, CrossHair, LinearGradient } from '@data-ui/xy-chart';
 import { BRAND_COLOR } from '@superset-ui/color';
 import { computeMaxFontSize } from '@superset-ui/dimension';
+import NumberFormatter from '@superset-ui/number-format/lib/NumberFormatter';
+import { smartDateVerboseFormatter } from '@superset-ui/time-format';
+import TimeFormatter from '@superset-ui/time-format/lib/TimeFormatter';
 
 import './BigNumber.css';
-import { smartDateVerboseFormatter } from '@superset-ui/time-format';
-import { TimeFormatFunction } from '@superset-ui/time-format/lib/types';
 
 const defaultNumberFormatter = getNumberFormatter(undefined);
 
@@ -50,8 +50,8 @@ type TimeSeriesDatum = {
 };
 
 export function renderTooltipFactory(
-  formatDate = smartDateVerboseFormatter.formatFunc,
-  formatValue = defaultNumberFormatter.formatFunc,
+  formatDate = smartDateVerboseFormatter,
+  formatValue = defaultNumberFormatter,
 ) {
   return function renderTooltip({ datum: { x, y } }: { datum: TimeSeriesDatum }) {
     // even though `formatDate` supports timestamp as numbers, we need
@@ -71,8 +71,8 @@ type BigNumberVisProps = {
   width: number;
   height: number;
   bigNumber: number;
-  formatNumber: NumberFormatFunction;
-  formatTime: TimeFormatFunction;
+  formatNumber: NumberFormatter;
+  formatTime: TimeFormatter;
   fromDatetime: number;
   toDatetime: number;
   headerFontSize: number;

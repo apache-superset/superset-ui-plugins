@@ -36,7 +36,7 @@ const formats = {
   PT1H: '%Y-%m-%d %H:00', // hour
   P1D: DATABASE_DATE, // day
   P1W: SUNDAY_BASED_WEEK, // week
-  P1M: 'smart_date_verbose', // month
+  P1M: '%Y-%m', // month
   'P0.25Y': '%Y Q%q', // quarter
   P1Y: '%Y', // year
   // d3-time-format weeks does not support weeks start on Sunday
@@ -65,6 +65,6 @@ type TimeGranularity =
 
 export default function getTimeFormatterForGranularity(granularity: TimeGranularity) {
   return granularity in formats
-    ? getTimeFormatter(formats[granularity]).formatFunc
-    : smartDateVerboseFormatter.formatFunc;
+    ? getTimeFormatter(formats[granularity])
+    : smartDateVerboseFormatter;
 }

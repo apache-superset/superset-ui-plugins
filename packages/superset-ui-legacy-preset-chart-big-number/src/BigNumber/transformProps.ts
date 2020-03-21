@@ -83,7 +83,8 @@ export default function transformProps(chartProps: ChartProps) {
     }
 
     if (supportTrendLine) {
-      // sortedData.reverse(); // no need to reverse because the chart sort by x again anyway
+      // must reverse to ascending order other wise it confuses tooltip triggers
+      sortedData.reverse();
       trendLineData = supportAndShowTrendLine ? sortedData : null;
     }
   }

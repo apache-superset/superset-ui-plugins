@@ -76,7 +76,7 @@ describe('BigNumber', () => {
 
     it('timeRangeUseFallback', () => {
       // the first item is the last item sorted by __timestamp
-      const lastDatum = transformed.trendLineData?.[0];
+      const lastDatum = transformed.trendLineData?.pop();
       expect(transformed.timeRangeUseFallback).toStrictEqual(true);
       expect(lastDatum?.x).toStrictEqual(100);
       expect(lastDatum?.y).toBeNull();
