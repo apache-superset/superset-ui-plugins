@@ -65,6 +65,6 @@ type TimeGranularity =
 
 export default function getTimeFormatterForGranularity(granularity: TimeGranularity) {
   return granularity in formats
-    ? getTimeFormatter(formats[granularity])
-    : smartDateVerboseFormatter.format;
+    ? getTimeFormatter(formats[granularity]).formatFunc
+    : smartDateVerboseFormatter.formatFunc;
 }

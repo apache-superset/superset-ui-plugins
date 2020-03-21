@@ -37,7 +37,8 @@ export default function transformProps(chartProps: ChartProps) {
     subheaderFontSize,
     timeGrainSqla: granularity,
     vizType,
-    useFixedTimeRange = false,
+    timeRangeFixed = false,
+    timeRangeUseFallback = false,
   } = formData;
   let { yAxisFormat } = formData;
   const { data, from_dttm: fromDatetime, to_dttm: toDatetime } = queryData;
@@ -45,10 +46,6 @@ export default function transformProps(chartProps: ChartProps) {
   const compareLag = Number(compareLagInput) || 0;
   const supportTrendLine = vizType === 'big_number';
   const supportAndShowTrendLine = supportTrendLine && showTrendLine;
-
-  let bigNumber;
-  let trendLineData;
-  let percentChange = 0;
   let formattedSubheader = subheader;
 
   let mainColor;
@@ -57,15 +54,27 @@ export default function transformProps(chartProps: ChartProps) {
     mainColor = color.rgb(r, g, b).hex();
   }
 
-  if (supportTrendLine) {
-    const sortedData = [...data].sort((a, b) => a[TIME_COLUMN] - b[TIME_COLUMN]);
+  let bigNumber = null;
+  let trendLineData = null;
+  let percentChange = 0;
 
-    bigNumber = sortedData.length === 0 ? null : sortedData[sortedData.length - 1][metricName];
+  bigNumber = data.length === 0 ? null : data[0][metricName];
+
+  if (data.length > 0) {
+    const sortedData = [...data]
+      .map(d => ({ x: d[TIME_COLUMN], y: d[metricName] }))
+      .sort((a, b) => b.x - a.x); // sort in time descending order
+
+    bigNumber = sortedData[0].y;
+    if (bigNumber === null && timeRangeUseFallback) {
+      const lastAvailable = sortedData.find(d => d.y !== null);
+      bigNumber = lastAvailable ? lastAvailable.y : null;
+    }
 
     if (compareLag > 0) {
-      const compareIndex = sortedData.length - (compareLag + 1);
-      if (compareIndex >= 0) {
-        const compareValue = sortedData[compareIndex][metricName];
+      const compareIndex = compareLag;
+      if (compareIndex < sortedData.length) {
+        const compareValue = sortedData[compareIndex].y;
         percentChange =
           compareValue === 0 ? 0 : (bigNumber - compareValue) / Math.abs(compareValue);
         const formatPercentChange = getNumberFormatter(NumberFormats.PERCENT_SIGNED_1_POINT);
@@ -73,15 +82,10 @@ export default function transformProps(chartProps: ChartProps) {
       }
     }
 
-    trendLineData = supportAndShowTrendLine
-      ? sortedData.map(point => ({
-          x: point[TIME_COLUMN],
-          y: point[metricName],
-        }))
-      : null;
-  } else {
-    bigNumber = data.length === 0 ? null : data[0][metricName];
-    trendLineData = null;
+    if (supportTrendLine) {
+      // sortedData.reverse(); // no need to reverse because the chart sort by x again anyway
+      trendLineData = supportAndShowTrendLine ? sortedData : null;
+    }
   }
 
   let className = '';
@@ -121,6 +125,7 @@ export default function transformProps(chartProps: ChartProps) {
     trendLineData,
     fromDatetime,
     toDatetime,
-    useFixedTimeRange,
+    timeRangeUseFallback,
+    timeRangeFixed,
   };
 }

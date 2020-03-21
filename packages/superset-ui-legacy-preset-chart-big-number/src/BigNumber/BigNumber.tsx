@@ -80,9 +80,10 @@ type BigNumberVisProps = {
   subheaderFontSize: number;
   showTrendLine: boolean;
   startYAxisAtZero: boolean;
+  timeRangeFixed: boolean;
+  timeRangeUseFallback: boolean;
   trendLineData?: TimeSeriesDatum[];
   mainColor: string;
-  useFixedTimeRange: boolean;
 };
 
 class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
@@ -99,9 +100,10 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
     startYAxisAtZero: true,
     subheader: '',
     subheaderFontSize: PROPORTION.SUBHEADER,
+    timeRangeFixed: false,
+    timeRangeUseFallback: false,
     toDatetime: null,
     trendLineData: null,
-    useFixedTimeRange: false,
   };
 
   getClassName() {
@@ -125,7 +127,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
 
   renderHeader(maxHeight: number) {
     const { bigNumber, formatNumber, width } = this.props;
-    const text = bigNumber === null ? 'No data' : formatNumber(bigNumber);
+    const text = bigNumber === null ? t('No data') : formatNumber(bigNumber);
 
     const container = this.createTemporaryContainer();
     document.body.append(container);
@@ -152,13 +154,17 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
   }
 
   renderSubheader(maxHeight: number) {
-    const { bigNumber, subheader, width } = this.props;
+    const { bigNumber, subheader, width, timeRangeUseFallback } = this.props;
     let fontSize = 0;
 
-    const text =
-      bigNumber === null
-        ? 'Try applying different filters or ensuring your Datasource contains data'
-        : subheader;
+    const NO_DATA_OR_HASNT_LANDED = t(
+      "No data after filtering or data hasn't landed for the latest date",
+    );
+    const NO_DATA = t('Try applying different filters or ensuring your data source has data');
+    let text = subheader;
+    if (bigNumber === null) {
+      text = timeRangeUseFallback ? NO_DATA : NO_DATA_OR_HASNT_LANDED;
+    }
     if (text) {
       const container = this.createTemporaryContainer();
       document.body.append(container);
@@ -192,11 +198,10 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
       mainColor,
       subheader,
       startYAxisAtZero,
-      fromDatetime,
-      toDatetime,
-      useFixedTimeRange,
       formatNumber,
       formatTime,
+      fromDatetime,
+      timeRangeFixed,
     } = this.props;
 
     // Apply a fixed X range if a time range is specified.
@@ -205,8 +210,11 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
     // a domain or not, so it must not be `null` or `undefined`
     const xScale: { type: string; domain?: number[] } = { type: 'timeUtc' };
     const tooltipData = trendLineData?.sort(datum => datum.x);
-    if (tooltipData && useFixedTimeRange && fromDatetime && toDatetime) {
-      // xScale.domain = [fromDatetime, toDatetime];
+    if (tooltipData && timeRangeFixed && fromDatetime) {
+      let { toDatetime } = this.props;
+      if (toDatetime === null) {
+        toDatetime = Date.now();
+      }
       if (tooltipData[0].x > fromDatetime) {
         tooltipData.unshift({
           x: fromDatetime,
@@ -214,13 +222,17 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
         });
       }
       if (tooltipData[tooltipData.length - 1].x < toDatetime) {
-        tooltipData.unshift({
+        tooltipData.push({
           x: toDatetime,
           y: null,
         });
       }
+      xScale.domain = [fromDatetime, toDatetime];
     }
-
+    // if can't find any non-null values, no point rendering the trendline
+    if (!tooltipData?.some(d => d.y !== null)) {
+      return null;
+    }
     return (
       <XYChart
         snapTooltipToDataX

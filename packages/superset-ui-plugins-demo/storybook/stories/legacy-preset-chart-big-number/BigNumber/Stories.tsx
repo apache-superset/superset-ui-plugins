@@ -87,11 +87,12 @@ export default [
         queryData={{
           data: testData.slice(0, 9),
           from_dttm: testData[testData.length - 1][TIME_COLUMN],
-          to_dttm: testData[0][TIME_COLUMN],
+          to_dttm: null,
         }}
         formData={{
           ...formData,
-          useFixedTimeRange: true,
+          timeGrainSqla: 'P1Y',
+          timeRangeFixed: true,
         }}
       />
     ),
@@ -111,7 +112,7 @@ export default [
         }}
         formData={{
           ...formData,
-          useFixedTimeRange: false,
+          timeRangeFixed: false,
         }}
       />
     ),
