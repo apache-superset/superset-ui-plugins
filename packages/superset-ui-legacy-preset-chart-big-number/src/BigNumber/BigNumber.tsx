@@ -158,9 +158,9 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
     let fontSize = 0;
 
     const NO_DATA_OR_HASNT_LANDED = t(
-      "No data after filtering or data hasn't landed for the latest date",
+      'No data after filtering or data is NULL for the latest time record',
     );
-    const NO_DATA = t('Try applying different filters or ensuring your data source has data');
+    const NO_DATA = t('Try applying different filters or ensuring your datasource has data');
     let text = subheader;
     if (bigNumber === null) {
       text = timeRangeUseFallback ? NO_DATA : NO_DATA_OR_HASNT_LANDED;
