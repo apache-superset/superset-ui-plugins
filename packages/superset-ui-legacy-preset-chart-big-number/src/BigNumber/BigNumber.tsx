@@ -204,17 +204,19 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
       timeRangeFixed,
     } = this.props;
 
+    // if can't find any non-null values, no point rendering the trendline
+    if (!trendLineData?.some(d => d.y !== null)) {
+      return null;
+    }
+
     // Apply a fixed X range if a time range is specified.
     //
-    // XYChart checks the existence of `domain` property decide whether to apply
-    // a domain or not, so it must not be `null` or `undefined`
+    // XYChart checks the existence of `domain` property and decide whether to
+    // apply a domain or not, so it must not be `null` or `undefined`
     const xScale: { type: string; domain?: number[] } = { type: 'timeUtc' };
-    const tooltipData = trendLineData?.sort(datum => datum.x);
+    const tooltipData = trendLineData && [...trendLineData];
     if (tooltipData && timeRangeFixed && fromDatetime) {
-      let { toDatetime } = this.props;
-      if (toDatetime === null) {
-        toDatetime = Date.now();
-      }
+      const toDatetime = this.props.toDatetime ?? Date.now();
       if (tooltipData[0].x > fromDatetime) {
         tooltipData.unshift({
           x: fromDatetime,
@@ -228,10 +230,6 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
         });
       }
       xScale.domain = [fromDatetime, toDatetime];
-    }
-    // if can't find any non-null values, no point rendering the trendline
-    if (!tooltipData?.some(d => d.y !== null)) {
-      return null;
     }
     return (
       <XYChart

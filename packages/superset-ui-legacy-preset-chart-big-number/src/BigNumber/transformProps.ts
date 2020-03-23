@@ -22,6 +22,13 @@ import { ChartProps } from '@superset-ui/chart';
 import getTimeFormatterForGranularity from '../utils/getTimeFormatterForGranularity';
 
 const TIME_COLUMN = '__timestamp';
+const formatPercentChange = getNumberFormatter(NumberFormats.PERCENT_SIGNED_1_POINT);
+
+// we trust both the x (time) and y (big number) to be numeric
+type BigNumberDatum = {
+  [TIME_COLUMN]: number;
+  [key: string]: number | null;
+};
 
 export default function transformProps(chartProps: ChartProps) {
   const { width, height, formData, queryData } = chartProps;
@@ -54,14 +61,12 @@ export default function transformProps(chartProps: ChartProps) {
     mainColor = color.rgb(r, g, b).hex();
   }
 
-  let bigNumber = null;
   let trendLineData = null;
   let percentChange = 0;
-
-  bigNumber = data.length === 0 ? null : data[0][metricName];
+  let bigNumber = data.length === 0 ? null : data[0][metricName];
 
   if (data.length > 0) {
-    const sortedData = [...data]
+    const sortedData = (data as BigNumberDatum[])
       .map(d => ({ x: d[TIME_COLUMN], y: d[metricName] }))
       .sort((a, b) => b.x - a.x); // sort in time descending order
 
@@ -75,15 +80,16 @@ export default function transformProps(chartProps: ChartProps) {
       const compareIndex = compareLag;
       if (compareIndex < sortedData.length) {
         const compareValue = sortedData[compareIndex].y;
-        percentChange =
-          compareValue === 0 ? 0 : (bigNumber - compareValue) / Math.abs(compareValue);
-        const formatPercentChange = getNumberFormatter(NumberFormats.PERCENT_SIGNED_1_POINT);
-        formattedSubheader = `${formatPercentChange(percentChange)} ${compareSuffix}`;
+        // compare values must both be non-nulls
+        if (bigNumber !== null && compareValue !== null && compareValue !== 0) {
+          percentChange = (bigNumber - compareValue) / Math.abs(compareValue);
+          formattedSubheader = `${formatPercentChange(percentChange)} ${compareSuffix}`;
+        }
       }
     }
 
     if (supportTrendLine) {
-      // must reverse to ascending order other wise it confuses tooltip triggers
+      // must reverse to ascending order otherwise it confuses tooltip triggers
       sortedData.reverse();
       trendLineData = supportAndShowTrendLine ? sortedData : null;
     }
