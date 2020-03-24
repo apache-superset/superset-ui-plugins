@@ -78,7 +78,8 @@ class HorizonChart extends React.PureComponent {
       yDomain = d3Extent(allValues, d => d.y);
     }
 
-    if (data.length <= 1) throw 'Please select a "Group by" option to enable multiple rows.';
+    if (data.length <= 1)
+      throw new Error('Please select a "Group by" option to enable multiple rows.');
 
     return (
       <div className={`superset-legacy-chart-horizon ${className}`} style={{ height }}>
