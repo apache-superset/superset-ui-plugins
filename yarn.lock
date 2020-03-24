@@ -87,10 +87,10 @@
   dependencies:
     "@types/react" "*"
 
-"@airbnb/lunar@^2.35.0":
-  version "2.64.2"
-  resolved "https://registry.yarnpkg.com/@airbnb/lunar/-/lunar-2.64.2.tgz#da053c914d213356d7100ee6d03b5580d5f70bb7"
-  integrity sha512-DCAuR54l0D6pBrJX2LZGQsvJ8n+mPBeYtUMvfYEg/4iXia/99XR8IUZ/02M+v3LWmC+6AZtWAJahZwJHMoQ4XQ==
+"@airbnb/lunar@^3.4.4":
+  version "3.4.4"
+  resolved "https://registry.yarnpkg.com/@airbnb/lunar/-/lunar-3.4.4.tgz#f7af7c21dbfcacf05c4fc1a17ca75ed3676bd387"
+  integrity sha512-xPseMf8oqnMf4rxvF0QeFWwwJKTL5YjYxUmp4CLxmyYj1P4OKgSUuVoEtE7eLK0c7rewPLlZ1RrPBSRLPUFE+w==
   dependencies:
     "@types/airbnb-prop-types" "*"
     "@types/hoist-non-react-statics" "*"
@@ -100,21 +100,21 @@
     "@types/react" "*"
     "@types/react-dom" "*"
     "@types/react-virtualized" "*"
-    aesthetic "^5.1.1"
-    aesthetic-adapter-aphrodite "^5.1.0"
-    aesthetic-react "^2.1.0"
+    aesthetic "^5.1.3"
+    aesthetic-adapter-aphrodite "^5.1.1"
+    aesthetic-react "^2.1.2"
     airbnb-prop-types "^2.15.0"
     aphrodite "^2.4.0"
-    copy-to-clipboard "^3.2.1"
+    copy-to-clipboard "^3.3.1"
     debounce-promise "^3.1.2"
     emojibase "^3.2.0"
     emojibase-regex "^3.2.1"
     fuse.js "^3.4.6"
     hoist-non-react-statics "^3.3.2"
-    interweave "^12.2.1"
-    interweave-autolink "^4.1.1"
-    interweave-emoji "^5.2.1"
-    interweave-emoji-picker "^5.1.1"
+    interweave "^12.2.2"
+    interweave-autolink "^4.1.2"
+    interweave-emoji "^5.2.2"
+    interweave-emoji-picker "^5.1.2"
     lodash "^4.17.15"
     luxon "^1.22.0"
     ms "^2.1.2"
@@ -122,7 +122,7 @@
     react-day-picker "7.3.2"
     react-virtualized "^9.21.2"
     shallowequal "^1.1.0"
-    uuid "^3.4.0"
+    uuid "^7.0.2"
 
 "@airbnb/nimbus-common@^2.1.3":
   version "2.1.3"
@@ -4881,36 +4881,36 @@ address@1.1.2, address@^1.0.1:
   resolved "https://registry.yarnpkg.com/address/-/address-1.1.2.tgz#bf1116c9c758c51b7a933d296b72c221ed9428b6"
   integrity sha512-aT6camzM4xEA54YVJYSqxz1kv4IHnQZRtThJJHhUMRExaU5spC7jX5ugSwTaTgJliIgs4VhZOk7htClvQ/LmRA==
 
-aesthetic-adapter-aphrodite@^5.1.0:
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/aesthetic-adapter-aphrodite/-/aesthetic-adapter-aphrodite-5.1.1.tgz#e26f1464706143684c96678ef4b6f68e98cf0d16"
-  integrity sha512-MHlPV49ue4FxdKpWJQNY25Wfb1lKwzYF+H83G0NLZPm2J3wYzdtE93u/1qeBmBSDXuxiKhQ/weVAw08t9k7Xtg==
+aesthetic-adapter-aphrodite@^5.1.1:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/aesthetic-adapter-aphrodite/-/aesthetic-adapter-aphrodite-5.1.2.tgz#2f6b0405ea2f1c877c4657ff28dcf6bb65f844c3"
+  integrity sha512-DjUTKlKDTJsLyHpIqv4Jvv7ReNC2iVb3KijztXTwLaMUgfq88VC5AwxCk/nzRNGoC+FWzZPUSdyFuQA4TEk0tg==
   dependencies:
-    aesthetic-utils "^3.0.1"
+    aesthetic-utils "^3.0.2"
 
-aesthetic-react@^2.1.0:
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/aesthetic-react/-/aesthetic-react-2.1.2.tgz#0192c90b3bf24c2c10821f35e646904f13cc5e10"
-  integrity sha512-TJFyULJqH5euNlLXRn+ol3m8xu5NfkBQVTxpFSyylBIGlUwpEjSYzN2zhmk85XGF1/WXru2Pa6PBxdhGvC+N4A==
+aesthetic-react@^2.1.2:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/aesthetic-react/-/aesthetic-react-2.1.3.tgz#11f618e2712e3a7582fe4e7cc627a97503f7e29d"
+  integrity sha512-m3wQtKMIczPRFYMwUB/2TCcQlqlU40jYtEgVq1zW8BsWfEGSq0QjYWag83vkl/x19fwXvQxFLg+XRnxKHdC9Zg==
   dependencies:
     "@types/react" "*"
-    aesthetic-utils "^3.0.1"
+    aesthetic-utils "^3.0.2"
     direction "^1.0.4"
     hoist-non-react-statics "^3.3.2"
     prop-types "^15.7.2"
     uuid "^7.0.1"
 
-aesthetic-utils@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/aesthetic-utils/-/aesthetic-utils-3.0.1.tgz#1e6698fccfb834de3899ddc1c2613d5633a173fd"
-  integrity sha512-nLJeu0wMsdLwgi4S0hbLbbSlyonhu0BYQqoAj9buj8HO0LtQBGEI+vGjvw5NfmMnxfZ0ukiwNgHM7CXhTCfwMg==
+aesthetic-utils@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/aesthetic-utils/-/aesthetic-utils-3.0.2.tgz#e74f27538e95bcda3b5419ec851a13968d19c35a"
+  integrity sha512-LwZVjmsom2bjtDVUwyWzhUzu5sKzqGI58iaeI+qWaxBhNYxRybpAQ7QlYoGvv7EN2fS8gGfnUcYh174DtPeyvQ==
 
-aesthetic@^5.1.1:
-  version "5.1.3"
-  resolved "https://registry.yarnpkg.com/aesthetic/-/aesthetic-5.1.3.tgz#709b6dfd9e85e91b9cf323adebf6af8324b1a0cb"
-  integrity sha512-HVA7R8aKDc3/S51pm09oIt34O7P8Db2WGL5BmpPdYRz8YrUlRIsT7ZEzHiZeNb+63UhEFKGZoQFvBHsdtJW0yA==
+aesthetic@^5.1.3:
+  version "5.1.4"
+  resolved "https://registry.yarnpkg.com/aesthetic/-/aesthetic-5.1.4.tgz#2b6ebf41a69abf0a0e96261a20102685fe35fbec"
+  integrity sha512-UAVp4NER0W3Iu9trfcwKa+cIRCb442z4qY8iFk7Mg8DxidQ8SE2joEKxHqLPKS/vxUO4oP6+ozO5WeWp2JqWDA==
   dependencies:
-    aesthetic-utils "^3.0.1"
+    aesthetic-utils "^3.0.2"
     csstype "^2.6.9"
     extend "^3.0.2"
     rtl-css-js "^1.14.0"
@@ -7103,7 +7103,7 @@ copy-descriptor@^0.1.0:
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
   integrity sha1-Z29us8OZl8LuGsOpJP1hJHSPV40=
 
-copy-to-clipboard@^3.0.8, copy-to-clipboard@^3.2.1:
+copy-to-clipboard@^3.0.8, copy-to-clipboard@^3.3.1:
   version "3.3.1"
   resolved "https://registry.yarnpkg.com/copy-to-clipboard/-/copy-to-clipboard-3.3.1.tgz#115aa1a9998ffab6196f93076ad6da3b913662ae"
   integrity sha512-i13qo6kIHTTpCm8/Wup+0b1mVWETvu2kIMzKoK8FpkLkFxlt0znUAHcMzox+T8sPlqtZXq3CulEjQHsYiGFJUw==
@@ -8278,6 +8278,11 @@ emojibase-regex@^3.2.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/emojibase-regex/-/emojibase-regex-3.2.1.tgz#122935958c9a49c96bb29ac69ccbbac0b2e7022d"
   integrity sha512-VAX2Rc2U/alu5q6P2cET2alzC63o1Uarm6Ea/b3ab+KOzxZT4JKmB0tCU1sTZvfNKa16KMLCK2k7hJBHJq4vWQ==
+
+emojibase-regex@^4.0.0:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/emojibase-regex/-/emojibase-regex-4.0.1.tgz#a2cd4bbb42825422da9ec72f15e970bc2c90b46a"
+  integrity sha512-S42UHkFfz15i4NNz+wi9iMKFo+B6Kalc6PJLpYX0BUANViXw4vSyYZMFdBGRLduSabWHuEcTLZl9xOa2YP3eJw==
 
 emojibase@^3.2.0:
   version "3.2.0"
@@ -10714,18 +10719,18 @@ interpret@^2.0.0:
   resolved "https://registry.yarnpkg.com/interpret/-/interpret-2.0.0.tgz#b783ffac0b8371503e9ab39561df223286aa5433"
   integrity sha512-e0/LknJ8wpMMhTiWcjivB+ESwIuvHnBSlBbmP/pSb8CQJldoj1p2qv7xGZ/+BtbTziYRFSz8OsvdbiX45LtYQA==
 
-interweave-autolink@^4.1.1:
-  version "4.1.2"
-  resolved "https://registry.yarnpkg.com/interweave-autolink/-/interweave-autolink-4.1.2.tgz#42bf476e8d73fa256ef22a61dc678f551a23612f"
-  integrity sha512-wZHpTD0YbpPGjmOH/IiNjdvwz+UCVG9tlCF1KiFYP6OKFONDOADlMeQOMhGm/+/ax4KBiDcKfIf16rJ74D909w==
+interweave-autolink@^4.1.2:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/interweave-autolink/-/interweave-autolink-4.2.1.tgz#b875e67970512484e47666adf952b9025743bd9d"
+  integrity sha512-ziSNh+zwScJ9ZLPBeMpKCqqCNbkhfqKKDof4+uU2onPTmWIWJpLqtR8tDSstT9UqLTm3O/z1rgXvnd5hXlol1g==
   dependencies:
     "@types/react" "*"
     prop-types "^15.7.2"
 
-interweave-emoji-picker@^5.1.1:
-  version "5.1.2"
-  resolved "https://registry.yarnpkg.com/interweave-emoji-picker/-/interweave-emoji-picker-5.1.2.tgz#7e263f5cd0b95b2d59e09d5a48996a89aeae45d7"
-  integrity sha512-wXoXEXGhUoH2sraD/tStmgKKQ4ENdce8IkKCIkeOLe9jBZUQWZdSgGrP5BQUQFEkt+hae0HDZsQApnjoZIWoEw==
+interweave-emoji-picker@^5.1.2:
+  version "5.2.0"
+  resolved "https://registry.yarnpkg.com/interweave-emoji-picker/-/interweave-emoji-picker-5.2.0.tgz#728de7bf6a5e339f5cfa6c2dbb4153d31d8147ad"
+  integrity sha512-apeafa1Ma2PQkjjDFhJ8we9skBl9/5ctZlKlUSHrfvlezrsY57IZZOARTxdO1GCYg5xzLpDXFvv4lcOE5wG2lA==
   dependencies:
     "@types/react" "*"
     "@types/react-window" "*"
@@ -10733,19 +10738,19 @@ interweave-emoji-picker@^5.1.1:
     prop-types "^15.7.2"
     react-window "^1.8.5"
 
-interweave-emoji@^5.2.1:
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/interweave-emoji/-/interweave-emoji-5.2.2.tgz#3674a7e4149187aa205aa4faf48458c809fffc19"
-  integrity sha512-qENm0QQbPi85ZDuv0aoghm2MyJFrkgukPl5bBaJbCfq/6UXcHcSLsocXUOmP53l2/9h1Owi0zFbwH+MZwu7zgA==
+interweave-emoji@^5.2.2:
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/interweave-emoji/-/interweave-emoji-5.3.0.tgz#a41eb8116d511ec108c25f26782cbb160f70744a"
+  integrity sha512-rm9E/bdv9qwdSlUGsUhFmuG+x1zJyEXgYvymDi3Ir7CIdgwHK/x18UBNpHJuWstwcJfxeuxU3fasaWszXSgIbA==
   dependencies:
     "@types/react" "*"
-    emojibase-regex "^3.2.1"
+    emojibase-regex "^4.0.0"
     prop-types "^15.7.2"
 
-interweave@^12.2.1:
-  version "12.2.2"
-  resolved "https://registry.yarnpkg.com/interweave/-/interweave-12.2.2.tgz#70e33b973d31ffe7fc7e120b585bb26607346880"
-  integrity sha512-H0xDqyV+IfdMTP2Ui9TixBl0CFip6Fx7GpzGiVTF1L50iLvJv6qsB9q/rc41lYS7VVgB3IiosruBdB0wh1c5yg==
+interweave@^12.2.2:
+  version "12.5.0"
+  resolved "https://registry.yarnpkg.com/interweave/-/interweave-12.5.0.tgz#c1c6cbda55e3d2864c94eeed8e86f4159111f493"
+  integrity sha512-R6PE+FkhexspBwBS9wa+w0ZHORsXpFgDoLTKt+kazZRZVlO9+b0bpOcimMQ77hY+UwcE3eppGqhsNUVi3EfQmQ==
   dependencies:
     "@types/react" "*"
     escape-html "^1.0.3"
@@ -17550,12 +17555,12 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
 
-uuid@^3.0.1, uuid@^3.3.2, uuid@^3.4.0:
+uuid@^3.0.1, uuid@^3.3.2:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
 
-uuid@^7.0.1:
+uuid@^7.0.1, uuid@^7.0.2:
   version "7.0.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-7.0.2.tgz#7ff5c203467e91f5e0d85cfcbaaf7d2ebbca9be6"
   integrity sha512-vy9V/+pKG+5ZTYKf+VcphF5Oc6EFiu3W8Nv3P3zIh0EqVI80ZxOzuPfe9EHjkFNvf8+xuTHVeei4Drydlx4zjw==
