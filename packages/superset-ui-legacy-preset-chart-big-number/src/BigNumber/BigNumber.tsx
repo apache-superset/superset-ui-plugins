@@ -18,6 +18,7 @@
  */
 import React from 'react';
 import shortid from 'shortid';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { t } from '@superset-ui/translation';
 import { getNumberFormatter } from '@superset-ui/number-format';
 import { XYChart, AreaSeries, CrossHair, LinearGradient } from '@data-ui/xy-chart';
@@ -39,8 +40,10 @@ const CHART_MARGIN = {
 };
 
 const PROPORTION = {
+  // text size: proportion of the chart container sans trendline
   HEADER: 0.3,
   SUBHEADER: 0.125,
+  // trendline size: proportion of the whole chart container
   TRENDLINE: 0.3,
 };
 
@@ -71,6 +74,7 @@ type BigNumberVisProps = {
   width: number;
   height: number;
   bigNumber: number;
+  bigNumberFallback?: TimeSeriesDatum;
   formatNumber: NumberFormatter;
   formatTime: TimeFormatter;
   fromDatetime: number;
@@ -81,7 +85,6 @@ type BigNumberVisProps = {
   showTrendLine: boolean;
   startYAxisAtZero: boolean;
   timeRangeFixed: boolean;
-  timeRangeUseFallback: boolean;
   trendLineData?: TimeSeriesDatum[];
   mainColor: string;
 };
@@ -90,6 +93,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
   private gradientId: string = shortid.generate();
 
   static defaultProps = {
+    bigNumberFallback: null,
     className: '',
     formatNumber: (num: number) => String(num),
     formatTime: smartDateVerboseFormatter.formatFunc,
@@ -101,18 +105,16 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
     subheader: '',
     subheaderFontSize: PROPORTION.SUBHEADER,
     timeRangeFixed: false,
-    timeRangeUseFallback: false,
     toDatetime: null,
     trendLineData: null,
   };
 
   getClassName() {
-    const { className, showTrendLine } = this.props;
-    const names = `superset-legacy-chart-big-number ${className}`;
-    if (showTrendLine) {
-      return names;
-    }
-
+    const { className, showTrendLine, bigNumberFallback } = this.props;
+    const names = `superset-legacy-chart-big-number ${className} ${
+      bigNumberFallback ? 'is-fallback-value' : ''
+    }`;
+    if (showTrendLine) return names;
     return `${names} no-trendline`;
   }
 
@@ -121,24 +123,37 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
     container.className = this.getClassName();
     container.style.position = 'absolute'; // so it won't disrupt page layout
     container.style.opacity = '0'; // and not visible
-
     return container;
   }
 
   renderHeader(maxHeight: number) {
-    const { bigNumber, formatNumber, width } = this.props;
+    const { bigNumber, bigNumberFallback, formatNumber, formatTime, width } = this.props;
     const text = bigNumber === null ? t('No data') : formatNumber(bigNumber);
 
     const container = this.createTemporaryContainer();
     document.body.append(container);
     const fontSize = computeMaxFontSize({
       text,
-      maxWidth: Math.floor(width),
+      maxWidth: width,
       maxHeight,
       className: 'header-line',
       container,
     });
     document.body.removeChild(container);
+
+    let textContent = text;
+    if (bigNumberFallback) {
+      const tooltip = (
+        <Tooltip id="big-number-fallback-tooltip">
+          {t(`As of %s`, formatTime(bigNumberFallback.x))}
+        </Tooltip>
+      );
+      textContent = (
+        <OverlayTrigger overlay={tooltip} trigger={['hover', 'focus']}>
+          <span>{text}</span>
+        </OverlayTrigger>
+      );
+    }
 
     return (
       <div
@@ -148,13 +163,13 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
           height: maxHeight,
         }}
       >
-        <span>{text}</span>
+        {textContent}
       </div>
     );
   }
 
   renderSubheader(maxHeight: number) {
-    const { bigNumber, subheader, width, timeRangeUseFallback } = this.props;
+    const { bigNumber, subheader, width, bigNumberFallback } = this.props;
     let fontSize = 0;
 
     const NO_DATA_OR_HASNT_LANDED = t(
@@ -163,32 +178,33 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
     const NO_DATA = t('Try applying different filters or ensuring your datasource has data');
     let text = subheader;
     if (bigNumber === null) {
-      text = timeRangeUseFallback ? NO_DATA : NO_DATA_OR_HASNT_LANDED;
+      text = bigNumberFallback ? NO_DATA : NO_DATA_OR_HASNT_LANDED;
     }
     if (text) {
       const container = this.createTemporaryContainer();
       document.body.append(container);
       fontSize = computeMaxFontSize({
         text,
-        maxWidth: Math.floor(width),
+        maxWidth: width,
         maxHeight,
         className: 'subheader-line',
         container,
       });
       document.body.removeChild(container);
-    }
 
-    return (
-      <div
-        className="subheader-line"
-        style={{
-          fontSize,
-          height: maxHeight,
-        }}
-      >
-        {text}
-      </div>
-    );
+      return (
+        <div
+          className="subheader-line"
+          style={{
+            fontSize,
+            height: maxHeight,
+          }}
+        >
+          {text}
+        </div>
+      );
+    }
+    return null;
   }
 
   renderTrendline(maxHeight: number) {
@@ -235,6 +251,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
       <XYChart
         snapTooltipToDataX
         ariaLabel={`Big number visualization ${subheader}`}
+        renderTooltip={renderTooltipFactory(formatTime, formatNumber)}
         xScale={xScale}
         yScale={{
           type: 'linear',
@@ -243,7 +260,6 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
         width={Math.floor(width)}
         height={maxHeight}
         margin={CHART_MARGIN}
-        renderTooltip={renderTooltipFactory(formatTime, formatNumber)}
         eventTrigger="container"
       >
         <LinearGradient id={this.gradientId} from={mainColor} to="#fff" />

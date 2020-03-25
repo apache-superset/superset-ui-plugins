@@ -45,7 +45,6 @@ export default function transformProps(chartProps: ChartProps) {
     timeGrainSqla: granularity,
     vizType,
     timeRangeFixed = false,
-    timeRangeUseFallback = false,
   } = formData;
   let { yAxisFormat } = formData;
   const { data, from_dttm: fromDatetime, to_dttm: toDatetime } = queryData;
@@ -64,6 +63,7 @@ export default function transformProps(chartProps: ChartProps) {
   let trendLineData = null;
   let percentChange = 0;
   let bigNumber = data.length === 0 ? null : data[0][metricName];
+  let bigNumberFallback = null;
 
   if (data.length > 0) {
     const sortedData = (data as BigNumberDatum[])
@@ -71,9 +71,9 @@ export default function transformProps(chartProps: ChartProps) {
       .sort((a, b) => b.x - a.x); // sort in time descending order
 
     bigNumber = sortedData[0].y;
-    if (bigNumber === null && timeRangeUseFallback) {
-      const lastAvailable = sortedData.find(d => d.y !== null);
-      bigNumber = lastAvailable ? lastAvailable.y : null;
+    if (bigNumber === null) {
+      bigNumberFallback = sortedData.find(d => d.y !== null);
+      bigNumber = bigNumberFallback ? bigNumberFallback.y : null;
     }
 
     if (compareLag > 0) {
@@ -120,6 +120,7 @@ export default function transformProps(chartProps: ChartProps) {
     width,
     height,
     bigNumber,
+    bigNumberFallback,
     className,
     formatNumber,
     formatTime,
@@ -132,7 +133,6 @@ export default function transformProps(chartProps: ChartProps) {
     trendLineData,
     fromDatetime,
     toDatetime,
-    timeRangeUseFallback,
     timeRangeFixed,
   };
 }
