@@ -33,6 +33,7 @@
     "@types/react-bootstrap": "^0.32.20",
     "@types/shortid": "0.0.29",
     "d3-color": "^1.2.3",
+    "react-bootstrap": "^0.31.5",
     "shortid": "^2.2.14"
   },
   "peerDependencies": {
@@ -43,7 +44,6 @@
     "@superset-ui/number-format": "^0.12.0",
     "@superset-ui/time-format": "^0.12.0",
     "@superset-ui/translation": "^0.12.0",
-    "react-bootstrap": "^0.31.5",
     "bootstrap": "^3.4.1",
     "react": "^15 || ^16"
   }
