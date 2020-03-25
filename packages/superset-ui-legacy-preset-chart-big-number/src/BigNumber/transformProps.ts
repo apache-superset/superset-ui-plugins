@@ -60,10 +60,10 @@ export default function transformProps(chartProps: ChartProps) {
     mainColor = color.rgb(r, g, b).hex();
   }
 
-  let trendLineData = null;
+  let trendLineData;
   let percentChange = 0;
   let bigNumber = data.length === 0 ? null : data[0][metricName];
-  let bigNumberFallback = null;
+  let bigNumberFallback;
 
   if (data.length > 0) {
     const sortedData = (data as BigNumberDatum[])
@@ -91,7 +91,7 @@ export default function transformProps(chartProps: ChartProps) {
     if (supportTrendLine) {
       // must reverse to ascending order otherwise it confuses tooltip triggers
       sortedData.reverse();
-      trendLineData = supportAndShowTrendLine ? sortedData : null;
+      trendLineData = supportAndShowTrendLine ? sortedData : undefined;
     }
   }
 

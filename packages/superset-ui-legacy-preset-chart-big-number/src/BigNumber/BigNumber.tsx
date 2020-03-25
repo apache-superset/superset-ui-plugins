@@ -30,7 +30,7 @@ import TimeFormatter from '@superset-ui/time-format/lib/TimeFormatter';
 
 import './BigNumber.css';
 
-const defaultNumberFormatter = getNumberFormatter(undefined);
+const defaultNumberFormatter = getNumberFormatter();
 
 const CHART_MARGIN = {
   top: 4,
@@ -73,12 +73,12 @@ type BigNumberVisProps = {
   className?: string;
   width: number;
   height: number;
-  bigNumber: number;
+  bigNumber: number | null;
   bigNumberFallback?: TimeSeriesDatum;
   formatNumber: NumberFormatter;
   formatTime: TimeFormatter;
-  fromDatetime: number;
-  toDatetime: number;
+  fromDatetime?: number;
+  toDatetime?: number;
   headerFontSize: number;
   subheader: string;
   subheaderFontSize: number;
@@ -93,11 +93,9 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
   private gradientId: string = shortid.generate();
 
   static defaultProps = {
-    bigNumberFallback: null,
     className: '',
     formatNumber: (num: number) => String(num),
     formatTime: smartDateVerboseFormatter.formatFunc,
-    fromDatetime: null,
     headerFontSize: PROPORTION.HEADER,
     mainColor: BRAND_COLOR,
     showTrendLine: false,
@@ -105,8 +103,6 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
     subheader: '',
     subheaderFontSize: PROPORTION.SUBHEADER,
     timeRangeFixed: false,
-    toDatetime: null,
-    trendLineData: null,
   };
 
   getClassName() {
