@@ -33,6 +33,15 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
+}
+
+.superset-legacy-chart-big-number .text-container .alert {
+  font-size: 11px;
+  margin: 0 0 0.8em;
+  line-height: 1;
+  padding: 2px 4px 3px;
+  border-radius: 3px;
 }
 
 .superset-legacy-chart-big-number .header-line {

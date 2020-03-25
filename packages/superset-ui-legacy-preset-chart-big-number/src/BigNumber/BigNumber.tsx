@@ -18,7 +18,6 @@
  */
 import React from 'react';
 import shortid from 'shortid';
-import { OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { t } from '@superset-ui/translation';
 import { getNumberFormatter } from '@superset-ui/number-format';
 import { XYChart, AreaSeries, CrossHair, LinearGradient } from '@data-ui/xy-chart';
@@ -73,7 +72,7 @@ type BigNumberVisProps = {
   className?: string;
   width: number;
   height: number;
-  bigNumber: number | null;
+  bigNumber?: number | null;
   bigNumberFallback?: TimeSeriesDatum;
   formatNumber: NumberFormatter;
   formatTime: TimeFormatter;
@@ -82,9 +81,9 @@ type BigNumberVisProps = {
   headerFontSize: number;
   subheader: string;
   subheaderFontSize: number;
-  showTrendLine: boolean;
-  startYAxisAtZero: boolean;
-  timeRangeFixed: boolean;
+  showTrendLine?: boolean;
+  startYAxisAtZero?: boolean;
+  timeRangeFixed?: boolean;
   trendLineData?: TimeSeriesDatum[];
   mainColor: string;
 };
@@ -122,8 +121,22 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
     return container;
   }
 
+  renderFallbackWarning() {
+    const { bigNumberFallback, formatTime } = this.props;
+    if (!bigNumberFallback) return null;
+    return (
+      <span
+        className="alert alert-warning"
+        role="alert"
+        title={t(`Last available value seen on %s`, formatTime(bigNumberFallback.x))}
+      >
+        {t('Not up to date')}
+      </span>
+    );
+  }
+
   renderHeader(maxHeight: number) {
-    const { bigNumber, bigNumberFallback, formatNumber, formatTime, width } = this.props;
+    const { bigNumber, formatNumber, width } = this.props;
     const text = bigNumber === null ? t('No data') : formatNumber(bigNumber);
 
     const container = this.createTemporaryContainer();
@@ -137,20 +150,6 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
     });
     document.body.removeChild(container);
 
-    let textContent = text;
-    if (bigNumberFallback) {
-      const tooltip = (
-        <Tooltip id="big-number-fallback-tooltip">
-          {t(`As of %s`, formatTime(bigNumberFallback.x))}
-        </Tooltip>
-      );
-      textContent = (
-        <OverlayTrigger overlay={tooltip} trigger={['hover', 'focus']}>
-          <span>{text}</span>
-        </OverlayTrigger>
-      );
-    }
-
     return (
       <div
         className="header-line"
@@ -159,7 +158,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
           height: maxHeight,
         }}
       >
-        {textContent}
+        {text}
       </div>
     );
   }
@@ -283,6 +282,7 @@ class BigNumberVis extends React.PureComponent<BigNumberVisProps, {}> {
       return (
         <div className={className}>
           <div className="text-container" style={{ height: allTextHeight }}>
+            {this.renderFallbackWarning()}
             {this.renderHeader(Math.ceil(headerFontSize * (1 - PROPORTION.TRENDLINE) * height))}
             {this.renderSubheader(
               Math.ceil(subheaderFontSize * (1 - PROPORTION.TRENDLINE) * height),
