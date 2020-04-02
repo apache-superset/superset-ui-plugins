@@ -2,12 +2,6 @@ import { CSSProperties } from 'react';
 import { EncodingConfig } from 'encodable/lib/types/Encoding';
 import { LegendGroupInformation, LegendItemInformation } from 'encodable/lib/types/Legend';
 
-// export type LegendItemInfo<Config extends EncodingConfig> = {
-//   field: string;
-//   value: ChannelInput;
-//   encodedValues: Partial<Record<keyof Encoding, Value | undefined>>;
-// };
-
 export type LegendItemMarkRendererType<Config extends EncodingConfig> = React.ComponentType<{
   group: LegendGroupInformation<Config>;
   item: LegendItemInformation<Config>;
