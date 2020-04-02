@@ -16,7 +16,7 @@ export default function DefaultTooltipRenderer({
   const { label, min, max, median, firstQuartile, thirdQuartile, outliers } = datum;
   const { channels } = encoder;
 
-  const formatValue = channels.y.formatValue;
+  const { formatValue } = channels.y;
 
   const data = [];
   if (isDefined(min)) {
