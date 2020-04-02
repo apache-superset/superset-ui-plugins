@@ -6,7 +6,7 @@ import { WithLegend } from '@superset-ui/chart-composition';
 import Encoder, { Encoding, ChannelOutput } from './Encoder';
 import { Dataset, PlainObject } from '../encodeable/types/Data';
 import { PartialSpec } from '../encodeable/types/Specification';
-import createMarginSelector, { DEFAULT_MARGIN } from '../utils/selectors/createMarginSelector';
+import createMarginSelector, { DEFAULT_MARGIN } from '../utils2/createMarginSelector';
 import DefaultTooltipRenderer from './DefaultTooltipRenderer';
 import convertScaleToDataUIScale from '../utils/convertScaleToDataUIScaleShape';
 import { isScaleFieldDef } from '../encodeable/types/ChannelDef';
