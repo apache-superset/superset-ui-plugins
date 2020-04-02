@@ -22,9 +22,9 @@ export default function DefaultLegendItem<Config extends EncodingConfig>({
               // @ts-ignore
               (item.output.color ??
                 // @ts-ignore
-                item.output.stroke ??
-                // @ts-ignore
                 item.output.fill ??
+                // @ts-ignore
+                item.output.stroke ??
                 '#ccc') as string
             }
             stroke={
