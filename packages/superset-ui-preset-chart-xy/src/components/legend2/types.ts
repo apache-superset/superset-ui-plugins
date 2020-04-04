@@ -2,15 +2,22 @@ import { CSSProperties } from 'react';
 import { EncodingConfig } from 'encodable/lib/types/Encoding';
 import { LegendGroupInformation, LegendItemInformation } from 'encodable/lib/types/Legend';
 
-export type LegendItemMarkRendererType<Config extends EncodingConfig> = React.ComponentType<{
+export type LegendItemMarkRendererProps<Config extends EncodingConfig> = {
   group: LegendGroupInformation<Config>;
   item: LegendItemInformation<Config>;
-}>;
+};
 
-export type LegendItemLabelRendererType<Config extends EncodingConfig> = React.ComponentType<{
-  group: LegendGroupInformation<Config>;
-  item: LegendItemInformation<Config>;
-}>;
+export type LegendItemMarkRendererType<Config extends EncodingConfig> = React.ComponentType<
+  LegendItemMarkRendererProps<Config>
+>;
+
+export type LegendItemLabelRendererProps<
+  Config extends EncodingConfig
+> = LegendItemMarkRendererProps<Config>;
+
+export type LegendItemLabelRendererType<Config extends EncodingConfig> = React.ComponentType<
+  LegendItemLabelRendererProps<Config>
+>;
 
 export type LegendItemRendererProps<Config extends EncodingConfig> = {
   group: LegendGroupInformation<Config>;
