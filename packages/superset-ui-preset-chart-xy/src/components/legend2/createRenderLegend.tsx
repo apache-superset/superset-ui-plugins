@@ -3,7 +3,7 @@ import { Encoder } from 'encodable';
 import { EncodingConfig } from 'encodable/lib/types/Encoding';
 import { LegendHooks } from './types';
 import DefaultLegend from './DefaultLegend';
-import { Dataset } from '../../encodeable/types/Data';
+import { Dataset } from 'encodable/lib/types/Data';
 
 export default function createRenderLegend<Config extends EncodingConfig>(
   encoder: Encoder<Config>,

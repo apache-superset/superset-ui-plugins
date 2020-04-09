@@ -10,14 +10,14 @@ import {
   BoxPlotEncoder,
   boxPlotEncoderFactory,
 } from './Encoder';
-import { Dataset, PlainObject } from '../encodeable/types/Data';
+import { Dataset, PlainObject } from 'encodable/lib/types/Data';
 import createMarginSelector, { DEFAULT_MARGIN } from '../utils2/createMarginSelector';
 import { BoxPlotDataRow } from './types';
 import convertScaleToDataUIScale from '../utils/convertScaleToDataUIScaleShape';
 import createXYChartLayoutWithTheme from '../utils2/createXYChartLayoutWithTheme';
 import createRenderLegend from '../components/legend2/createRenderLegend';
 import { LegendHooks } from '../components/legend2/types';
-import { isFieldDef } from '../encodeable/types/ChannelDef';
+import { isFieldDef } from 'encodable/lib/typeGuards/ChannelDef';
 
 export interface TooltipProps {
   datum: BoxPlotDataRow;

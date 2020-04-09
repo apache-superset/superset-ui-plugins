@@ -8,8 +8,7 @@ import { XFieldDef, YFieldDef } from 'encodable/lib/types/ChannelDef';
 import { Value } from 'encodable/lib/types/VegaLite';
 import { DEFAULT_LABEL_ANGLE } from '../utils/constants';
 import createTickComponent from './createTickComponent';
-import { AxisLayout } from '../encodeable/AxisAgent';
-import computeAxisLayout from './computeAxisLayout';
+import computeAxisLayout, { AxisLayout } from './computeAxisLayout';
 
 // Additional margin to avoid content hidden behind scroll bar
 const OVERFLOW_MARGIN = 8;
