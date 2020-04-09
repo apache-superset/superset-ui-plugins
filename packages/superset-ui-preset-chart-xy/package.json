@@ -41,12 +41,10 @@
     "csstype": "^2.6.3",
     "d3-array": "^2.1.0",
     "d3-scale": "^3.0.0",
-    "encodable": "^0.2.6",
+    "encodable": "^0.3.0",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.2",
-    "reselect": "^4.0.0",
-    "vega": "^5.8.1",
-    "vega-lite": "~4.1.1"
+    "reselect": "^4.0.0"
   },
   "peerDependencies": {
     "@superset-ui/chart": "^0.12.0",
