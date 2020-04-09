@@ -6,9 +6,10 @@ import { ChannelEncoder } from 'encodable';
 import { PlainObject } from 'encodable/lib/types/Data';
 import { XFieldDef, YFieldDef } from 'encodable/lib/types/ChannelDef';
 import { Value } from 'encodable/lib/types/VegaLite';
-import { DEFAULT_LABEL_ANGLE } from '../utils/constants';
 import createTickComponent from './createTickComponent';
 import computeAxisLayout, { AxisLayout } from './computeAxisLayout';
+
+export const DEFAULT_LABEL_ANGLE = 40;
 
 // Additional margin to avoid content hidden behind scroll bar
 const OVERFLOW_MARGIN = 8;

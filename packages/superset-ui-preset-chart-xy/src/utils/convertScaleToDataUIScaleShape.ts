@@ -1,5 +1,5 @@
-import { Value } from "encodable/lib/types/VegaLite";
-import { ScaleConfig } from "encodable/lib/types/Scale";
+import { Value } from 'encodable/lib/types/VegaLite';
+import { ScaleConfig } from 'encodable/lib/types/Scale';
 
 type DataUIScaleType = 'time' | 'timeUtc' | 'linear' | 'band';
 
@@ -28,7 +28,9 @@ function isCompatibleDomainOrRange(
  * Convert encodeable scale object into @data-ui's scale config
  * @param scale
  */
-export default function convertScaleToDataUIScale<Output extends Value>(scale: ScaleConfig<Output>) {
+export default function convertScaleToDataUIScale<Output extends Value>(
+  scale: ScaleConfig<Output>,
+) {
   const { type, domain, range } = scale;
 
   let outputType: DataUIScaleType;
