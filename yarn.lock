@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@airbnb/config-babel@^2.1.3":
+"@airbnb/config-babel@^2.2.2":
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/@airbnb/config-babel/-/config-babel-2.2.4.tgz#acdcad5ef0bb13ea7802f652324c54af5cfcb68d"
   integrity sha512-Fv6REtlTxwMKPRg+HeooJ/WznZ9Ed0a6V/s1Oc5DAlO7b4WhvZf2DU3bDlyY4Svi633eBB1H+DFsWzESidf5wQ==
@@ -24,7 +24,7 @@
     babel-plugin-transform-react-remove-prop-types "^0.4.24"
     babel-plugin-typescript-to-proptypes "^1.2.1"
 
-"@airbnb/config-eslint@^2.1.3":
+"@airbnb/config-eslint@^2.5.1":
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/@airbnb/config-eslint/-/config-eslint-2.6.0.tgz#4e9d6cedf8cc2ebe553ad616c17f27ee502ec579"
   integrity sha512-dLjs2rr97gS06heH1sLceoQGB3U5RLZ5p4oO+CBzAcWwCrv7QwIDsbNIbnJWuj6unb+CY91818h+cX2GdbAshg==
@@ -47,7 +47,7 @@
     eslint-plugin-react-hooks "^2.4.0"
     eslint-plugin-unicorn "^16.1.1"
 
-"@airbnb/config-jest@^2.1.3":
+"@airbnb/config-jest@^2.2.2":
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/@airbnb/config-jest/-/config-jest-2.2.4.tgz#ed68c745b048af36994134538fc82ef57f318469"
   integrity sha512-UOmUDBmvN2nFUe7LrrbXo3+OHiYW5utnkbqrtFiq5RS9kZhbDZ2Ihe74pYvpZISKaZid5iEJJDcOnibs9KA18Q==
@@ -61,7 +61,7 @@
     dom-storage "^2.1.0"
     jest "^25.1.0"
 
-"@airbnb/config-prettier@^2.0.4":
+"@airbnb/config-prettier@^2.1.1":
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/@airbnb/config-prettier/-/config-prettier-2.1.3.tgz#e01f07b42db5926afb27292676b62b9aac1251b0"
   integrity sha512-R59UG7/LtwR/AixG2yqdMQ8sOkidQBCyzbST4oY+cjiLYmneMOjGFYZQfU+FTcsDT0xPP5/lqO9vrp53MajRaw==
@@ -71,7 +71,7 @@
     "@beemo/driver-prettier" "^1.2.2"
     prettier "^1.19.1"
 
-"@airbnb/config-typescript@^2.1.2":
+"@airbnb/config-typescript@^2.2.2":
   version "2.2.4"
   resolved "https://registry.yarnpkg.com/@airbnb/config-typescript/-/config-typescript-2.2.4.tgz#b5df246a1c64a564e9b56f17ffbd288289b69681"
   integrity sha512-jtgYi+CUSA0pKtQXCI7EZ6yVr+NwIJZkH124V7KKoqujYjooEgS9Bac2ZuHXn8W+786f0TwMnZhhp0SWZmzvQQ==
@@ -134,7 +134,7 @@
     execa "^4.0.0"
     fast-glob "^3.2.2"
 
-"@airbnb/nimbus@^2.1.3":
+"@airbnb/nimbus@^2.2.3":
   version "2.2.5"
   resolved "https://registry.yarnpkg.com/@airbnb/nimbus/-/nimbus-2.2.5.tgz#b45d639558688ccf810b7083193c174876af408b"
   integrity sha512-9erFcotmwJpfACsyO8vjRr9CCvvy3EwnhMBijX4T0cagJOA8Hb4HXkw+79EkTW6SYdBFScbdMhySIcBaZOTe/A==
@@ -17685,7 +17685,7 @@ vega-hierarchy@4.0.3:
     vega-dataflow "^5.4.0"
     vega-util "^1.11.0"
 
-vega-lite@~4.1.0, vega-lite@~4.1.1:
+vega-lite@~4.1.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/vega-lite/-/vega-lite-4.1.1.tgz#f6e6cae4e0518c66afd0298fb544b6a35290437b"
   integrity sha512-D2seO6ZbY8aZQ8+ZQfU+5NYwot3ryIDyvdQdcVoupMSgJ/oGv4QqEwL3rmu8abdSG6NhFiac0trsI+wBb0F6vQ==
@@ -17921,7 +17921,7 @@ vega-wordcloud@4.0.4:
     vega-statistics "^1.7.1"
     vega-util "^1.12.1"
 
-vega@^5.8.1, vega@^5.9.1:
+vega@^5.9.1:
   version "5.9.1"
   resolved "https://registry.yarnpkg.com/vega/-/vega-5.9.1.tgz#8c4cd23630ba6b4422342a4825234a7d1e0a9957"
   integrity sha512-Wd5WAfaXPGuHk5cSFqiFNkkw5DXRSZcl+q4x351VUbmV5/IRipyGZx05EbBP5D9B40Xb/Tt2I+JQBBdxuYYIxQ==
