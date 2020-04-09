@@ -3,6 +3,8 @@ import { BoxPlotSeries, XYChart } from '@data-ui/xy-chart';
 import { chartTheme, ChartTheme } from '@data-ui/theme';
 import { Margin, Dimension } from '@superset-ui/dimension';
 import { WithLegend } from '@superset-ui/chart-composition';
+import { Dataset, PlainObject } from 'encodable/lib/types/Data';
+import { isFieldDef } from 'encodable/lib/typeGuards/ChannelDef';
 import DefaultTooltipRenderer from './DefaultTooltipRenderer';
 import {
   BoxPlotEncodingConfig,
@@ -10,14 +12,12 @@ import {
   BoxPlotEncoder,
   boxPlotEncoderFactory,
 } from './Encoder';
-import { Dataset, PlainObject } from 'encodable/lib/types/Data';
 import createMarginSelector, { DEFAULT_MARGIN } from '../utils2/createMarginSelector';
 import { BoxPlotDataRow } from './types';
 import convertScaleToDataUIScale from '../utils/convertScaleToDataUIScaleShape';
 import createXYChartLayoutWithTheme from '../utils2/createXYChartLayoutWithTheme';
 import createRenderLegend from '../components/legend2/createRenderLegend';
 import { LegendHooks } from '../components/legend2/types';
-import { isFieldDef } from 'encodable/lib/typeGuards/ChannelDef';
 
 export interface TooltipProps {
   datum: BoxPlotDataRow;
