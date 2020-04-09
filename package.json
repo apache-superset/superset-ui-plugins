@@ -6,8 +6,8 @@
   "scripts": {
     "build": "yarn babel && yarn type && yarn build:assets",
     "babel": "yarn babel:cjs && yarn babel:esm",
-    "babel:cjs": "nimbus babel --clean --workspaces=\"@superset-ui/!(plugins-demo)\"",
-    "babel:esm": "nimbus babel --clean --workspaces=\"@superset-ui/!(plugins-demo)\" --esm",
+    "babel:cjs": "nimbus babel --clean --workspaces=\"@superset-ui/!(plugins-demo)\" --config-file=../../babel.config.js",
+    "babel:esm": "nimbus babel --clean --workspaces=\"@superset-ui/!(plugins-demo)\" --esm --config-file=../../babel.config.js",
     "build:assets": "node ./scripts/buildAssets.js",
     "clean": "rm -rf ./packages/**/{lib,esm}",
     "commit": "superset-commit",
