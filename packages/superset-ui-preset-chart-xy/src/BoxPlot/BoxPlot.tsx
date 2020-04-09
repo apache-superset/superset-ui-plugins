@@ -12,12 +12,12 @@ import {
   BoxPlotEncoder,
   boxPlotEncoderFactory,
 } from './Encoder';
-import createMarginSelector, { DEFAULT_MARGIN } from '../utils2/createMarginSelector';
+import createMarginSelector, { DEFAULT_MARGIN } from '../utils/createMarginSelector';
 import { BoxPlotDataRow } from './types';
 import convertScaleToDataUIScale from '../utils/convertScaleToDataUIScaleShape';
-import createXYChartLayoutWithTheme from '../utils2/createXYChartLayoutWithTheme';
-import createRenderLegend from '../components/legend2/createRenderLegend';
-import { LegendHooks } from '../components/legend2/types';
+import createXYChartLayoutWithTheme from '../utils/createXYChartLayoutWithTheme';
+import createRenderLegend from '../components/legend/createRenderLegend';
+import { LegendHooks } from '../components/legend/types';
 
 export interface TooltipProps {
   datum: BoxPlotDataRow;
