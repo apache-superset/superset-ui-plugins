@@ -53,13 +53,7 @@ export default class ScatterPlot extends PureComponent<Props> {
 
   static defaultProps = defaultProps;
 
-  constructor(props: Props) {
-    super(props);
-
-    this.renderChart = this.renderChart.bind(this);
-  }
-
-  renderChart(dim: Dimension) {
+  renderChart = (dim: Dimension) => {
     const { width, height } = dim;
     const { data, margin, theme, TooltipRenderer, encoding } = this.props;
     const encoder = this.createEncoder(encoding);
@@ -87,7 +81,7 @@ export default class ScatterPlot extends PureComponent<Props> {
         showYGrid
         width={chartDim.width}
         height={chartDim.height}
-        ariaLabel="BoxPlot"
+        ariaLabel="ScatterPlot"
         margin={layout.margin}
         renderTooltip={({ datum }: { datum: PlainObject }) => (
           <TooltipRenderer datum={datum} encoder={encoder} />
@@ -108,12 +102,10 @@ export default class ScatterPlot extends PureComponent<Props> {
         />
       </XYChart>
     ));
-  }
+  };
 
   render() {
     const { className, data, width, height, encoding } = this.props;
-
-    const encoder = this.createEncoder(encoding);
 
     return (
       <WithLegend
@@ -121,7 +113,7 @@ export default class ScatterPlot extends PureComponent<Props> {
         width={width}
         height={height}
         position="top"
-        renderLegend={createRenderLegend(encoder, data, this.props)}
+        renderLegend={createRenderLegend(this.createEncoder(encoding), data, this.props)}
         renderChart={this.renderChart}
       />
     );

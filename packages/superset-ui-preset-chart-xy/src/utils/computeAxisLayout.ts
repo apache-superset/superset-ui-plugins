@@ -25,21 +25,18 @@ export default function computeAxisLayout<Def extends ChannelDef<Output>, Output
     axisWidth,
     gapBetweenAxisLabelAndBorder = 4,
     gapBetweenTickAndTickLabel = 4,
-    labelAngle = axis.config.labelAngle,
-    tickSize = 8,
+    defaultTickSize = 8,
     tickTextStyle = {},
   }: {
     axisTitleHeight?: number;
     axisWidth: number;
     gapBetweenAxisLabelAndBorder?: number;
     gapBetweenTickAndTickLabel?: number;
-    labelAngle?: number;
-    tickSize?: number;
+    defaultTickSize?: number;
     tickTextStyle?: CSSProperties;
   },
 ): AxisLayout {
   const tickLabels = axis.getTickLabels();
-
   const tickLabelDimensions = tickLabels.map((text: string) =>
     getTextDimension({
       style: tickTextStyle,
@@ -47,7 +44,14 @@ export default function computeAxisLayout<Def extends ChannelDef<Output>, Output
     }),
   );
 
-  const { labelOverlap, labelPadding, orient } = axis.config;
+  const {
+    labelAngle,
+    labelFlush,
+    labelOverlap,
+    labelPadding,
+    orient,
+    tickSize = defaultTickSize,
+  } = axis.config;
 
   const maxWidth = Math.max(...tickLabelDimensions.map(d => d.width), 0);
 
@@ -59,7 +63,7 @@ export default function computeAxisLayout<Def extends ChannelDef<Output>, Output
   const finalLabelAngle = labelAngle === 0 ? labelAngleAfterOverlapCheck : labelAngle;
 
   const spaceForAxisTitle = axis.hasTitle() ? labelPadding + axisTitleHeight : 0;
-  let tickTextAnchor;
+  let tickTextAnchor = 'middle';
   let labelOffset: number = 0;
   let requiredMargin =
     tickSize + gapBetweenTickAndTickLabel + spaceForAxisTitle + gapBetweenAxisLabelAndBorder;
@@ -89,7 +93,7 @@ export default function computeAxisLayout<Def extends ChannelDef<Output>, Output
   return {
     axisWidth,
     labelAngle: finalLabelAngle,
-    labelFlush: axis.config.labelFlush,
+    labelFlush,
     labelOffset,
     labelOverlap: isLabelOverlap ? labelOverlap.strategy : 'flat',
     minMargin: {

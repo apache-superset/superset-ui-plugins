@@ -72,10 +72,7 @@ export default class XYChartLayout<XOutput extends Value, YOutput extends Value>
     if (typeof yEncoder.axis !== 'undefined') {
       this.yLayout = computeAxisLayout(yEncoder.axis, {
         axisWidth: Math.max(height - margin.top - margin.bottom),
-        tickSize:
-          typeof yEncoder.axis.config.tickSize === 'number'
-            ? yEncoder.axis.config.tickSize
-            : yTickSize,
+        defaultTickSize: yTickSize,
         tickTextStyle: yTickTextStyle,
       });
     }
@@ -87,11 +84,7 @@ export default class XYChartLayout<XOutput extends Value, YOutput extends Value>
     if (typeof xEncoder.axis !== 'undefined') {
       this.xLayout = computeAxisLayout(xEncoder.axis, {
         axisWidth: innerWidth,
-        labelAngle: this.recommendXLabelAngle(xEncoder.axis.config.orient as 'top' | 'bottom'),
-        tickSize:
-          typeof xEncoder.axis.config.tickSize === 'number'
-            ? xEncoder.axis.config.tickSize
-            : xTickSize,
+        defaultTickSize: xTickSize,
         tickTextStyle: xTickTextStyle,
       });
     }
@@ -119,17 +112,6 @@ export default class XYChartLayout<XOutput extends Value, YOutput extends Value>
     this.containerWidth = width;
     this.containerHeight = height;
     this.margin = finalMargin;
-  }
-
-  recommendXLabelAngle(xOrient: 'top' | 'bottom' = 'bottom') {
-    const { axis } = this.yEncoder;
-
-    return !this.yLayout ||
-      (typeof axis !== 'undefined' &&
-        ((axis.config.orient === 'right' && xOrient === 'bottom') ||
-          (axis.config.orient === 'left' && xOrient === 'top')))
-      ? DEFAULT_LABEL_ANGLE
-      : -DEFAULT_LABEL_ANGLE;
   }
 
   renderChartWithFrame(renderChart: (input: Dimension) => ReactNode) {

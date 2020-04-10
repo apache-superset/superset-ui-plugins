@@ -113,15 +113,13 @@ export default class BoxPlot extends React.PureComponent<Props> {
   render() {
     const { className, data, encoding, width, height } = this.props;
 
-    const encoder = this.createEncoder(encoding);
-
     return (
       <WithLegend
         className={`superset-chart-box-plot ${className}`}
         width={width}
         height={height}
         position="top"
-        renderLegend={createRenderLegend(encoder, data, this.props)}
+        renderLegend={createRenderLegend(this.createEncoder(encoding), data, this.props)}
         renderChart={this.renderChart}
       />
     );
