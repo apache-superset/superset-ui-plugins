@@ -1,6 +1,5 @@
 import { CSSProperties } from 'react';
-import { EncodingConfig } from 'encodable/lib/types/Encoding';
-import { LegendGroupInformation, LegendItemInformation } from 'encodable/lib/types/Legend';
+import { EncodingConfig, LegendGroupInformation, LegendItemInformation } from 'encodable';
 
 export type LegendItemMarkRendererProps<Config extends EncodingConfig> = {
   group: LegendGroupInformation<Config>;

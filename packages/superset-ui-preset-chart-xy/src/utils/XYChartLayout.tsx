@@ -2,10 +2,7 @@ import React, { ReactNode, CSSProperties } from 'react';
 import { XAxis, YAxis } from '@data-ui/xy-chart';
 import { Margin, mergeMargin, Dimension } from '@superset-ui/dimension';
 import { ChartFrame } from '@superset-ui/chart-composition';
-import { ChannelEncoder } from 'encodable';
-import { PlainObject } from 'encodable/lib/types/Data';
-import { XFieldDef, YFieldDef } from 'encodable/lib/types/ChannelDef';
-import { Value } from 'encodable/lib/types/VegaLite';
+import { ChannelEncoder, PlainObject, Value, XFieldDef, YFieldDef } from 'encodable';
 import createTickComponent from './createTickComponent';
 import computeAxisLayout, { AxisLayout } from './computeAxisLayout';
 

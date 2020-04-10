@@ -1,5 +1,4 @@
-import { Value } from 'encodable/lib/types/VegaLite';
-import { ScaleConfig } from 'encodable/lib/types/Scale';
+import { Value, ScaleConfig } from 'encodable';
 
 type DataUIScaleType = 'time' | 'timeUtc' | 'linear' | 'band';
 

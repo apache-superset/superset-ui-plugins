@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
 import { LegendItem, LegendLabel } from '@vx/legend';
-import { EncodingConfig } from 'encodable/lib/types/Encoding';
+import { EncodingConfig } from 'encodable';
 import { LegendItemRendererProps } from './types';
 
 const MARK_SIZE = 8;

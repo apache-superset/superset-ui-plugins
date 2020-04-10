@@ -1,6 +1,6 @@
 import React from 'react';
 import { TooltipFrame, TooltipTable } from '@superset-ui/chart-composition';
-import { isFieldDef } from 'encodable/lib/typeGuards/ChannelDef';
+import { isFieldDef } from 'encodable';
 import { TooltipProps } from './ScatterPlot';
 
 export default function DefaultTooltipRenderer({ datum, encoder }: TooltipProps) {

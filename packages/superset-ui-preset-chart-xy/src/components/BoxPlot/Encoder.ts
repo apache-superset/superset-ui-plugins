@@ -1,5 +1,4 @@
-import { createEncoderFactory, Encoder } from 'encodable';
-import { DeriveEncoding } from 'encodable/lib/types/Encoding';
+import { createEncoderFactory, Encoder, DeriveEncoding } from 'encodable';
 
 export type BoxPlotEncodingConfig = {
   x: ['XBand', number];

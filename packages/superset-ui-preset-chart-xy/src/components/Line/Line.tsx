@@ -12,7 +12,7 @@ import { chartTheme } from '@data-ui/theme';
 import { Margin, Dimension } from '@superset-ui/dimension';
 import { WithLegend } from '@superset-ui/chart-composition';
 import { createSelector } from 'reselect';
-import { Dataset, PlainObject } from 'encodable/lib/types/Data';
+import { Dataset, PlainObject } from 'encodable';
 import DefaultTooltipRenderer from './DefaultTooltipRenderer';
 import createMarginSelector, { DEFAULT_MARGIN } from '../../utils/createMarginSelector';
 import convertScaleToDataUIScale from '../../utils/convertScaleToDataUIScaleShape';

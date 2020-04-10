@@ -1,5 +1,5 @@
 import { ChartTheme } from '@data-ui/theme';
-import { Value } from 'encodable/lib/types/VegaLite';
+import { Value } from 'encodable';
 import XYChartLayout, { XYChartLayoutConfig } from './XYChartLayout';
 
 export default function createXYChartLayoutWithTheme<XOutput extends Value, YOutput extends Value>(

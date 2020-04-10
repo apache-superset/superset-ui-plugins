@@ -1,5 +1,4 @@
-import { createEncoderFactory, Encoder } from 'encodable';
-import { DeriveEncoding, DeriveChannelOutputs } from 'encodable/lib/types/Encoding';
+import { createEncoderFactory, Encoder, DeriveEncoding, DeriveChannelOutputs } from 'encodable';
 
 export type ScatterPlotEncodingConfig = {
   x: ['X', number];

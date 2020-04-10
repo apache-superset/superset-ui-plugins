@@ -1,8 +1,7 @@
 import { CSSProperties } from 'react';
 import { getTextDimension, Margin, Dimension } from '@superset-ui/dimension';
-import { AxisOrient } from 'encodable/lib/types/Axis';
-import { ChannelDef } from 'encodable/lib/types/ChannelDef';
-import { Value } from 'encodable/lib/types/VegaLite';
+import { AxisOrient, ChannelDef, Value } from 'encodable';
+
 import ChannelEncoderAxis from 'encodable/lib/encoders/ChannelEncoderAxis';
 
 export interface AxisLayout {
