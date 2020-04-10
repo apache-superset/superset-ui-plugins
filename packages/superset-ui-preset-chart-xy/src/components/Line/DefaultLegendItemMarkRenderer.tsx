@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react';
-import { LegendItemMarkRendererProps } from '../components/legend/types';
+import { LegendItemMarkRendererProps } from '../legend/types';
 import { LineEncodingConfig } from './Encoder';
 
 const MARK_WIDTH = 12;

@@ -1,27 +1,28 @@
-import React, { PureComponent } from 'react';
-import { XYChart, PointSeries } from '@data-ui/xy-chart';
+import React from 'react';
+import { BoxPlotSeries, XYChart } from '@data-ui/xy-chart';
 import { chartTheme, ChartTheme } from '@data-ui/theme';
 import { Margin, Dimension } from '@superset-ui/dimension';
 import { WithLegend } from '@superset-ui/chart-composition';
-import { isFieldDef } from 'encodable/lib/typeGuards/ChannelDef';
 import { Dataset, PlainObject } from 'encodable/lib/types/Data';
-import {
-  scatterPlotEncoderFactory,
-  ScatterPlotEncoder,
-  ScatterPlotChannelOutputs,
-  ScatterPlotEncodingConfig,
-  ScatterPlotEncoding,
-} from './Encoder';
-import createMarginSelector, { DEFAULT_MARGIN } from '../utils/createMarginSelector';
+import { isFieldDef } from 'encodable/lib/typeGuards/ChannelDef';
 import DefaultTooltipRenderer from './DefaultTooltipRenderer';
-import convertScaleToDataUIScale from '../utils/convertScaleToDataUIScaleShape';
-import createXYChartLayoutWithTheme from '../utils/createXYChartLayoutWithTheme';
-import createRenderLegend from '../components/legend/createRenderLegend';
-import { LegendHooks } from '../components/legend/types';
+import {
+  BoxPlotEncodingConfig,
+  BoxPlotEncoding,
+  BoxPlotEncoder,
+  boxPlotEncoderFactory,
+} from './Encoder';
+import createMarginSelector, { DEFAULT_MARGIN } from '../../utils/createMarginSelector';
+import { BoxPlotDataRow } from './types';
+import convertScaleToDataUIScale from '../../utils/convertScaleToDataUIScaleShape';
+import createXYChartLayoutWithTheme from '../../utils/createXYChartLayoutWithTheme';
+import createRenderLegend from '../legend/createRenderLegend';
+import { LegendHooks } from '../legend/types';
 
 export interface TooltipProps {
-  datum: EncodedPoint;
-  encoder: ScatterPlotEncoder;
+  datum: BoxPlotDataRow;
+  color: string;
+  encoder: BoxPlotEncoder;
 }
 
 const defaultProps = {
@@ -34,52 +35,36 @@ const defaultProps = {
 
 export type HookProps = {
   TooltipRenderer?: React.ComponentType<TooltipProps>;
-} & LegendHooks<ScatterPlotEncodingConfig>;
+} & LegendHooks<BoxPlotEncodingConfig>;
 
 type Props = {
   className?: string;
   width: string | number;
   height: string | number;
   margin?: Margin;
+  encoding?: Partial<BoxPlotEncoding>;
   data: Dataset;
-  encoding?: Partial<ScatterPlotEncoding>;
   theme?: ChartTheme;
 } & HookProps &
   Readonly<typeof defaultProps>;
 
-export type EncodedPoint = ScatterPlotChannelOutputs & {
-  data: PlainObject;
-};
-
-export default class ScatterPlot extends PureComponent<Props> {
-  private createEncoder = scatterPlotEncoderFactory.createSelector();
+export default class BoxPlot extends React.PureComponent<Props> {
+  private createEncoder = boxPlotEncoderFactory.createSelector();
 
   private createMargin = createMarginSelector();
 
   static defaultProps = defaultProps;
 
-  constructor(props: Props) {
-    super(props);
-
-    this.renderChart = this.renderChart.bind(this);
-  }
-
-  renderChart(dim: Dimension) {
+  renderChart = (dim: Dimension) => {
     const { width, height } = dim;
     const { data, margin, theme, TooltipRenderer, encoding } = this.props;
     const encoder = this.createEncoder(encoding);
     const { channels } = encoder;
 
-    encoder.setDomainFromDataset(data);
+    const isHorizontal =
+      isFieldDef(channels.y.definition) && channels.y.definition.type === 'nominal';
 
-    const encodedData = data.map(d => ({
-      x: channels.x.encodeDatum(d),
-      y: channels.y.encodeDatum(d),
-      size: channels.size.encodeDatum(d),
-      fill: channels.fill.encodeDatum(d),
-      stroke: channels.stroke.encodeDatum(d),
-      data: d,
-    }));
+    encoder.setDomainFromDataset(data);
 
     const layout = createXYChartLayoutWithTheme({
       width,
@@ -97,8 +82,8 @@ export default class ScatterPlot extends PureComponent<Props> {
         height={chartDim.height}
         ariaLabel="BoxPlot"
         margin={layout.margin}
-        renderTooltip={({ datum }: { datum: EncodedPoint }) => (
-          <TooltipRenderer datum={datum} encoder={encoder} />
+        renderTooltip={({ datum, color }: { datum: BoxPlotDataRow; color: string }) => (
+          <TooltipRenderer datum={datum} color={color} encoder={encoder} />
         )}
         theme={theme}
         xScale={convertScaleToDataUIScale(channels.x.definition.scale as any)}
@@ -106,26 +91,33 @@ export default class ScatterPlot extends PureComponent<Props> {
       >
         {layout.renderXAxis()}
         {layout.renderYAxis()}
-        <PointSeries
+        <BoxPlotSeries
           key={isFieldDef(channels.x.definition) ? channels.x.definition.field : ''}
-          data={encodedData}
-          fill={(d: EncodedPoint) => d.fill}
-          fillOpacity={0.5}
-          stroke={(d: EncodedPoint) => d.stroke}
-          size={(d: EncodedPoint) => d.size}
+          animated
+          data={
+            isHorizontal
+              ? data.map(row => ({ ...row, y: channels.y.getValueFromDatum(row) }))
+              : data.map(row => ({ ...row, x: channels.x.getValueFromDatum(row) }))
+          }
+          fill={(datum: PlainObject) => channels.color.encodeDatum(datum, '#55acee')}
+          fillOpacity={0.4}
+          stroke={(datum: PlainObject) => channels.color.encodeDatum(datum)}
+          strokeWidth={1}
+          widthRatio={0.6}
+          horizontal={isHorizontal}
         />
       </XYChart>
     ));
-  }
+  };
 
   render() {
-    const { className, data, width, height, encoding } = this.props;
+    const { className, data, encoding, width, height } = this.props;
 
     const encoder = this.createEncoder(encoding);
 
     return (
       <WithLegend
-        className={`superset-chart-scatter-plot ${className}`}
+        className={`superset-chart-box-plot ${className}`}
         width={width}
         height={height}
         position="top"
