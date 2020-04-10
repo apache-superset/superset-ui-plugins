@@ -1,5 +1,5 @@
 import React, { CSSProperties, PureComponent } from 'react';
-import { EncodingConfig } from 'encodable/lib/types/Encoding';
+import { EncodingConfig } from 'encodable';
 import { LegendRendererProps } from './types';
 import DefaultLegendGroup from './DefaultLegendGroup';
 

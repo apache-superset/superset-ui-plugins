@@ -3,8 +3,7 @@ import { BoxPlotSeries, XYChart } from '@data-ui/xy-chart';
 import { chartTheme, ChartTheme } from '@data-ui/theme';
 import { Margin, Dimension } from '@superset-ui/dimension';
 import { WithLegend } from '@superset-ui/chart-composition';
-import { Dataset, PlainObject } from 'encodable/lib/types/Data';
-import { isFieldDef } from 'encodable/lib/typeGuards/ChannelDef';
+import { Dataset, PlainObject, isFieldDef } from 'encodable';
 import DefaultTooltipRenderer from './DefaultTooltipRenderer';
 import {
   BoxPlotEncodingConfig,
@@ -113,15 +112,13 @@ export default class BoxPlot extends React.PureComponent<Props> {
   render() {
     const { className, data, encoding, width, height } = this.props;
 
-    const encoder = this.createEncoder(encoding);
-
     return (
       <WithLegend
         className={`superset-chart-box-plot ${className}`}
         width={width}
         height={height}
         position="top"
-        renderLegend={createRenderLegend(encoder, data, this.props)}
+        renderLegend={createRenderLegend(this.createEncoder(encoding), data, this.props)}
         renderChart={this.renderChart}
       />
     );

@@ -1,7 +1,5 @@
 import React from 'react';
-import { Encoder } from 'encodable';
-import { EncodingConfig } from 'encodable/lib/types/Encoding';
-import { Dataset } from 'encodable/lib/types/Data';
+import { Encoder, EncodingConfig, Dataset } from 'encodable';
 import { LegendHooks } from './types';
 import DefaultLegend from './DefaultLegend';
 

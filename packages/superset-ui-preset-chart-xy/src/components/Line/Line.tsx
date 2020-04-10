@@ -12,7 +12,7 @@ import { chartTheme } from '@data-ui/theme';
 import { Margin, Dimension } from '@superset-ui/dimension';
 import { WithLegend } from '@superset-ui/chart-composition';
 import { createSelector } from 'reselect';
-import { Dataset, PlainObject } from 'encodable/lib/types/Data';
+import { Dataset, PlainObject } from 'encodable';
 import DefaultTooltipRenderer from './DefaultTooltipRenderer';
 import createMarginSelector, { DEFAULT_MARGIN } from '../../utils/createMarginSelector';
 import convertScaleToDataUIScale from '../../utils/convertScaleToDataUIScaleShape';
@@ -134,12 +134,6 @@ export default class LineChart extends PureComponent<Props> {
 
   static defaultProps = defaultProps;
 
-  constructor(props: Props) {
-    super(props);
-
-    this.renderChart = this.renderChart.bind(this);
-  }
-
   // eslint-disable-next-line class-methods-use-this
   renderSeries(allSeries: Series[]) {
     const filledSeries = flatMap(
@@ -185,7 +179,7 @@ export default class LineChart extends PureComponent<Props> {
     return filledSeries.concat(unfilledSeries);
   }
 
-  renderChart(dim: Dimension) {
+  renderChart = (dim: Dimension) => {
     const { width, height } = dim;
     const { data, margin, theme, TooltipRenderer, encoding } = this.props;
 
@@ -273,12 +267,10 @@ export default class LineChart extends PureComponent<Props> {
         )}
       </WithTooltip>
     ));
-  }
+  };
 
   render() {
     const { className, data, width, height, encoding } = this.props;
-
-    const encoder = this.createEncoder(encoding);
 
     return (
       <WithLegend
@@ -286,7 +278,7 @@ export default class LineChart extends PureComponent<Props> {
         width={width}
         height={height}
         position="top"
-        renderLegend={createRenderLegend(encoder, data, this.props)}
+        renderLegend={createRenderLegend(this.createEncoder(encoding), data, this.props)}
         renderChart={this.renderChart}
       />
     );

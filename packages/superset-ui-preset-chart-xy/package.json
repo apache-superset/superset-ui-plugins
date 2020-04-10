@@ -41,7 +41,7 @@
     "csstype": "^2.6.3",
     "d3-array": "^2.1.0",
     "d3-scale": "^3.0.0",
-    "encodable": "^0.3.0",
+    "encodable": "^0.3.3",
     "lodash": "^4.17.11",
     "prop-types": "^15.6.2",
     "reselect": "^4.0.0"
