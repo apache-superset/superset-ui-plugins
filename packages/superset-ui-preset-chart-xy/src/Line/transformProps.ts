@@ -1,6 +1,6 @@
 import { pick } from 'lodash';
 import { ChartProps } from '@superset-ui/chart';
-import { HookProps, FormDataProps } from './Line';
+import { HookProps, FormDataProps } from '../components/Line/Line';
 
 export default function transformProps(chartProps: ChartProps) {
   const { width, height, queryData } = chartProps;

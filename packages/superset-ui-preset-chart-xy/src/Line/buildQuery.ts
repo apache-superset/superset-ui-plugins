@@ -1,6 +1,6 @@
 import { buildQueryContext } from '@superset-ui/query';
 import ChartFormData from './ChartFormData';
-import { lineEncoderFactory } from './Encoder';
+import { lineEncoderFactory } from '../components/Line/Encoder';
 
 export default function buildQuery(formData: ChartFormData) {
   const queryContext = buildQueryContext(formData);

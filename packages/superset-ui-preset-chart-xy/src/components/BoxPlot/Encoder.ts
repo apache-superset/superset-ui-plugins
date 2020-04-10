@@ -7,7 +7,6 @@ export type BoxPlotEncodingConfig = {
   color: ['Color', string];
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export const boxPlotEncoderFactory = createEncoderFactory<BoxPlotEncodingConfig>({
   channelTypes: {
     x: 'XBand',
