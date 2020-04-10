@@ -8,7 +8,6 @@ import { Dataset, PlainObject } from 'encodable/lib/types/Data';
 import {
   scatterPlotEncoderFactory,
   ScatterPlotEncoder,
-  ScatterPlotChannelOutputs,
   ScatterPlotEncodingConfig,
   ScatterPlotEncoding,
 } from './Encoder';
@@ -20,7 +19,7 @@ import createRenderLegend from '../legend/createRenderLegend';
 import { LegendHooks } from '../legend/types';
 
 export interface TooltipProps {
-  datum: EncodedPoint;
+  datum: PlainObject;
   encoder: ScatterPlotEncoder;
 }
 
@@ -47,10 +46,6 @@ type Props = {
 } & HookProps &
   Readonly<typeof defaultProps>;
 
-export type EncodedPoint = ScatterPlotChannelOutputs & {
-  data: PlainObject;
-};
-
 export default class ScatterPlot extends PureComponent<Props> {
   private createEncoder = scatterPlotEncoderFactory.createSelector();
 
@@ -73,12 +68,9 @@ export default class ScatterPlot extends PureComponent<Props> {
     encoder.setDomainFromDataset(data);
 
     const encodedData = data.map(d => ({
-      x: channels.x.encodeDatum(d),
-      y: channels.y.encodeDatum(d),
-      size: channels.size.encodeDatum(d),
-      fill: channels.fill.encodeDatum(d),
-      stroke: channels.stroke.encodeDatum(d),
-      data: d,
+      x: channels.x.getValueFromDatum(d),
+      y: channels.y.getValueFromDatum(d),
+      ...d,
     }));
 
     const layout = createXYChartLayoutWithTheme({
@@ -97,7 +89,7 @@ export default class ScatterPlot extends PureComponent<Props> {
         height={chartDim.height}
         ariaLabel="BoxPlot"
         margin={layout.margin}
-        renderTooltip={({ datum }: { datum: EncodedPoint }) => (
+        renderTooltip={({ datum }: { datum: PlainObject }) => (
           <TooltipRenderer datum={datum} encoder={encoder} />
         )}
         theme={theme}
@@ -109,10 +101,10 @@ export default class ScatterPlot extends PureComponent<Props> {
         <PointSeries
           key={isFieldDef(channels.x.definition) ? channels.x.definition.field : ''}
           data={encodedData}
-          fill={(d: EncodedPoint) => d.fill}
+          fill={(d: PlainObject) => channels.fill.encodeDatum(d)}
           fillOpacity={0.5}
-          stroke={(d: EncodedPoint) => d.stroke}
-          size={(d: EncodedPoint) => d.size}
+          stroke={(d: PlainObject) => channels.stroke.encodeDatum(d)}
+          size={(d: PlainObject) => channels.size.encodeDatum(d)}
         />
       </XYChart>
     ));

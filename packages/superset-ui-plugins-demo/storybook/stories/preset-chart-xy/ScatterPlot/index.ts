@@ -1,7 +1,7 @@
 import {
   ScatterPlotChartPlugin,
   LegacyScatterPlotChartPlugin,
-} from '../../../../../superset-ui-preset-chart-xy';
+} from '../../../../../superset-ui-preset-chart-xy/src';
 import BasicStories from './stories/basic';
 import BubbleStories from './stories/bubble';
 import LegacyStories from './stories/legacy';
