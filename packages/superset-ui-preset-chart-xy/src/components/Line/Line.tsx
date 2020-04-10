@@ -14,11 +14,11 @@ import { WithLegend } from '@superset-ui/chart-composition';
 import { createSelector } from 'reselect';
 import { Dataset, PlainObject } from 'encodable/lib/types/Data';
 import DefaultTooltipRenderer from './DefaultTooltipRenderer';
-import createMarginSelector, { DEFAULT_MARGIN } from '../utils2/createMarginSelector';
-import convertScaleToDataUIScale from '../utils/convertScaleToDataUIScaleShape';
-import createXYChartLayoutWithTheme from '../utils2/createXYChartLayoutWithTheme';
-import createRenderLegend from '../components/legend2/createRenderLegend';
-import { LegendHooks } from '../components/legend2/types';
+import createMarginSelector, { DEFAULT_MARGIN } from '../../utils/createMarginSelector';
+import convertScaleToDataUIScale from '../../utils/convertScaleToDataUIScaleShape';
+import createXYChartLayoutWithTheme from '../../utils/createXYChartLayoutWithTheme';
+import createRenderLegend from '../legend/createRenderLegend';
+import { LegendHooks } from '../legend/types';
 import {
   lineEncoderFactory,
   LineEncoder,
