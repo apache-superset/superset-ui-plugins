@@ -31,19 +31,12 @@
   "dependencies": {
     "@data-ui/theme": "^0.0.84",
     "@data-ui/xy-chart": "^0.0.84",
-    "@types/d3-scale": "^2.1.1",
     "@vx/axis": "^0.0.195",
-    "@vx/group": "^0.0.195",
     "@vx/legend": "^0.0.195",
-    "@vx/responsive": "^0.0.195",
     "@vx/scale": "^0.0.195",
-    "@vx/shape": "^0.0.195",
     "csstype": "^2.6.3",
-    "d3-array": "^2.1.0",
-    "d3-scale": "^3.0.0",
     "encodable": "^0.3.4",
     "lodash": "^4.17.11",
-    "prop-types": "^15.6.2",
     "reselect": "^4.0.0"
   },
   "peerDependencies": {
