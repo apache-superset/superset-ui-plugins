@@ -61,15 +61,15 @@
     dom-storage "^2.1.0"
     jest "^25.1.0"
 
-"@airbnb/config-prettier@^2.1.1":
-  version "2.1.3"
-  resolved "https://registry.yarnpkg.com/@airbnb/config-prettier/-/config-prettier-2.1.3.tgz#e01f07b42db5926afb27292676b62b9aac1251b0"
-  integrity sha512-R59UG7/LtwR/AixG2yqdMQ8sOkidQBCyzbST4oY+cjiLYmneMOjGFYZQfU+FTcsDT0xPP5/lqO9vrp53MajRaw==
+"@airbnb/config-prettier@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@airbnb/config-prettier/-/config-prettier-3.1.0.tgz#de8ea05cb705f60c5fce794d4110903387773654"
+  integrity sha512-qpPoPFK7wRK/xK0NzhoSNj8C6zSRtvoon1eSjtFJyEhk7ZL8pe62lZxqyn4jFO0uBBie/+YlVD+orY1zIJfeiA==
   dependencies:
-    "@airbnb/nimbus-common" "^2.1.3"
-    "@beemo/core" "^1.1.4"
-    "@beemo/driver-prettier" "^1.2.2"
-    prettier "^1.19.1"
+    "@airbnb/nimbus-common" "^3.0.1"
+    "@beemo/core" "^1.1.6"
+    "@beemo/driver-prettier" "^1.3.0"
+    prettier "^2.0.2"
 
 "@airbnb/config-typescript@^2.2.2":
   version "2.2.4"
@@ -131,6 +131,16 @@
   dependencies:
     "@beemo/core" "^1.1.4"
     "@boost/core" "^1.18.2"
+    execa "^4.0.0"
+    fast-glob "^3.2.2"
+
+"@airbnb/nimbus-common@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@airbnb/nimbus-common/-/nimbus-common-3.0.1.tgz#3f7d2f340b510995ebed17898c9447dad264330c"
+  integrity sha512-Qa/cPOcFktW36UL1RScVvrX06Ybv5/EJ1UBPtLHPi9POMAtq7bV0xe0Q3qSdAHrUp+4a1K4Gt3pjk3OnDAcbBg==
+  dependencies:
+    "@beemo/core" "^1.1.6"
+    "@boost/common" "^1.8.3"
     execa "^4.0.0"
     fast-glob "^3.2.2"
 
@@ -1072,10 +1082,10 @@
     semver "^6.3.0"
     yargs "^15.1.0"
 
-"@beemo/core@^1.1.4":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@beemo/core/-/core-1.1.5.tgz#1418905c67be040373923f4e732ebfe9da64722e"
-  integrity sha512-pAaCWGY9Y3O0Jz55prIz6qjZ9Stjg1PoyhQdXljy7zoo+cZBamzjpTu4s7jt1L99RJa+/C+y/4+FO/R05wbwjw==
+"@beemo/core@^1.1.4", "@beemo/core@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@beemo/core/-/core-1.1.6.tgz#6a3462681f6a0af76216992f185235ba431c952a"
+  integrity sha512-/ZIPnXH754FgOcS4boDLJljhVDCDDSNqn6T5Ul/hBdfnTcR6dj1j8ZQ3QsQGG6kQ0N70xn5WNz/rABiFtQZ9Mg==
   dependencies:
     "@beemo/dependency-graph" "^1.1.0"
     "@boost/common" "^1.8.2"
@@ -1093,8 +1103,8 @@
     lodash "^4.17.15"
     micromatch "^4.0.2"
     optimal "^4.2.0"
-    yargs "^15.1.0"
-    yargs-parser "^17.1.0"
+    yargs "^15.3.1"
+    yargs-parser "^18.1.1"
 
 "@beemo/dependency-graph@^1.1.0":
   version "1.1.0"
@@ -1122,10 +1132,10 @@
   dependencies:
     "@jest/types" "^25.1.0"
 
-"@beemo/driver-prettier@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@beemo/driver-prettier/-/driver-prettier-1.2.2.tgz#c922dba66f20075ecd7b7051486e43684a841268"
-  integrity sha512-LJbmxdD1fRTnUMj8Zm3QXeMOSexWDW2pN6VQe9/5Ntp6lfnV3zmffntEtuvFS0GXIm9xkiX669uUBHOicKnraA==
+"@beemo/driver-prettier@^1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@beemo/driver-prettier/-/driver-prettier-1.3.0.tgz#df8f9b9f7aea2204ec42dd1094ad52bbd283e34f"
+  integrity sha512-SxYfiCCBEaIQtDZ2TlAJpa84d6NUVtUh0hoSdzsq5RUFNblzI/rxLIQJOkC8mKM4lIKprJ7WZ3fh6QXB+sr6Ug==
   dependencies:
     "@boost/event" "^1.3.0"
     "@types/prettier" "*"
@@ -1146,6 +1156,17 @@
     "@boost/internal" "^1.1.0"
     js-yaml "^3.13.1"
     json5 "^2.1.1"
+    optimal "^4.2.0"
+    pretty-ms "^5.1.0"
+
+"@boost/common@^1.8.3":
+  version "1.8.4"
+  resolved "https://registry.yarnpkg.com/@boost/common/-/common-1.8.4.tgz#8ac48e0f484fe74609d30c757397b6fd295c847c"
+  integrity sha512-iOXgeNbu8L/Y/A2t2G+YZJGVa6yLBVsf1MO8Ah2ObOhXFqxChAV3SJAAVOE2JmV4RbWx4u1hp7IME8HOK714Tw==
+  dependencies:
+    "@boost/internal" "^1.1.0"
+    js-yaml "^3.13.1"
+    json5 "^2.1.3"
     optimal "^4.2.0"
     pretty-ms "^5.1.0"
 
@@ -11404,6 +11425,13 @@ json5@^1.0.1:
   dependencies:
     minimist "^1.2.0"
 
+json5@^2.1.3:
+  version "2.1.3"
+  resolved "https://registry.yarnpkg.com/json5/-/json5-2.1.3.tgz#c9b0f7fa9233bfe5807fe66fcf3a5617ed597d43"
+  integrity sha512-KXPvOm8K9IJKFM0bmdn8QXh7udDh1g/giieX0NLCaMnb4hEiVFqnop2ImTXCc5e0/oHz3LTqmHGtExn5hfMkOA==
+  dependencies:
+    minimist "^1.2.5"
+
 jsonfile@^2.1.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-2.4.0.tgz#3736a2b428b87bbda0cc83b53fa3d633a35c2ae8"
@@ -12347,6 +12375,11 @@ minimist@1.2.0, minimist@^1.1.1, minimist@^1.1.3, minimist@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.0.tgz#a35008b20f41383eec1fb914f4cd5df79a264284"
   integrity sha1-o1AIsg9BOD7sH7kU9M1d95omQoQ=
+
+minimist@^1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.5.tgz#67d66014b66a6a8aaa0c083c5fd58df4e4e97602"
+  integrity sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==
 
 minimist@~0.0.1:
   version "0.0.10"
@@ -13697,10 +13730,10 @@ prettier-linter-helpers@^1.0.0:
   dependencies:
     fast-diff "^1.1.2"
 
-prettier@^1.19.1:
-  version "1.19.1"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-1.19.1.tgz#f7d7f5ff8a9cd872a7be4ca142095956a60797cb"
-  integrity sha512-s7PoyDv/II1ObgQunCbB9PdLmUcBZcnWOcxDh7O0N/UwDEsHyqkW+Qh28jW+mVuCdx7gLB0BotYI1Y6uI9iyew==
+prettier@^2.0.2:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.0.4.tgz#2d1bae173e355996ee355ec9830a7a1ee05457ef"
+  integrity sha512-SVJIQ51spzFDvh4fIbCLvciiDMCrRhlN3mbZvv/+ycjvmF5E73bKdGfU8QDLNmjYJf+lsGnDBC4UUnvTe5OO0w==
 
 pretty-error@^2.1.1:
   version "2.1.1"
@@ -17704,10 +17737,10 @@ yargs-parser@^16.1.0:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
 
-yargs-parser@^17.1.0:
-  version "17.1.0"
-  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-17.1.0.tgz#b95ff3201e98b89e86070f92bef636016a0b0766"
-  integrity sha512-67zLl4/kWtp9eyVuxX+fHZ2Ey4ySWh0awDJlk/EtT0vzspsXbzrFsh76WjYSP3L++zhSwHQRUE3MCBe754RuEg==
+yargs-parser@^18.1.1:
+  version "18.1.3"
+  resolved "https://registry.yarnpkg.com/yargs-parser/-/yargs-parser-18.1.3.tgz#be68c4975c6b2abf469236b0c870362fab09a7b0"
+  integrity sha512-o50j0JeToy/4K6OZcaQmW6lyXXKhq7csREXcDwk2omFPJEwUNOVtJKvmDr9EI1fAJZUyZcRF7kxGBWmRXudrCQ==
   dependencies:
     camelcase "^5.0.0"
     decamelize "^1.2.0"
@@ -17771,3 +17804,20 @@ yargs@^15.0.0, yargs@^15.1.0, yargs@~15.1.0:
     which-module "^2.0.0"
     y18n "^4.0.0"
     yargs-parser "^16.1.0"
+
+yargs@^15.3.1:
+  version "15.3.1"
+  resolved "https://registry.yarnpkg.com/yargs/-/yargs-15.3.1.tgz#9505b472763963e54afe60148ad27a330818e98b"
+  integrity sha512-92O1HWEjw27sBfgmXiixJWT5hRBp2eobqXicLtPBIDBhYB+1HpwZlXmbW2luivBJHBzki+7VyCLRtAkScbTBQA==
+  dependencies:
+    cliui "^6.0.0"
+    decamelize "^1.2.0"
+    find-up "^4.1.0"
+    get-caller-file "^2.0.1"
+    require-directory "^2.1.1"
+    require-main-filename "^2.0.0"
+    set-blocking "^2.0.0"
+    string-width "^4.2.0"
+    which-module "^2.0.0"
+    y18n "^4.0.0"
+    yargs-parser "^18.1.1"
